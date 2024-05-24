@@ -1,12 +1,16 @@
 'use client'
 
 import { DropzoneBody } from '@/components/dropzone'
-import { useFileUpload } from '@/hooks/uploads/useFileUpload'
 import Image from 'next/image'
 import { useDropzone } from 'react-dropzone'
 
-export const Dropzone = () => {
-  const { fileUrl, isUploading, onDrop } = useFileUpload()
+interface DropzoneProps {
+  fileUrl: string | null
+  isUploading: boolean
+  onDrop: (acceptedFiles: File[]) => Promise<void>
+}
+
+export const Dropzone = ({ fileUrl, isUploading, onDrop }: DropzoneProps) => {
   const { getRootProps, getInputProps, open } = useDropzone({
     onDrop,
     noClick: true,

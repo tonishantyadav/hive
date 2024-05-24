@@ -20,10 +20,13 @@ export const DropzoneBody = ({
     >
       <input {...getInputProps()} />
       <UploadCloudIcon className="h-[4rem] w-[4rem] text-blue-600" />
-      <span className="text-lg font-medium">Drop your file</span>
+      <span className="text-lg font-medium">Drop your icon</span>
       <span>or</span>
       {isUploading ? (
-        <Button className="my-2 flex items-center gap-1 rounded-full">
+        <Button
+          className="my-2 flex items-center gap-1 rounded-full"
+          disabled={isUploading}
+        >
           <LoaderCircle className="h-4 w-4 animate-spin" />
           <span>Uploading</span>
         </Button>
