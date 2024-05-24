@@ -1,5 +1,7 @@
+import { ServerCreateDialog } from '@/components/server'
+
 const HomePage = () => {
-  return <div>Homepage</div>
+  return <ServerCreateDialog />
 }
 
 export default HomePage
