@@ -64,7 +64,9 @@ export const ServerCreateDialog = () => {
         </div>
         <ServerCreateForm
           fileUrl={fileUrl}
+          isUploading={isUploading}
           form={form}
+          setIsOpen={setIsOpen}
           setIsSubmit={setIsSubmit}
         />
       </DialogContent>
