@@ -14,6 +14,7 @@ import {
 import { useFileUpload } from '@/hooks/uploads/useFileUpload'
 import { ServerCreateSchema } from '@/schemas/server'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -41,7 +42,13 @@ export const ServerCreateDialog = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setIsOpen(true)}>Create server</Button>
+        <Button
+          className="rounded-full bg-emerald-500 hover:rounded-xl hover:bg-emerald-500/80"
+          size="icon"
+          onClick={() => setIsOpen(true)}
+        >
+          <Plus />
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

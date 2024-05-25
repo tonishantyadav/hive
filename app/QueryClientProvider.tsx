@@ -13,7 +13,7 @@ const QueryClientProvider = ({ children }: PropsWithChildren) => {
   return (
     <BaseQueryClientProvider client={queryClient}>
       {children}
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} position="top" /> */}
     </BaseQueryClientProvider>
   )
 }
