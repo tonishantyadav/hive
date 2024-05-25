@@ -57,8 +57,8 @@ export const ServerCreateDialog = () => {
             onDrop={onDrop}
           />
           {!fileUrl && isSubmit && (
-            <p className="text-sm font-semibold text-rose-400">
-              Image is required.
+            <p className="text-sm font-semibold text-red-500">
+              Image is required
             </p>
           )}
         </div>

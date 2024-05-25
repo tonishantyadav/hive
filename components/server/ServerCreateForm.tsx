@@ -65,7 +65,7 @@ export const ServerCreateForm = ({
           />
           <DialogFooter className="mt-2">
             <Button
-              className="flex w-full items-center rounded-full"
+              className="flex items-center"
               type="submit"
               disabled={isUploading || server.isPending}
               onClick={() => setIsSubmit(true)}
