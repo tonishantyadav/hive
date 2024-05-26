@@ -33,8 +33,10 @@ export default function RootLayout({
               defaultTheme="dark"
               disableTransitionOnChange
             >
-              {children}
-              <Toaster />
+              <main>
+                {children}
+                <Toaster />
+              </main>
             </ThemeProvider>
           </QueryClientProvider>
         </ClerkProvider>
