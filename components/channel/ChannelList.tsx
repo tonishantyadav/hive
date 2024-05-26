@@ -1,3 +1,5 @@
+'use client'
+
 import { useChannels } from '@/hooks/channel/useChannels'
 import prisma from '@/prisma/client'
 import { notFound, useSearchParams } from 'next/navigation'

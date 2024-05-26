@@ -1,7 +1,6 @@
 import { ServerList } from '@/components/server'
 import dynamic from 'next/dynamic'
 import { ReactNode } from 'react'
-import { BeatLoader, BounceLoader } from 'react-spinners'
 
 const ServerCreateDialog = dynamic(
   () => import('@/components/server').then((mod) => mod.ServerCreateDialog),
@@ -15,9 +14,9 @@ const UserButton = dynamic(
 
 export default function ServerLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="grid h-screen md:grid-cols-[8%_95%] lg:grid-cols-[5%_95%]">
-      <div className="hidden h-full w-full  bg-black/35 py-3 md:inline-flex lg:inline-flex">
-        <div className="flex h-full w-full flex-col items-center gap-4">
+    <div className="grid h-screen md:grid-cols-[8%_95%] lg:grid-cols-[6%_94%]">
+      <div className="hidden h-full w-full bg-black/35 md:inline-flex lg:inline-flex">
+        <div className="flex h-full w-full flex-col items-center gap-4 py-2">
           <ServerCreateDialog />
           <div className="mx-auto h-[3px] w-10  rounded-full  bg-zinc-700" />
           <ServerList />
