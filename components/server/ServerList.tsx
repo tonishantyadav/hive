@@ -1,14 +1,14 @@
 import { ServerItem } from '@/components/server'
 import prisma from '@/prisma/client'
 import { auth } from '@clerk/nextjs/server'
-import { notFound } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 export const ServerList = async () => {
   const { userId: clerkUserId } = auth()
-  if (!clerkUserId) notFound()
+  if (!clerkUserId) redirect('/')
 
   const user = await prisma.user.findUnique({ where: { clerkUserId } })
-  if (!user) notFound()
+  if (!user) redirect('/')
 
   const servers = await prisma.server.findMany({
     where: {
