@@ -13,13 +13,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
+enum UserRole {
   ADMIN
   MODERATOR
-  GUEST
+  MEMBER
 }
 
-enum Category {
+enum ChannelCategory {
   TEXT
   AUDIO
   VIDEO
@@ -33,7 +33,7 @@ model User {
   imageUrl    String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  role        Role      @default(GUEST)
+  userRole    UserRole  @default(MEMBER)
   Server      Server[]
   channel     Channel[]
 }
@@ -53,15 +53,15 @@ model Server {
 }
 
 model Channel {
-  id        String   @id @default(cuid())
-  name      String
-  category  Category @default(TEXT)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId    String
-  serverId  String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  server    Server   @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  id              String          @id @default(cuid())
+  name            String
+  channelCategory ChannelCategory @default(TEXT)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  userId          String
+  serverId        String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  server          Server          @relation(fields: [serverId], references: [id], onDelete: Cascade)
 
   @@index([userId, serverId])
 }

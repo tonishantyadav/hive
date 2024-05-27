@@ -1,16 +1,18 @@
 import { ChannelContainer } from '@/components/channel'
 import prisma from '@/prisma/client'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 const ServerPage = async ({ params }: { params: { id: string } }) => {
   const server = await prisma.server.findUnique({ where: { id: params.id } })
-
   if (!server) notFound()
 
+  const user = await prisma.user.findUnique({ where: { id: server.userId } })
+  if (!user) redirect('/')
+
   return (
-    <div className="grid h-full w-full grid-cols-[20%_60%]">
-      <ChannelContainer server={server} />
-      <div className="p-3">Message Box</div>{' '}
+    <div className="flex h-full w-full">
+      <ChannelContainer server={server} user={user} />
+      <div>Message Box</div>
     </div>
   )
 }
