@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -6,7 +8,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { UserRole } from '@prisma/client'
+import { useModalStore } from '@/stores/modal'
+import { Server, UserRole } from '@prisma/client'
 import {
   ChevronDownIcon,
   LogOutIcon,
@@ -17,15 +20,15 @@ import {
   Users2Icon,
 } from 'lucide-react'
 
-interface ChannelHeaderProps {
-  serverName: string
-  userRole: UserRole
-}
-
-export const ChannelHeader = async ({
-  serverName,
+export const ChannelHeader = ({
+  server,
   userRole,
-}: ChannelHeaderProps) => {
+}: {
+  server: Server
+  userRole: string
+}) => {
+  const { onOpen, setServer } = useModalStore()
+
   const isAdmin = userRole === UserRole.ADMIN
   const isModerator = userRole === UserRole.MODERATOR
   const isMember = userRole === UserRole.MEMBER
@@ -38,13 +41,19 @@ export const ChannelHeader = async ({
             className="flex h-12 w-full items-center justify-between rounded-none border-b-2 border-zinc-700 text-sm font-semibold hover:bg-zinc-700/60 focus-visible:ring-0 focus-visible:ring-offset-0"
             variant="ghost"
           >
-            <span className="capitalize">{serverName}</span>
+            <span className="capitalize">{server.name}</span>
             <ChevronDownIcon className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="hidden w-64 flex-col border-none bg-zinc-900 md:inline-flex lg:inline-flex">
           {(isAdmin || isModerator || isMember) && (
-            <DropdownMenuItem className="group flex cursor-pointer  justify-between hover:!bg-indigo-600">
+            <DropdownMenuItem
+              className="group flex cursor-pointer  justify-between hover:!bg-indigo-600"
+              onClick={() => {
+                onOpen('INVITE_MEMBER')
+                setServer(server)
+              }}
+            >
               <span>Invite People</span>
               <UserPlus2Icon className="h-4 w-4 text-indigo-400 group-hover:text-white" />
             </DropdownMenuItem>

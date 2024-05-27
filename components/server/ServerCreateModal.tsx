@@ -23,12 +23,10 @@ export const ServerCreateModal = () => {
       name: '',
     },
   })
-  const { type, open, onClose } = useModalStore()
+  const { modal, open, server, onClose } = useModalStore()
   const { fileUrl, isUploading, onDrop } = useFileUpload()
 
-  const isOpen = open && type === 'CREATE_SERVER'
-
-  console.log({ open, isOpen })
+  const isOpen = open && modal === 'CREATE_SERVER'
 
   const onOpenChange = () => {
     form.reset()

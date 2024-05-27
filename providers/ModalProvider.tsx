@@ -1,20 +1,16 @@
 'use client'
 
-import { ServerCreateModal } from '@/components/server'
-import React, { useEffect, useState } from 'react'
+import { InviteMemberModal, ServerCreateModal } from '@/components/server'
+import { useModalStore } from '@/stores/modal'
+import { useEffect, useState } from 'react'
 
 export const ModalProvider = () => {
-  const [isMounted, setIsMounted] = useState(false)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  if (!isMounted) return null
+  const { modal } = useModalStore()
 
   return (
     <>
-      <ServerCreateModal />
+      {modal === 'CREATE_SERVER' && <ServerCreateModal />}
+      {modal === 'INVITE_MEMBER' && <InviteMemberModal />}
     </>
   )
 }
