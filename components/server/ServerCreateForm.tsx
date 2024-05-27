@@ -14,24 +14,15 @@ import { useServerCreate } from '@/hooks/server/useServerCreate'
 import { ServerCreatedFormData } from '@/schemas/server'
 import { LoaderCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { SetStateAction } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 
 interface Props {
   fileUrl: string | null
   isUploading: boolean
   form: UseFormReturn<ServerCreatedFormData>
-  setIsOpen: (isOpen: SetStateAction<boolean>) => void
-  setIsSubmit: (isSubmit: SetStateAction<boolean>) => void
 }
 
-export const ServerCreateForm = ({
-  fileUrl,
-  isUploading,
-  form,
-  setIsOpen,
-  setIsSubmit,
-}: Props) => {
+export const ServerCreateForm = ({ fileUrl, isUploading, form }: Props) => {
   const router = useRouter()
   const server = useServerCreate()
 
@@ -42,9 +33,7 @@ export const ServerCreateForm = ({
         imageUrl: fileUrl,
       })
       router.refresh()
-      setIsOpen(false)
     }
-    setIsSubmit(false)
   }
 
   return (
@@ -68,7 +57,6 @@ export const ServerCreateForm = ({
               className="flex items-center"
               type="submit"
               disabled={isUploading || server.isPending}
-              onClick={() => setIsSubmit(true)}
             >
               {server.isPending ? (
                 <div className="flex items-center gap-1">

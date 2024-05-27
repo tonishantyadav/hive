@@ -2,54 +2,41 @@
 
 import { Dropzone } from '@/components/dropzone'
 import { ServerCreateForm } from '@/components/server'
-import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog'
 import { useFileUpload } from '@/hooks/uploads/useFileUpload'
 import { ServerCreateSchema } from '@/schemas/server'
+import { useModalStore } from '@/stores/modal'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Plus } from 'lucide-react'
-import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-export const ServerCreateDialog = () => {
+export const ServerCreateModal = () => {
   const form = useForm<z.infer<typeof ServerCreateSchema>>({
     resolver: zodResolver(ServerCreateSchema),
     defaultValues: {
       name: '',
     },
   })
-  const { fileUrl, isUploading, onDrop, setFileUrl } = useFileUpload()
-  const [isOpen, setIsOpen] = useState(false)
-  const [isSubmit, setIsSubmit] = useState(false)
+  const { type, open, onClose } = useModalStore()
+  const { fileUrl, isUploading, onDrop } = useFileUpload()
 
-  useEffect(() => {
-    if (!isOpen) {
-      form.reset()
-      setFileUrl(null)
-      setIsSubmit(false)
-    }
-    // eslint-disable-next-line
-  }, [isOpen])
+  const isOpen = open && type === 'CREATE_SERVER'
+
+  console.log({ open, isOpen })
+
+  const onOpenChange = () => {
+    form.reset()
+    onClose()
+  }
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button
-          className="rounded-full bg-emerald-500 hover:rounded-xl hover:bg-emerald-500/80"
-          size="icon"
-          onClick={() => setIsOpen(true)}
-        >
-          <Plus />
-        </Button>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-2xl">Create your server</DialogTitle>
@@ -63,7 +50,7 @@ export const ServerCreateDialog = () => {
             isUploading={isUploading}
             onDrop={onDrop}
           />
-          {!fileUrl && isSubmit && (
+          {!fileUrl && (
             <p className="text-sm font-semibold text-red-500">
               Image is required
             </p>
@@ -73,8 +60,6 @@ export const ServerCreateDialog = () => {
           fileUrl={fileUrl}
           isUploading={isUploading}
           form={form}
-          setIsOpen={setIsOpen}
-          setIsSubmit={setIsSubmit}
         />
       </DialogContent>
     </Dialog>

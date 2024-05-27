@@ -1,5 +1,4 @@
 import { useUploadThing } from '@/lib/uploadthing'
-import { useFileUploadStore } from '@/store/FileUploadStore'
 import { checkFileSize } from '@/utils/file-size'
 import { useCallback, useState } from 'react'
 import { UploadThingError } from 'uploadthing/server'
@@ -10,14 +9,12 @@ export const useFileUpload = () => {
   const [isUploading, setIsUploading] = useState(false)
   const [isUploadingDone, setIsUploadingDone] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
-  const { setFileUrl: setGlobalFileUrl } = useFileUploadStore()
 
   const { startUpload } = useUploadThing('imageUploader', {
     onClientUploadComplete: async (res) => {
       setIsUploading(false)
       setIsUploadingDone(true)
       setFileUrl(res[0].url)
-      setGlobalFileUrl(res[0].url)
     },
     onUploadError: () => {
       // Show toast message

@@ -9,6 +9,7 @@ import {
 import { UserRole } from '@prisma/client'
 import {
   ChevronDownIcon,
+  LogOutIcon,
   PlusCircleIcon,
   SettingsIcon,
   Trash2Icon,
@@ -41,7 +42,7 @@ export const ChannelHeader = async ({
             <ChevronDownIcon className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="hidden w-64 flex-col border-none bg-zinc-900 py-2 md:inline-flex lg:inline-flex">
+        <DropdownMenuContent className="hidden w-64 flex-col border-none bg-zinc-900 md:inline-flex lg:inline-flex">
           {(isAdmin || isModerator || isMember) && (
             <DropdownMenuItem className="group flex cursor-pointer  justify-between hover:!bg-indigo-600">
               <span>Invite People</span>
@@ -56,14 +57,14 @@ export const ChannelHeader = async ({
           )}
           {isAdmin && (
             <DropdownMenuItem className="flex cursor-pointer justify-between hover:!bg-indigo-600">
-              <span>Server Settings</span>
-              <SettingsIcon className="h-4 w-4" />
+              <span>Manage Members</span>
+              <Users2Icon className="h-4 w-4" />
             </DropdownMenuItem>
           )}
           {isAdmin && (
             <DropdownMenuItem className="flex cursor-pointer justify-between hover:!bg-indigo-600">
-              <span>Manage Members</span>
-              <Users2Icon className="h-4 w-4" />
+              <span>Server Settings</span>
+              <SettingsIcon className="h-4 w-4" />
             </DropdownMenuItem>
           )}
           <DropdownMenuSeparator className="bg-zinc-800" />
@@ -75,8 +76,8 @@ export const ChannelHeader = async ({
           )}
           {(isModerator || isMember) && (
             <DropdownMenuItem className="group flex cursor-pointer  justify-between hover:!bg-rose-600">
-              <span>Delete Server</span>
-              <Trash2Icon className="h-4 w-4 text-rose-500 group-hover:text-white" />
+              <span>Leave Server</span>
+              <LogOutIcon className="h-4 w-4 text-rose-500 group-hover:text-white" />
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>
