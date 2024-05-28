@@ -27,7 +27,14 @@ export async function POST(request: NextResponse) {
       where: { id: serverId },
       data: { inviteCode: newInviteCode },
     })
-    return NextResponse.json({ data: newInviteCode }, { status: 200 })
+    return NextResponse.json(
+      {
+        data: {
+          inviteCode: newInviteCode,
+        },
+      },
+      { status: 200 }
+    )
   } catch (error) {
     return NextResponse.json(
       { error: 'An unexpected error occurred.' },

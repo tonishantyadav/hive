@@ -26,41 +26,43 @@ export const ServerCreateModal = () => {
   const { modal, open, onClose } = useModalStore()
   const { fileUrl, isUploading, onDrop } = useFileUpload()
 
-  const isOpen = open && modal === 'CREATE_SERVER'
-
   return (
-    <Dialog
-      open={isOpen}
-      onOpenChange={() => {
-        form.reset()
-        onClose('CREATE_SERVER')
-      }}
-    >
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle className="text-2xl">Create your server</DialogTitle>
-          <DialogDescription>
-            Create a server and connect with your friends.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex flex-col gap-2">
-          <Dropzone
-            fileUrl={fileUrl}
-            isUploading={isUploading}
-            onDrop={onDrop}
-          />
-          {!fileUrl && (
-            <p className="text-sm font-semibold text-red-500">
-              Image is required
-            </p>
-          )}
-        </div>
-        <ServerCreateForm
-          fileUrl={fileUrl}
-          isUploading={isUploading}
-          form={form}
-        />
-      </DialogContent>
-    </Dialog>
+    <>
+      {modal === 'CREATE_SERVER' && (
+        <Dialog
+          open={open}
+          onOpenChange={() => {
+            form.reset()
+            onClose('CREATE_SERVER')
+          }}
+        >
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="text-2xl">Create your server</DialogTitle>
+              <DialogDescription>
+                Create a server and connect with your friends.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-2">
+              <Dropzone
+                fileUrl={fileUrl}
+                isUploading={isUploading}
+                onDrop={onDrop}
+              />
+              {!fileUrl && (
+                <p className="text-sm font-semibold text-red-500">
+                  Image is required
+                </p>
+              )}
+            </div>
+            <ServerCreateForm
+              fileUrl={fileUrl}
+              isUploading={isUploading}
+              form={form}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
+    </>
   )
 }
