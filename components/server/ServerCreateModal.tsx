@@ -23,18 +23,19 @@ export const ServerCreateModal = () => {
       name: '',
     },
   })
-  const { modal, open, server, onClose } = useModalStore()
+  const { modal, open, onClose } = useModalStore()
   const { fileUrl, isUploading, onDrop } = useFileUpload()
 
   const isOpen = open && modal === 'CREATE_SERVER'
 
-  const onOpenChange = () => {
-    form.reset()
-    onClose()
-  }
-
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={() => {
+        form.reset()
+        onClose('CREATE_SERVER')
+      }}
+    >
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-2xl">Create your server</DialogTitle>

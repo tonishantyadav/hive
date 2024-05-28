@@ -2,7 +2,7 @@ import prisma from '@/prisma/client'
 import { ServerCreateSchema } from '@/schemas/server'
 import { auth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
-import { v4 as uuiv4 } from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
         data: {
           name,
           imageUrl,
-          inviteCode: uuiv4(),
+          inviteCode: uuidv4(),
           userId: user.id,
         },
       })
