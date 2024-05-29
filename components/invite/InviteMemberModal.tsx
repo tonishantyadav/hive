@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/use-toast'
-import { useGenerateInviteLink } from '@/hooks/server'
+import { useInviteLink } from '@/hooks/invite'
 import { useModalStore } from '@/stores/modal'
 import { handleError } from '@/utils/error'
 import { Check, CopyIcon, RefreshCcw } from 'lucide-react'
@@ -19,7 +19,7 @@ import { useEffect, useState } from 'react'
 import { BeatLoader } from 'react-spinners'
 
 export const InviteMemberModal = () => {
-  const generateInviteLink = useGenerateInviteLink()
+  const inviteLink = useInviteLink()
   const { modal, open, onClose, server } = useModalStore()
   const [copied, setCopied] = useState(false)
   const [link, setLink] = useState<string | null>(null)
@@ -35,8 +35,8 @@ export const InviteMemberModal = () => {
   const onGenerateNewLink = async () => {
     try {
       if (server) {
-        const response = await generateInviteLink.mutateAsync(server.id)
-        setLink(inviteLinkPrefix + response.data.inviteCode)
+        const response = await inviteLink.mutateAsync(server.id)
+        setLink(inviteUrl + response.data.inviteCode)
       }
     } catch (error) {
       const errorMessage = handleError(error)
@@ -50,17 +50,17 @@ export const InviteMemberModal = () => {
   }
 
   useEffect(() => {
-    if (server) setLink(inviteLinkPrefix + server.inviteCode)
+    if (server) setLink(inviteUrl + server.inviteCode)
   }, [server])
 
   return (
     <>
       {modal === 'INVITE_MEMBER' && (
         <Dialog open={open} onOpenChange={() => onClose('INVITE_MEMBER')}>
-          <DialogContent>
+          <DialogContent className="bg-zinc-800">
             <DialogHeader>
               <DialogTitle>Invite Member</DialogTitle>
-              <DialogDescription>
+              <DialogDescription className="text-zinc-300">
                 Invite your friends to your server by sharing the link below.
               </DialogDescription>
             </DialogHeader>
@@ -75,7 +75,7 @@ export const InviteMemberModal = () => {
                 variant="ghost"
                 size="icon"
                 onClick={onLinkCopied}
-                disabled={!link || generateInviteLink.isPending}
+                disabled={!link || inviteLink.isPending}
               >
                 {copied ? (
                   <Check className="h-4 w-4" />
@@ -89,7 +89,7 @@ export const InviteMemberModal = () => {
                 className="flex w-full items-center gap-1 bg-indigo-600 hover:bg-indigo-700"
                 onClick={onGenerateNewLink}
               >
-                {generateInviteLink.isPending ? (
+                {inviteLink.isPending ? (
                   <>
                     <BeatLoader color="white" size={10} />
                   </>
@@ -109,4 +109,4 @@ export const InviteMemberModal = () => {
   )
 }
 
-const inviteLinkPrefix = `${process.env.NEXT_PUBLIC_APP_URL}/invite/`
+export const inviteUrl = `${process.env.NEXT_PUBLIC_APP_URL}/invite/`

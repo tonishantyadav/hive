@@ -1,4 +1,3 @@
-export { InviteMemberModal } from './InviteMemberModal'
 export { ServerCreateButton } from './ServerCreateButton'
 export { ServerCreateForm } from './ServerCreateForm'
 export { ServerCreateModal } from './ServerCreateModal'

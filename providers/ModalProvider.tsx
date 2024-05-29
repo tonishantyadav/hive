@@ -1,6 +1,7 @@
 'use client'
 
-import { InviteMemberModal, ServerCreateModal } from '@/components/server'
+import { ServerCreateModal } from '@/components/server'
+import { InviteMemberModal } from '@/components/invite'
 import { useModalStore } from '@/stores/modal'
 
 export const ModalProvider = () => {

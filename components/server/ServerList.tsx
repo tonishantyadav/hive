@@ -20,8 +20,6 @@ export const ServerList = async () => {
     },
   })
 
-  console.log(servers)
-
   return (
     <div className="hide-scrollbar h-[32rem] w-full  overflow-y-auto">
       <div className="flex flex-col items-center gap-3">
