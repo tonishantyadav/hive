@@ -26,30 +26,37 @@ enum ChannelCategory {
 }
 
 model User {
-  id          String    @id @default(cuid())
-  clerkUserId String    @unique
-  name        String
-  email       String
-  imageUrl    String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  userRole    UserRole  @default(MEMBER)
-  Server      Server[]
-  channel     Channel[]
+  id            String          @id @default(cuid())
+  clerkUserId   String          @unique
+  name          String
+  email         String
+  imageUrl      String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  userRole      UserRole        @default(MEMBER)
+  member        ServerMember[]
+  channelMember ChannelMember[]
 }
 
 model Server {
-  id         String    @id @default(uuid())
-  name       String
-  imageUrl   String
-  inviteCode String    @unique
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  userId     String
-  channel    Channel[]
-  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String         @id @default(uuid())
+  name         String
+  imageUrl     String
+  inviteCode   String         @unique
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  serverMember ServerMember[]
+  channel      Channel[]
+}
 
-  @@index([userId])
+model ServerMember {
+  id       String @id @default(cuid())
+  userId   String
+  serverId String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, serverId])
 }
 
 model Channel {
@@ -58,10 +65,17 @@ model Channel {
   channelCategory ChannelCategory @default(TEXT)
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
-  userId          String
-  serverId        String
-  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  serverId        String          @unique
+  channelMember   ChannelMember[]
   server          Server          @relation(fields: [serverId], references: [id], onDelete: Cascade)
+}
 
-  @@index([userId, serverId])
+model ChannelMember {
+  id        String  @id @default(cuid())
+  userId    String
+  channelId String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  channel   Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, channelId])
 }

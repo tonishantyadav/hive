@@ -12,9 +12,15 @@ export const ServerList = async () => {
 
   const servers = await prisma.server.findMany({
     where: {
-      userId: user.id,
+      serverMember: {
+        some: {
+          userId: user.id,
+        },
+      },
     },
   })
+
+  console.log(servers)
 
   return (
     <div className="hide-scrollbar h-[32rem] w-full  overflow-y-auto">

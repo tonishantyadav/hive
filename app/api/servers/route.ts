@@ -25,12 +25,19 @@ export async function POST(request: NextRequest) {
 
   try {
     if (imageUrl) {
+      // Create server
       const server = await prisma.server.create({
         data: {
           name,
           imageUrl,
           inviteCode: uuidv4(),
+        },
+      })
+      // Create server member
+      await prisma.serverMember.create({
+        data: {
           userId: user.id,
+          serverId: server.id,
         },
       })
       return NextResponse.json(

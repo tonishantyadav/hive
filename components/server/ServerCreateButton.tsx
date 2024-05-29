@@ -1,9 +1,8 @@
 'use client'
 
-import React from 'react'
-import { Button } from '../ui/button'
-import { Plus } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { useModalStore } from '@/stores/modal'
+import { Plus } from 'lucide-react'
 
 export const ServerCreateButton = () => {
   const { onOpen } = useModalStore()

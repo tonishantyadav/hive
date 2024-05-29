@@ -23,7 +23,14 @@ export async function GET(request: NextRequest) {
 
   try {
     const channels = await prisma.channel.findMany({
-      where: { userId: user.id, serverId: server.id },
+      where: {
+        serverId: server.id,
+        channelMember: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
     })
     return NextResponse.json({ data: channels }, { status: 200 })
   } catch (error) {
