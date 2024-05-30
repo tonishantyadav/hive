@@ -1,3 +1,4 @@
+export { ManageMemberModal } from './ManageMemberModal'
 export { ServerCreateButton } from './ServerCreateButton'
 export { ServerCreateForm } from './ServerCreateForm'
 export { ServerCreateModal } from './ServerCreateModal'

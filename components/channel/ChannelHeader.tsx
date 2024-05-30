@@ -19,6 +19,7 @@ import {
   UserPlus2Icon,
   Users2Icon,
 } from 'lucide-react'
+import { useEffect } from 'react'
 
 export const ChannelHeader = ({
   server,
@@ -32,6 +33,11 @@ export const ChannelHeader = ({
   const isAdmin = userRole === UserRole.ADMIN
   const isModerator = userRole === UserRole.MODERATOR
   const isMember = userRole === UserRole.MEMBER
+
+  useEffect(() => {
+    if (server) setServer(server)
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <div>
@@ -51,7 +57,6 @@ export const ChannelHeader = ({
               className="group flex cursor-pointer  justify-between hover:!bg-indigo-600"
               onClick={() => {
                 onOpen('INVITE_MEMBER')
-                setServer(server)
               }}
             >
               <span>Invite People</span>
@@ -65,7 +70,10 @@ export const ChannelHeader = ({
             </DropdownMenuItem>
           )}
           {isAdmin && (
-            <DropdownMenuItem className="flex cursor-pointer justify-between hover:!bg-indigo-600">
+            <DropdownMenuItem
+              className="flex cursor-pointer justify-between hover:!bg-indigo-600"
+              onClick={() => onOpen('MANAGE_MEMBER')}
+            >
               <span>Manage Members</span>
               <Users2Icon className="h-4 w-4" />
             </DropdownMenuItem>
