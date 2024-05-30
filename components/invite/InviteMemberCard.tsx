@@ -34,7 +34,7 @@ export const InviteMemberCard = ({ inviteCode }: { inviteCode: string }) => {
   }
 
   return (
-    <Card className="border-none bg-zinc-900">
+    <Card className="border-none bg-zinc-800">
       <CardHeader>
         <CardTitle>Hey there!</CardTitle>
         <CardDescription className="text-zinc-200/75">

@@ -12,9 +12,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { useServerCreate } from '@/hooks/server/useServerCreate'
 import { ServerCreatedFormData } from '@/schemas/server'
-import { LoaderCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { UseFormReturn } from 'react-hook-form'
+import { BeatLoader } from 'react-spinners'
 
 interface Props {
   fileUrl: string | null
@@ -54,17 +54,14 @@ export const ServerCreateForm = ({ fileUrl, isUploading, form }: Props) => {
           />
           <DialogFooter className="mt-2">
             <Button
-              className="flex items-center"
+              className="flex w-full items-center bg-indigo-600 font-semibold hover:bg-indigo-700"
               type="submit"
               disabled={isUploading || server.isPending}
             >
               {server.isPending ? (
-                <div className="flex items-center gap-1">
-                  <LoaderCircle className="h-4 w-4 animate-spin" />
-                  <span>Creating your server</span>
-                </div>
+                <BeatLoader className="white" size={10} />
               ) : (
-                'Submit'
+                'Create'
               )}
             </Button>
           </DialogFooter>

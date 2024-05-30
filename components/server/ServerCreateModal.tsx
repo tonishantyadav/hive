@@ -36,10 +36,10 @@ export const ServerCreateModal = () => {
             onClose('CREATE_SERVER')
           }}
         >
-          <DialogContent>
+          <DialogContent className="bg-zinc-800">
             <DialogHeader>
               <DialogTitle className="text-2xl">Create your server</DialogTitle>
-              <DialogDescription>
+              <DialogDescription className="text-zinc-300">
                 Create a server and connect with your friends.
               </DialogDescription>
             </DialogHeader>
@@ -50,7 +50,7 @@ export const ServerCreateModal = () => {
                 onDrop={onDrop}
               />
               {!fileUrl && (
-                <p className="text-sm font-semibold text-red-500">
+                <p className="text-sm font-semibold text-rose-500">
                   Image is required
                 </p>
               )}
