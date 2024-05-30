@@ -10,14 +10,14 @@ export const useServerCreate = () => {
       await axios.post('/api/servers', data),
     onSuccess: (response) => {
       toast({
-        title: 'Uh huh! Your server is been created.',
+        title: 'Uh-huh! Your server is been created.',
         description: 'Let your friends know you have a new server.',
       })
     },
     onError: (error) => {
       const errorMessage = handleError(error)
       toast({
-        title: 'Uh oh! Unable to create your server.',
+        title: 'Something went wrong.',
         description: errorMessage,
         variant: 'destructive',
       })
