@@ -1,5 +1,3 @@
-'use client'
-
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -25,23 +23,23 @@ import {
   ShieldPlusIcon,
   ShieldQuestion,
 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 
-export const ServerMember = ({ member }: { member: User }) => {
-  const router = useRouter()
+export const ServerMember = ({
+  serverId,
+  member,
+}: {
+  serverId: string
+  member: User
+}) => {
   const memberRoleUpdate = useMemberRoleUpdate()
-  const [memberRole, setMemberRole] = useState<UserRole | null>(null)
 
-  const onChangeMemberRole = async () => {
+  const onChangeMemberRole = async (memberRole: UserRole) => {
     try {
-      if (memberRole) {
-        await memberRoleUpdate.mutateAsync({
-          memberId: member.id,
-          memberRole,
-        })
-        router.refresh()
-      }
+      await memberRoleUpdate.mutateAsync({
+        serverId,
+        memberId: member.id,
+        memberRole,
+      })
     } catch (error) {
       const errorMessage = handleError(error)
       toast({
@@ -81,20 +79,14 @@ export const ServerMember = ({ member }: { member: User }) => {
               <DropdownMenuSubContent className="ml-3 mt-3 border-zinc-800 bg-zinc-900">
                 <DropdownMenuItem
                   className="flex items-center gap-1 hover:!bg-zinc-700"
-                  onClick={() => {
-                    setMemberRole('MEMBER')
-                    onChangeMemberRole()
-                  }}
+                  onClick={async () => await onChangeMemberRole('MEMBER')}
                 >
                   <Shield className="h-4 w-4" />
                   <span>Member</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="flex items-center gap-1 hover:!bg-zinc-700"
-                  onClick={() => {
-                    setMemberRole('MODERATOR')
-                    onChangeMemberRole()
-                  }}
+                  onClick={async () => await onChangeMemberRole('MODERATOR')}
                 >
                   <ShieldCheck className="h-4 w-4" />
                   <span>Moderator</span>

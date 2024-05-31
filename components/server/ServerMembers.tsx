@@ -49,10 +49,10 @@ export const ServerMembers = ({ serverId }: { serverId: string }) => {
           <div className="p-4">
             {members.map((member) => (
               <div
-                key={member.id} // Ensure key is added here
+                key={member.id}
                 className="group w-full divide-y rounded-md p-2 text-sm hover:bg-zinc-800"
               >
-                <ServerMember member={member} />
+                <ServerMember serverId={serverId} member={member} />
               </div>
             ))}
           </div>

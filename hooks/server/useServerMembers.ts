@@ -3,13 +3,13 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import ms from 'ms'
 
-export const useServerMembers = (severId: string) => {
+export const useServerMembers = (serverId: string) => {
   return useQuery({
-    queryKey: [severId],
+    queryKey: ['members', serverId],
     queryFn: async () => {
       const response = await axios.get<User[]>(`/api/members`, {
         params: {
-          server: severId,
+          server: serverId,
         },
       })
       return response.data
