@@ -50,7 +50,7 @@ export const ServerMembers = ({ serverId }: { serverId: string }) => {
             {members.map((member) => (
               <div
                 key={member.id}
-                className="group w-full divide-y rounded-md p-2 text-sm hover:bg-zinc-800"
+                className="w-full rounded-md p-2 text-sm hover:bg-zinc-800"
               >
                 <ServerMember serverId={serverId} member={member} />
               </div>

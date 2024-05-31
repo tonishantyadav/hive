@@ -1,3 +1,5 @@
+'use client'
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -15,8 +17,10 @@ import { cn } from '@/lib/utils'
 import { handleError } from '@/utils/error'
 import { User, UserRole } from '@prisma/client'
 import {
+  CheckIcon,
   EllipsisIcon,
-  Gavel,
+  HammerIcon,
+  Loader2Icon,
   Shield,
   ShieldCheck,
   ShieldCheckIcon,
@@ -53,12 +57,17 @@ export const ServerMember = ({
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-1.5">
-        <Avatar className="h-7 w-7">
+        <Avatar className="h-8 w-8">
           <AvatarImage src={member.imageUrl} />
           <AvatarFallback>{member.name[0]}</AvatarFallback>
         </Avatar>
-        <span>{member.name}</span>
-        {memberRoleIcon[member.userRole]}
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-1">
+            <span className="font-semibold">{member.name}</span>
+            {memberRoleIcon[member.userRole]}
+          </div>
+          <span className="text-xs text-zinc-300">{member.email}</span>
+        </div>
       </div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -69,7 +78,7 @@ export const ServerMember = ({
             )}
           />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className=" border-zinc-800 bg-zinc-900 p-2">
+        <DropdownMenuContent className="border-zinc-800 bg-zinc-900 p-2">
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className="flex items-center gap-1">
               <ShieldQuestion className="h-4 w-4" />
@@ -78,24 +87,48 @@ export const ServerMember = ({
             <DropdownMenuPortal>
               <DropdownMenuSubContent className="ml-3 mt-3 border-zinc-800 bg-zinc-900">
                 <DropdownMenuItem
-                  className="flex items-center gap-1 hover:!bg-zinc-700"
+                  className="flex items-center justify-between hover:!bg-zinc-700"
                   onClick={async () => await onChangeMemberRole('MEMBER')}
                 >
-                  <Shield className="h-4 w-4" />
-                  <span>Member</span>
+                  <div className="flex items-center gap-1">
+                    <Shield className="h-4 w-4" />
+                    <span>Member</span>
+                  </div>
+                  <div className="ml-4">
+                    {member.userRole === 'MEMBER' &&
+                    memberRoleUpdate.isPending ? (
+                      <Loader2Icon className="h-4 w-4 animate-spin" />
+                    ) : (
+                      member.userRole === 'MEMBER' && (
+                        <CheckIcon className="h-4 w-4" />
+                      )
+                    )}
+                  </div>
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  className="flex items-center gap-1 hover:!bg-zinc-700"
+                  className="flex items-center justify-between hover:!bg-zinc-700"
                   onClick={async () => await onChangeMemberRole('MODERATOR')}
                 >
-                  <ShieldCheck className="h-4 w-4" />
-                  <span>Moderator</span>
+                  <div className="flex items-center gap-1">
+                    <ShieldCheck className="h-4 w-4" />
+                    <span>Moderator</span>
+                  </div>
+                  <div className="ml-4">
+                    {member.userRole === 'MODERATOR' &&
+                    memberRoleUpdate.isPending ? (
+                      <Loader2Icon className="h-4 w-4 animate-spin" />
+                    ) : (
+                      member.userRole === 'MODERATOR' && (
+                        <CheckIcon className="h-4 w-4" />
+                      )
+                    )}
+                  </div>
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
           <DropdownMenuItem className="mt-1 flex cursor-pointer items-center gap-1 hover:!bg-zinc-700">
-            <Gavel className="h-4 w-4" />
+            <HammerIcon className="h-4 w-4" />
             <span>Kick</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
