@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { toast } from '@/components/ui/use-toast'
-import { useMemberRoleUpdate } from '@/hooks/member'
+import { useMemberDelete, useMemberUpdate } from '@/hooks/member'
 import { cn } from '@/lib/utils'
 import { handleError } from '@/utils/error'
 import { User, UserRole } from '@prisma/client'
@@ -35,14 +35,31 @@ export const ServerMember = ({
   serverId: string
   member: User
 }) => {
-  const memberRoleUpdate = useMemberRoleUpdate()
+  const memberUpdate = useMemberUpdate()
+  const memberDelete = useMemberDelete()
 
   const onChangeMemberRole = async (memberRole: UserRole) => {
     try {
-      await memberRoleUpdate.mutateAsync({
+      await memberUpdate.mutateAsync({
         serverId,
         memberId: member.id,
         memberRole,
+      })
+    } catch (error) {
+      const errorMessage = handleError(error)
+      toast({
+        variant: 'destructive',
+        title: 'Uh-oh! Something went wrong.',
+        description: errorMessage,
+      })
+    }
+  }
+
+  const onMemberKick = async () => {
+    try {
+      await memberDelete.mutateAsync({
+        serverId,
+        memberId: member.id,
       })
     } catch (error) {
       const errorMessage = handleError(error)
@@ -95,8 +112,7 @@ export const ServerMember = ({
                     <span>Member</span>
                   </div>
                   <div className="ml-4">
-                    {member.userRole === 'MEMBER' &&
-                    memberRoleUpdate.isPending ? (
+                    {member.userRole === 'MEMBER' && memberUpdate.isPending ? (
                       <Loader2Icon className="h-4 w-4 animate-spin" />
                     ) : (
                       member.userRole === 'MEMBER' && (
@@ -115,7 +131,7 @@ export const ServerMember = ({
                   </div>
                   <div className="ml-4">
                     {member.userRole === 'MODERATOR' &&
-                    memberRoleUpdate.isPending ? (
+                    memberUpdate.isPending ? (
                       <Loader2Icon className="h-4 w-4 animate-spin" />
                     ) : (
                       member.userRole === 'MODERATOR' && (
@@ -127,8 +143,15 @@ export const ServerMember = ({
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
-          <DropdownMenuItem className="mt-1 flex cursor-pointer items-center gap-1 hover:!bg-zinc-700">
-            <HammerIcon className="h-4 w-4" />
+          <DropdownMenuItem
+            className="mt-1 flex cursor-pointer items-center gap-1 hover:!bg-zinc-700"
+            onClick={async () => await onMemberKick()}
+          >
+            {memberDelete.isPending ? (
+              <Loader2Icon className="h-4 w-4 animate-spin" />
+            ) : (
+              <HammerIcon className="h-4 w-4" />
+            )}
             <span>Kick</span>
           </DropdownMenuItem>
         </DropdownMenuContent>

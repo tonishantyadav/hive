@@ -30,7 +30,6 @@ export async function GET(request: NextRequest) {
       )
     )
 
-    // Filter out any null values
     const members = users.filter((user): user is User => user !== null)
 
     return NextResponse.json(members)

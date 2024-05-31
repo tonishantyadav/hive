@@ -1,1 +1,2 @@
-export { useMemberRoleUpdate } from './useMemberRoleUpdate'
+export { useMemberUpdate } from './useMemberUpdate'
+export { useMemberDelete } from './useMemberDelete'

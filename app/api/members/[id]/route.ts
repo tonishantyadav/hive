@@ -1,10 +1,10 @@
 import prisma from '@/prisma/client'
 import { UserRole } from '@prisma/client'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
 export async function PATCH(
-  request: NextResponse,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const body = await request.json()
@@ -31,6 +31,46 @@ export async function PATCH(
       data: { userRole: memberRole },
     })
     return NextResponse.json({ status: 200 })
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'An unexpected error occurred.' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const body = await request.json()
+  const validation = z
+    .object({
+      serverId: z.string(),
+    })
+    .safeParse(body)
+
+  if (!validation.success)
+    return NextResponse.json({ error: 'Invalid request.' }, { status: 400 })
+
+  const { serverId } = validation.data
+
+  const serverMember = await prisma.serverMember.findFirst({
+    where: {
+      userId: params.id,
+      serverId,
+    },
+  })
+  if (!serverMember)
+    return NextResponse.json({ error: 'Member not found.' }, { status: 404 })
+
+  try {
+    await prisma.serverMember.delete({
+      where: {
+        id: serverMember.id,
+      },
+    })
+    return NextResponse.json({}, { status: 200 })
   } catch (error) {
     return NextResponse.json(
       { error: 'An unexpected error occurred.' },

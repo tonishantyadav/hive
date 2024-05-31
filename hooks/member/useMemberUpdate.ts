@@ -8,7 +8,7 @@ type MemberRoleUpdate = {
   memberRole: UserRole
 }
 
-export const useMemberRoleUpdate = () => {
+export const useMemberUpdate = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -19,8 +19,8 @@ export const useMemberRoleUpdate = () => {
     },
     onMutate: async (data: MemberRoleUpdate) => {
       const members = queryClient.getQueryData<User[]>([
-        data.serverId,
         'members',
+        data.serverId,
       ])
       queryClient.setQueryData(['members', data.serverId], (members: User[]) =>
         members.map((member: User) =>
@@ -33,7 +33,7 @@ export const useMemberRoleUpdate = () => {
     },
     onError: (_, data: MemberRoleUpdate, context) => {
       queryClient.setQueryData(
-        [data.serverId, 'members'],
+        ['members', data.serverId],
         context?.members || []
       )
     },
