@@ -1,34 +1,12 @@
 'use client'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuPortal,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useServerMembers } from '@/hooks/server'
-import { cn } from '@/lib/utils'
 import { handleError } from '@/utils/error'
 import { User } from '@prisma/client'
-import {
-  EllipsisIcon,
-  FrownIcon,
-  Gavel,
-  Loader2Icon,
-  Shield,
-  ShieldCheck,
-  ShieldCheckIcon,
-  ShieldPlusIcon,
-  ShieldQuestion,
-  Users2Icon,
-} from 'lucide-react'
+import { FrownIcon, Loader2Icon, Users2Icon } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { ServerMember } from '@/components/server'
 
 export const ServerMembers = ({ serverId }: { serverId: string }) => {
   const { data, isLoading, isError, error } = useServerMembers(serverId)
@@ -74,7 +52,7 @@ export const ServerMembers = ({ serverId }: { serverId: string }) => {
                 key={member.id} // Ensure key is added here
                 className="group w-full divide-y rounded-md p-2 text-sm hover:bg-zinc-800"
               >
-                <Member member={member} />
+                <ServerMember member={member} />
               </div>
             ))}
           </div>
@@ -89,59 +67,4 @@ export const ServerMembers = ({ serverId }: { serverId: string }) => {
       )}
     </>
   )
-}
-
-const Member = ({ member }: { member: User }) => {
-  return (
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-1.5">
-        <Avatar className="h-7 w-7">
-          <AvatarImage src={member.imageUrl} />
-          <AvatarFallback>{member.name[0]}</AvatarFallback>
-        </Avatar>
-        <span>{member.name}</span>
-        {userRoleIcon[member.userRole]}
-      </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <EllipsisIcon
-            className={cn(
-              'h-4 w-4 cursor-pointer',
-              member.userRole !== 'ADMIN' ? 'inline-flex' : 'hidden'
-            )}
-          />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className=" border-zinc-800 bg-zinc-900 p-2">
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger className="flex cursor-pointer items-center gap-1">
-              <ShieldQuestion className="h-4 w-4" />
-              <span>Role</span>
-            </DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent className="ml-3 mt-3 border-zinc-800 bg-zinc-900">
-                <DropdownMenuItem className="flex cursor-pointer items-center gap-1 hover:!bg-zinc-700">
-                  <Shield className="h-4 w-4" />
-                  <span>Member</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="flex cursor-pointer items-center gap-1 hover:!bg-zinc-700">
-                  <ShieldCheck className="h-4 w-4" />
-                  <span>Moderator</span>
-                </DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-          <DropdownMenuItem className="flex cursor-pointer items-center gap-1 hover:!bg-zinc-700">
-            <Gavel className="h-4 w-4" />
-            <span>Kick</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
-  )
-}
-
-const userRoleIcon = {
-  ADMIN: <ShieldPlusIcon className="ml-2 h-4 w-4 text-emerald-600" />,
-  MODERATOR: <ShieldCheckIcon className="ml-2 h-4 w-4 text-indigo-500" />,
-  MEMBER: null,
 }

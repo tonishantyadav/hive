@@ -1,7 +1,7 @@
-export { ManageMemberModal } from './ManageMemberModal'
 export { ServerCreateButton } from './ServerCreateButton'
 export { ServerCreateForm } from './ServerCreateForm'
 export { ServerCreateModal } from './ServerCreateModal'
 export { ServerItem } from './ServerItem'
 export { ServerList } from './ServerList'
+export { ServerMember } from './ServerMember'
 export { ServerMembers } from './ServerMembers'

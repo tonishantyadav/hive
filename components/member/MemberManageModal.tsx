@@ -10,9 +10,9 @@ import { useModalStore } from '@/stores/modal'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import { Users2Icon } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { ServerMembers } from './ServerMembers'
+import { ServerMembers } from '@/components/server'
 
-export const ManageMemberModal = () => {
+export const MemberManageModal = () => {
   const { open, modal, server, onClose } = useModalStore()
   const [serverId, setServerId] = useState<string | null>(null)
 

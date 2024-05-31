@@ -1,7 +1,8 @@
 'use client'
 
-import { ManageMemberModal, ServerCreateModal } from '@/components/server'
 import { InviteMemberModal } from '@/components/invite'
+import { MemberManageModal } from '@/components/member'
+import { ServerCreateModal } from '@/components/server'
 import { useModalStore } from '@/stores/modal'
 
 export const ModalProvider = () => {
@@ -13,7 +14,7 @@ export const ModalProvider = () => {
     case 'INVITE_MEMBER':
       return <InviteMemberModal />
     case 'MANAGE_MEMBER':
-      return <ManageMemberModal />
+      return <MemberManageModal />
     default:
       return null
   }
