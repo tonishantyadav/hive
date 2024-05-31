@@ -2,8 +2,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useServerMembers } from '@/hooks/server'
 import { useModalStore } from '@/stores/modal'
+import { handleError } from '@/utils/error'
 import { User } from '@prisma/client'
-import { EllipsisIcon, Users2Icon } from 'lucide-react'
+import { EllipsisIcon, FrownIcon, Loader2Icon, Users2Icon } from 'lucide-react'
 
 export const ServerMembers = ({ serverId }: { serverId: string }) => {
   const {
@@ -13,6 +14,28 @@ export const ServerMembers = ({ serverId }: { serverId: string }) => {
     error,
   } = useServerMembers(serverId)
   const { onClose } = useModalStore()
+
+  if (isLoading)
+    return (
+      <div className="flex h-60 w-full items-center  justify-center bg-black/20">
+        <Loader2Icon className="h-4 w-4 animate-spin" />
+      </div>
+    )
+
+  if (isError) {
+    const errorMessage = handleError(error)
+    return (
+      <div className="flex h-60 w-full flex-col items-center justify-center bg-black/20">
+        <div className="flex items-center gap-1 text-rose-500">
+          <FrownIcon className="h-4 w-4" />
+          <span className="text-lg font-semibold ">
+            Uh-oh! Something went wrong.
+          </span>
+        </div>
+        <span className="text-sm text-zinc-400">{errorMessage}</span>
+      </div>
+    )
+  }
 
   return (
     <>
