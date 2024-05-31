@@ -38,6 +38,14 @@ export async function POST(request: NextRequest) {
           serverId: server.id,
         },
       })
+      await prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          userRole: 'ADMIN',
+        },
+      })
       return NextResponse.json(
         {
           data: {
