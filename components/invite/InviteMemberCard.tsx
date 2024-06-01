@@ -34,19 +34,16 @@ export const InviteMemberCard = ({ inviteCode }: { inviteCode: string }) => {
   }
 
   return (
-    <Card className="border-none bg-zinc-800">
+    <Card className="border-none">
       <CardHeader>
         <CardTitle>Hey there!</CardTitle>
-        <CardDescription className="text-zinc-200/75">
+        <CardDescription>
           You&apos;ve been invited to join the server! Click the button below to
           join now.
         </CardDescription>
       </CardHeader>
       <CardFooter>
-        <Button
-          className="flex w-full items-center gap-1 bg-indigo-600 hover:bg-indigo-700"
-          onClick={onClick}
-        >
+        <Button className="flex w-full items-center gap-1" onClick={onClick}>
           {inviteCodeVerify.isPending ? (
             <BeatLoader color="white" size={10} />
           ) : (

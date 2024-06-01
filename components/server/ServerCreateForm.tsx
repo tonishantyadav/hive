@@ -7,6 +7,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -45,8 +46,9 @@ export const ServerCreateForm = ({ fileUrl, isUploading, form }: Props) => {
             name="name"
             render={({ field }) => (
               <FormItem>
+                <FormLabel>Server name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Your server name" {...field} />
+                  <Input placeholder="Enter your sever name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -54,7 +56,7 @@ export const ServerCreateForm = ({ fileUrl, isUploading, form }: Props) => {
           />
           <DialogFooter className="mt-2">
             <Button
-              className="flex w-full items-center bg-indigo-600 font-semibold hover:bg-indigo-700"
+              className="flex w-full items-center font-semibold"
               type="submit"
               disabled={isUploading || server.isPending}
             >

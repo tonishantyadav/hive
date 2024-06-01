@@ -1,5 +1,6 @@
 'use client'
 
+import { ServerMembers } from '@/components/server'
 import {
   Dialog,
   DialogContent,
@@ -10,7 +11,6 @@ import { useModalStore } from '@/stores/modal'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import { Users2Icon } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { ServerMembers } from '@/components/server'
 
 export const MemberManageModal = () => {
   const { open, modal, server, onClose } = useModalStore()
@@ -24,13 +24,13 @@ export const MemberManageModal = () => {
     <>
       {modal === 'MANAGE_MEMBER' && (
         <Dialog open={open} onOpenChange={() => onClose('INVITE_MEMBER')}>
-          <DialogContent className="bg-zinc-800">
+          <DialogContent>
             <DialogHeader>
               <div className="flex items-center justify-start gap-1">
                 <Users2Icon className="h-4 w-4 font-semibold" />
                 <DialogTitle>Manage Members</DialogTitle>
               </div>
-              <DialogDescription className="flex  justify-start text-zinc-300">
+              <DialogDescription className="flex justify-start">
                 Manage the members of your server with ease.
               </DialogDescription>
             </DialogHeader>

@@ -16,7 +16,7 @@ const ServerPage = async ({ params }: { params: { id: string } }) => {
   return (
     <div className="flex h-full w-full">
       <ChannelContainer server={server} user={user} />
-      <div>Message Box</div>
+      <div className="w-full">Message Box</div>
     </div>
   )
 }

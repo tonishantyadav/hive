@@ -45,7 +45,7 @@ export const ServerMembers = ({ serverId }: { serverId: string }) => {
   return (
     <>
       {members && members.length > 0 ? (
-        <ScrollArea className="h-60 w-full rounded-md bg-black/20">
+        <ScrollArea className="h-60 w-full rounded-md bg-black/30">
           <div className="p-4">
             {members.map((member) => (
               <div

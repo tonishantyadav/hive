@@ -57,21 +57,20 @@ export const InviteMemberModal = () => {
     <>
       {modal === 'INVITE_MEMBER' && (
         <Dialog open={open} onOpenChange={() => onClose('INVITE_MEMBER')}>
-          <DialogContent className="bg-zinc-800">
+          <DialogContent>
             <DialogHeader>
               <DialogTitle>Invite Member</DialogTitle>
-              <DialogDescription className="text-zinc-300">
+              <DialogDescription>
                 Invite your friends to your server by sharing the link below.
               </DialogDescription>
             </DialogHeader>
             <div className="flex items-center gap-2">
               <Input
-                className="overflow-auto text-zinc-300 focus-visible:ring-0 focus-visible:ring-offset-0 disabled:pointer-events-none"
+                className="overflow-auto focus-visible:ring-0 focus-visible:ring-offset-0 disabled:pointer-events-none"
                 value={link ? link : 'Please generate a new link!'}
                 readOnly
               />
               <Button
-                className=" hover:bg-zinc-700"
                 variant="ghost"
                 size="icon"
                 onClick={onLinkCopied}
@@ -86,7 +85,7 @@ export const InviteMemberModal = () => {
             </div>
             <DialogFooter className="!justify-start">
               <Button
-                className="flex w-full items-center gap-1 bg-indigo-600 hover:bg-indigo-700"
+                className="flex w-full items-center gap-1"
                 onClick={onGenerateNewLink}
               >
                 {inviteLink.isPending ? (

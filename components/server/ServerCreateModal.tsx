@@ -36,10 +36,10 @@ export const ServerCreateModal = () => {
             onClose('CREATE_SERVER')
           }}
         >
-          <DialogContent className="bg-zinc-800">
+          <DialogContent>
             <DialogHeader>
               <DialogTitle className="text-2xl">Create your server</DialogTitle>
-              <DialogDescription className="text-zinc-300">
+              <DialogDescription>
                 Create a server and connect with your friends.
               </DialogDescription>
             </DialogHeader>

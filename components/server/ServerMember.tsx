@@ -80,10 +80,10 @@ export const ServerMember = ({
         </Avatar>
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-1">
-            <span className="font-semibold">{member.name}</span>
             {memberRoleIcon[member.userRole]}
+            <span>{member.name}</span>
           </div>
-          <span className="text-xs text-zinc-300">{member.email}</span>
+          <span className="ml-1">{member.email}</span>
         </div>
       </div>
       <DropdownMenu>
@@ -95,14 +95,14 @@ export const ServerMember = ({
             )}
           />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="border-zinc-800 bg-zinc-900 p-2">
+        <DropdownMenuContent className="p-2">
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className="flex items-center gap-1">
               <ShieldQuestion className="h-4 w-4" />
               <span>Role</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
-              <DropdownMenuSubContent className="ml-3 mt-3 border-zinc-800 bg-zinc-900">
+              <DropdownMenuSubContent className="ml-3 mt-3">
                 <DropdownMenuItem
                   className="flex items-center justify-between hover:!bg-zinc-700"
                   onClick={async () => await onChangeMemberRole('MEMBER')}
@@ -161,7 +161,7 @@ export const ServerMember = ({
 }
 
 const memberRoleIcon = {
-  ADMIN: <ShieldPlusIcon className="ml-2 h-4 w-4 text-emerald-600" />,
-  MODERATOR: <ShieldCheckIcon className="ml-2 h-4 w-4 text-indigo-500" />,
+  ADMIN: <ShieldPlusIcon className="h-4 w-4 text-emerald-600" />,
+  MODERATOR: <ShieldCheckIcon className="h-4 w-4 text-indigo-500" />,
   MEMBER: null,
 }

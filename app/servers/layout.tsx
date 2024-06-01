@@ -10,7 +10,7 @@ const UserButton = dynamic(
 export default function ServerLayout({ children }: { children: ReactNode }) {
   return (
     <div className="grid h-screen md:grid-cols-[8%_95%] lg:grid-cols-[6%_94%]">
-      <div className="hidden h-full w-full bg-black/35 md:inline-flex lg:inline-flex">
+      <div className="hidden h-full w-full  bg-black/20 md:inline-flex lg:inline-flex">
         <div className="flex h-full w-full flex-col items-center gap-4 py-2">
           <ServerCreateButton />
           <div className="mx-auto h-[3px] w-10  rounded-full  bg-zinc-700" />

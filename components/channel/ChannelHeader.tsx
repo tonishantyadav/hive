@@ -11,6 +11,7 @@ import {
 import { useModalStore } from '@/stores/modal'
 import { Server, UserRole } from '@prisma/client'
 import {
+  BotIcon,
   ChevronDownIcon,
   LogOutIcon,
   PlusCircleIcon,
@@ -44,34 +45,37 @@ export const ChannelHeader = ({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            className="flex h-12 w-full items-center justify-between rounded-none border-b-2 border-zinc-700 text-sm font-semibold hover:bg-zinc-700/60 focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="flex h-12 w-full items-center justify-between rounded-none border-b text-sm font-semibold focus-visible:ring-0 focus-visible:ring-offset-0"
             variant="ghost"
           >
-            <span className="capitalize">{server.name}</span>
+            <div className="flex items-center gap-1">
+              <BotIcon className="h-4 w-4" />
+              <span className="capitalize">{server.name}</span>
+            </div>
             <ChevronDownIcon className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="hidden w-64 flex-col border-none bg-zinc-900 md:inline-flex lg:inline-flex">
+        <DropdownMenuContent className="hidden w-64 flex-col md:inline-flex lg:inline-flex">
           {(isAdmin || isModerator || isMember) && (
             <DropdownMenuItem
-              className="group flex cursor-pointer  justify-between hover:!bg-indigo-600"
+              className="group flex cursor-pointer justify-between "
               onClick={() => {
                 onOpen('INVITE_MEMBER')
               }}
             >
               <span>Invite People</span>
-              <UserPlus2Icon className="h-4 w-4 text-indigo-400 group-hover:text-white" />
+              <UserPlus2Icon className="h-4 w-4 text-indigo-600 group-hover:text-white" />
             </DropdownMenuItem>
           )}
           {(isAdmin || isModerator) && (
-            <DropdownMenuItem className="flex cursor-pointer justify-between hover:!bg-indigo-600">
+            <DropdownMenuItem className="flex cursor-pointer justify-between">
               <span>Create Channel</span>
               <PlusCircleIcon className="h-4 w-4" />
             </DropdownMenuItem>
           )}
           {isAdmin && (
             <DropdownMenuItem
-              className="flex cursor-pointer justify-between hover:!bg-indigo-600"
+              className="flex cursor-pointer justify-between"
               onClick={() => onOpen('MANAGE_MEMBER')}
             >
               <span>Manage Members</span>
@@ -79,7 +83,7 @@ export const ChannelHeader = ({
             </DropdownMenuItem>
           )}
           {isAdmin && (
-            <DropdownMenuItem className="flex cursor-pointer justify-between hover:!bg-indigo-600">
+            <DropdownMenuItem className="flex cursor-pointer justify-between">
               <span>Server Settings</span>
               <SettingsIcon className="h-4 w-4" />
             </DropdownMenuItem>
@@ -88,13 +92,13 @@ export const ChannelHeader = ({
           {isAdmin && (
             <DropdownMenuItem className="group flex cursor-pointer  justify-between hover:!bg-rose-600">
               <span>Delete Server</span>
-              <Trash2Icon className="h-4 w-4 text-rose-500 group-hover:text-white" />
+              <Trash2Icon className="h-4 w-4 text-rose-600 group-hover:text-white" />
             </DropdownMenuItem>
           )}
           {(isModerator || isMember) && (
             <DropdownMenuItem className="group flex cursor-pointer  justify-between hover:!bg-rose-600">
               <span>Leave Server</span>
-              <LogOutIcon className="h-4 w-4 text-rose-500 group-hover:text-white" />
+              <LogOutIcon className="h-4 w-4 text-rose-600 group-hover:text-white" />
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>

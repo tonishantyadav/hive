@@ -13,7 +13,7 @@ export const ServerCreateButton = () => {
       size="icon"
       onClick={() => onOpen('CREATE_SERVER')}
     >
-      <Plus />
+      <Plus className="text-white" />
     </Button>
   )
 }

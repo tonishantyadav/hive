@@ -25,7 +25,7 @@ export const Dropzone = ({ fileUrl, isUploading, onDrop }: DropzoneProps) => {
 
   return (
     <>
-      <div className="h-60 rounded-xl bg-black/20">
+      <div className="h-60 rounded-xl border-2 border-dashed">
         {fileUrl ? (
           <>
             {imageLoad && (

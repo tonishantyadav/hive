@@ -1,7 +1,13 @@
+'use client'
+
 import { Channel, Server } from '@prisma/client'
 import { create } from 'zustand'
 
-export type Modal = 'CREATE_SERVER' | 'INVITE_MEMBER' | 'MANAGE_MEMBER'
+export type Modal =
+  | 'CREATE_SERVER'
+  | 'INVITE_MEMBER'
+  | 'MANAGE_MEMBER'
+  | 'CREATE_CHANNEL'
 
 interface ModalStore {
   modal: Modal | null
