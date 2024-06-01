@@ -85,7 +85,7 @@ export const InviteMemberModal = () => {
             </div>
             <DialogFooter className="!justify-start">
               <Button
-                className="flex w-full items-center gap-1"
+                className="flex w-full items-center gap-1 font-semibold"
                 onClick={onGenerateNewLink}
               >
                 {inviteLink.isPending ? (

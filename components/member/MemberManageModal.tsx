@@ -30,7 +30,7 @@ export const MemberManageModal = () => {
                 <Users2Icon className="h-4 w-4 font-semibold" />
                 <DialogTitle>Manage Members</DialogTitle>
               </div>
-              <DialogDescription className="flex justify-start">
+              <DialogDescription className="flex justify-start text-sm text-zinc-300">
                 Manage the members of your server with ease.
               </DialogDescription>
             </DialogHeader>

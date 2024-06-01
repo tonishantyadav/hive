@@ -55,7 +55,7 @@ export const ChannelHeader = ({
             <ChevronDownIcon className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="hidden w-64 flex-col md:inline-flex lg:inline-flex">
+        <DropdownMenuContent className="hidden flex-col md:inline-flex lg:inline-flex lg:w-60">
           {(isAdmin || isModerator || isMember) && (
             <DropdownMenuItem
               className="group flex cursor-pointer justify-between "
@@ -64,7 +64,7 @@ export const ChannelHeader = ({
               }}
             >
               <span>Invite People</span>
-              <UserPlus2Icon className="h-4 w-4 text-indigo-600 group-hover:text-white" />
+              <UserPlus2Icon className="h-4 w-4 text-indigo-500 group-hover:text-white" />
             </DropdownMenuItem>
           )}
           {(isAdmin || isModerator) && (

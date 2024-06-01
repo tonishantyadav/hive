@@ -81,7 +81,11 @@ export const ServerMember = ({
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-1">
             {memberRoleIcon[member.userRole]}
-            <span>{member.name}</span>
+            <span
+              className={cn(!memberRoleIcon[member.userRole] ? 'ml-1' : '')}
+            >
+              {member.name}
+            </span>
           </div>
           <span className="ml-1">{member.email}</span>
         </div>

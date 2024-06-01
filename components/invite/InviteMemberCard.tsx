@@ -34,7 +34,7 @@ export const InviteMemberCard = ({ inviteCode }: { inviteCode: string }) => {
   }
 
   return (
-    <Card className="border-none">
+    <Card>
       <CardHeader>
         <CardTitle>Hey there!</CardTitle>
         <CardDescription>
@@ -43,7 +43,10 @@ export const InviteMemberCard = ({ inviteCode }: { inviteCode: string }) => {
         </CardDescription>
       </CardHeader>
       <CardFooter>
-        <Button className="flex w-full items-center gap-1" onClick={onClick}>
+        <Button
+          className="text-md flex w-full items-center gap-1 font-semibold"
+          onClick={onClick}
+        >
           {inviteCodeVerify.isPending ? (
             <BeatLoader color="white" size={10} />
           ) : (
