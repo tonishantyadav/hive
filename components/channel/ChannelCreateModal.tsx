@@ -1,3 +1,5 @@
+'use client'
+
 import { ChannelCreateForm } from '@/components/channel'
 import {
   Dialog,
@@ -9,6 +11,7 @@ import {
 import { ChannelCreateSchema } from '@/schemas/channel'
 import { useModalStore } from '@/stores/modal'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { TvIcon } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -20,7 +23,7 @@ export const ChannelCreateModal = () => {
       category: 'TEXT',
     },
   })
-  const { modal, open, onClose } = useModalStore()
+  const { modal, open, server, onClose } = useModalStore()
 
   return (
     <>
@@ -32,16 +35,17 @@ export const ChannelCreateModal = () => {
             onClose('CREATE_CHANNEL')
           }}
         >
-          <DialogContent className="bg-zinc-900">
+          <DialogContent>
             <DialogHeader>
-              <DialogTitle className="text-2xl">
-                Create your channel
-              </DialogTitle>
-              <DialogDescription className="text-zinc-300">
+              <div className="flex items-center justify-start gap-1">
+                <TvIcon className="h-4 w-4 font-semibold" />
+                <DialogTitle>Create Channel</DialogTitle>
+              </div>
+              <DialogDescription className="flex justify-start text-sm text-zinc-300">
                 Create a channel and connect with your friends seamlessly.{' '}
               </DialogDescription>
             </DialogHeader>
-            <ChannelCreateForm form={form} />
+            {server && <ChannelCreateForm form={form} serverId={server.id} />}
           </DialogContent>
         </Dialog>
       )}

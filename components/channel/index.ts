@@ -4,4 +4,3 @@ export { ChannelCreateForm } from './ChannelCreateForm'
 export { ChannelCreateModal } from './ChannelCreateModal'
 export { ChannelHeader } from './ChannelHeader'
 export { ChannelList } from './ChannelList'
-

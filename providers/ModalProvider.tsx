@@ -1,5 +1,6 @@
 'use client'
 
+import { ChannelCreateModal } from '@/components/channel'
 import { InviteMemberModal } from '@/components/invite'
 import { MemberManageModal } from '@/components/member'
 import { ServerCreateModal } from '@/components/server'
@@ -15,6 +16,8 @@ export const ModalProvider = () => {
       return <InviteMemberModal />
     case 'MANAGE_MEMBER':
       return <MemberManageModal />
+    case 'CREATE_CHANNEL':
+      return <ChannelCreateModal />
     default:
       return null
   }

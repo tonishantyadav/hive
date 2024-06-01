@@ -68,7 +68,10 @@ export const ChannelHeader = ({
             </DropdownMenuItem>
           )}
           {(isAdmin || isModerator) && (
-            <DropdownMenuItem className="flex cursor-pointer justify-between">
+            <DropdownMenuItem
+              className="flex cursor-pointer justify-between"
+              onClick={() => onOpen('CREATE_CHANNEL')}
+            >
               <span>Create Channel</span>
               <PlusCircleIcon className="h-4 w-4" />
             </DropdownMenuItem>
