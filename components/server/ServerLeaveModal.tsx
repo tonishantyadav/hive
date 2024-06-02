@@ -21,14 +21,12 @@ export const ServerLeaveModal = () => {
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
-                <p>
-                  This action cannot be undone. This will permanently remove
-                  your data from{' '}
-                  <span className="font-semibold text-zinc-300">
-                    {server.name}
-                  </span>
-                  server.
-                </p>
+                This action cannot be undone. This will permanently remove your
+                data from{' '}
+                <span className="font-semibold text-zinc-300">
+                  {server.name}
+                </span>
+                server.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
