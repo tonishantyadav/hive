@@ -1,3 +1,4 @@
+export { ServerBox } from './ServerBox'
 export { ServerCreateButton } from './ServerCreateButton'
 export { ServerCreateForm } from './ServerCreateForm'
 export { ServerCreateModal } from './ServerCreateModal'

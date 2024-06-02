@@ -48,7 +48,7 @@ export const ServerCreateForm = ({ fileUrl, isUploading, form }: Props) => {
               <FormItem>
                 <FormLabel>Server name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your sever name" {...field} />
+                  <Input placeholder="Pudding gods" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -4,7 +4,7 @@ import { DropzoneBody } from '@/components/dropzone'
 import Image from 'next/image'
 import { useState } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { BounceLoader } from 'react-spinners'
+import { BeatLoader } from 'react-spinners'
 
 interface DropzoneProps {
   fileUrl: string | null
@@ -30,7 +30,7 @@ export const Dropzone = ({ fileUrl, isUploading, onDrop }: DropzoneProps) => {
           <>
             {imageLoad && (
               <div className="flex h-full items-center justify-center">
-                <BounceLoader color="#323439" />
+                <BeatLoader color="#323439" />
               </div>
             )}{' '}
             <div className="flex h-full items-center justify-center">

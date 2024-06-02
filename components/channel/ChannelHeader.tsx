@@ -55,7 +55,7 @@ export const ChannelHeader = ({
             <ChevronDownIcon className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="hidden flex-col md:inline-flex lg:inline-flex lg:w-60">
+        <DropdownMenuContent className="hidden w-72 flex-col md:inline-flex lg:inline-flex">
           {(isAdmin || isModerator || isMember) && (
             <DropdownMenuItem
               className="group flex cursor-pointer justify-between "

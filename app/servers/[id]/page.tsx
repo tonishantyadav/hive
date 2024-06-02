@@ -1,4 +1,4 @@
-import { ChannelContainer } from '@/components/channel'
+import { ChannelBox } from '@/components/channel'
 import prisma from '@/prisma/client'
 import { auth } from '@clerk/nextjs/server'
 import { notFound, redirect } from 'next/navigation'
@@ -14,9 +14,9 @@ const ServerPage = async ({ params }: { params: { id: string } }) => {
   if (!server) notFound()
 
   return (
-    <div className="flex h-full w-full">
-      <ChannelContainer server={server} user={user} />
-      <div className="w-full">Message Box</div>
+    <div className="grid h-full w-full grid-cols-[300px,1fr] divide-x">
+      <ChannelBox server={server} userRole={user.userRole} />
+      <div className="h-full w-full">Message container</div>
     </div>
   )
 }

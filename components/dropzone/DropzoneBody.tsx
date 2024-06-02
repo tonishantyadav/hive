@@ -19,19 +19,22 @@ export const DropzoneBody = ({
       className="flex h-full flex-col items-center justify-center"
     >
       <input {...getInputProps()} />
-      <UploadCloudIcon className="h-[4rem] w-[4rem]" />
+      <UploadCloudIcon className="h-[4rem] w-[4rem] text-zinc-700" />
       <span className="text-lg font-medium">Drop your image</span>
       <span>or</span>
       {isUploading ? (
         <Button
-          className="my-2 flex items-center gap-1 rounded-full"
+          className="my-2 flex items-center gap-1 bg-indigo-500 font-medium text-white"
           disabled={isUploading}
         >
           <LoaderCircle className="h-4 w-4 animate-spin" />
           <span>Uploading</span>
         </Button>
       ) : (
-        <Button className="my-2 font-semibold" onClick={open}>
+        <Button
+          className="my-2 bg-indigo-600 font-medium text-white hover:bg-indigo-700"
+          onClick={open}
+        >
           Browse
         </Button>
       )}

@@ -1,5 +1,5 @@
 export { ChannelBody } from './ChannelBody'
-export { ChannelContainer } from './ChannelContainer'
+export { ChannelBox } from './ChannelBox'
 export { ChannelCreateForm } from './ChannelCreateForm'
 export { ChannelCreateModal } from './ChannelCreateModal'
 export { ChannelHeader } from './ChannelHeader'

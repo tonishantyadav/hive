@@ -6,24 +6,30 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
-export const ServerItem = ({ server }: { server: Server }) => {
+export const ServerItem = ({
+  serverId,
+  serverImageUrl,
+}: {
+  serverId: string
+  serverImageUrl: string
+}) => {
   const params = useParams()
   return (
     <Link
       className="group relative flex h-10 w-10 gap-4 rounded-full"
-      href={`/servers/${server.id}`}
+      href={`/servers/${serverId}`}
     >
       <div
         className={cn(
-          'relative right-2 w-1 rounded-r-full bg-white group-hover:inline-block lg:right-4',
-          params.id !== server.id ? 'hidden' : ' '
+          'relative right-4 w-1 rounded-full bg-white group-hover:inline-block',
+          params.id !== serverId ? 'hidden' : ' '
         )}
       />
       <Image
         className="rounded-full hover:rounded-xl"
         fill
-        src={server.imageUrl}
-        alt="Channel"
+        src={serverImageUrl}
+        alt="Server image"
       />
     </Link>
   )
