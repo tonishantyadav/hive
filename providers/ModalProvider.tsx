@@ -3,7 +3,11 @@
 import { ChannelCreateModal } from '@/components/channel'
 import { InviteMemberModal } from '@/components/invite'
 import { MemberManageModal } from '@/components/member'
-import { ServerCreateModal } from '@/components/server'
+import {
+  ServerCreateModal,
+  ServerDeleteModal,
+  ServerLeaveModal,
+} from '@/components/server'
 import { useModalStore } from '@/stores/modal'
 
 export const ModalProvider = () => {
@@ -12,12 +16,16 @@ export const ModalProvider = () => {
   switch (modal) {
     case 'CREATE_SERVER':
       return <ServerCreateModal />
+    case 'DELETE_SERVER':
+      return <ServerDeleteModal />
+    case 'LEAVE_SERVER':
+      return <ServerLeaveModal />
+    case 'CREATE_CHANNEL':
+      return <ChannelCreateModal />
     case 'INVITE_MEMBER':
       return <InviteMemberModal />
     case 'MANAGE_MEMBER':
       return <MemberManageModal />
-    case 'CREATE_CHANNEL':
-      return <ChannelCreateModal />
     default:
       return null
   }

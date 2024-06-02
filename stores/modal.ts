@@ -5,9 +5,11 @@ import { create } from 'zustand'
 
 export type Modal =
   | 'CREATE_SERVER'
+  | 'DELETE_SERVER'
+  | 'LEAVE_SERVER'
+  | 'CREATE_CHANNEL'
   | 'INVITE_MEMBER'
   | 'MANAGE_MEMBER'
-  | 'CREATE_CHANNEL'
 
 interface ModalStore {
   modal: Modal | null

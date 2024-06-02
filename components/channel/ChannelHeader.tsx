@@ -93,13 +93,19 @@ export const ChannelHeader = ({
           )}
           <DropdownMenuSeparator className="bg-zinc-800" />
           {isAdmin && (
-            <DropdownMenuItem className="group flex cursor-pointer  justify-between hover:!bg-rose-600">
+            <DropdownMenuItem
+              className="group flex cursor-pointer  justify-between hover:!bg-rose-600"
+              onClick={() => onOpen('DELETE_SERVER')}
+            >
               <span>Delete Server</span>
               <Trash2Icon className="h-4 w-4 text-rose-600 group-hover:text-white" />
             </DropdownMenuItem>
           )}
           {(isModerator || isMember) && (
-            <DropdownMenuItem className="group flex cursor-pointer  justify-between hover:!bg-rose-600">
+            <DropdownMenuItem
+              className="group flex cursor-pointer  justify-between hover:!bg-rose-600"
+              onClick={() => onOpen('LEAVE_SERVER')}
+            >
               <span>Leave Server</span>
               <LogOutIcon className="h-4 w-4 text-rose-600 group-hover:text-white" />
             </DropdownMenuItem>
