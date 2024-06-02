@@ -19,8 +19,8 @@ export const ChannelCreateModal = () => {
   const form = useForm<z.infer<typeof ChannelCreateSchema>>({
     resolver: zodResolver(ChannelCreateSchema),
     defaultValues: {
-      name: '',
-      category: 'TEXT',
+      channelName: '',
+      channelCategory: 'TEXT',
     },
   })
   const { modal, open, server, onClose } = useModalStore()
@@ -37,9 +37,9 @@ export const ChannelCreateModal = () => {
         >
           <DialogContent>
             <DialogHeader>
-              <div className="flex items-center justify-start gap-1">
+              <div className="flex items-center justify-between gap-1 md:justify-start lg:justify-start">
                 <TvIcon className="h-4 w-4 font-semibold" />
-                <DialogTitle>Create Channel</DialogTitle>
+                <DialogTitle className="text-xl">Create Channel</DialogTitle>
               </div>
               <DialogDescription className="flex justify-start text-sm text-zinc-300">
                 Create a channel and connect with your friends seamlessly.{' '}

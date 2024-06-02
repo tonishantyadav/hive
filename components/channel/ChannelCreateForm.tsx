@@ -18,9 +18,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { toast } from '@/components/ui/use-toast'
 import { useChannelCreate } from '@/hooks/channel'
 import { ChannelCreateFormData } from '@/schemas/channel'
-import { ServerCreatedFormData } from '@/schemas/server'
+import { handleError } from '@/utils/error'
 import { ChannelCategory } from '@prisma/client'
 import { UseFormReturn } from 'react-hook-form'
 import { BeatLoader } from 'react-spinners'
@@ -34,8 +35,21 @@ export const ChannelCreateForm = ({
 }) => {
   const channelCreate = useChannelCreate()
 
-  const onSubmit = async (data: ServerCreatedFormData) => {
-    console.log(data)
+  const onSubmit = async (data: ChannelCreateFormData) => {
+    try {
+      await channelCreate.mutateAsync({
+        serverId,
+        channelName: data.channelName,
+        channelCategory: data.channelCategory,
+      })
+    } catch (error) {
+      const errorMessage = handleError(error)
+      toast({
+        variant: 'destructive',
+        title: 'Uh-oh! Something went wrong.',
+        description: errorMessage,
+      })
+    }
   }
 
   return (
@@ -44,12 +58,12 @@ export const ChannelCreateForm = ({
         <div className="flex flex-col gap-2.5">
           <FormField
             control={form.control}
-            name="name"
+            name="channelName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Enter your channel name</FormLabel>
+                <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Your server name" {...field} />
+                  <Input placeholder="Enter channel name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -57,10 +71,10 @@ export const ChannelCreateForm = ({
           />
           <FormField
             control={form.control}
-            name="category"
+            name="channelCategory"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Channel category</FormLabel>
+                <FormLabel>Category</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
@@ -71,11 +85,7 @@ export const ChannelCreateForm = ({
                     </SelectTrigger>
                     <SelectContent>
                       {Object.values(ChannelCategory).map((category) => (
-                        <SelectItem
-                          key={category}
-                          value={category}
-                          className="capitalize"
-                        >
+                        <SelectItem key={category} value={category}>
                           {category.toLowerCase()}
                         </SelectItem>
                       ))}
