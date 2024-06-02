@@ -63,7 +63,7 @@ export const ChannelCreateForm = ({
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter channel name" {...field} />
+                  <Input placeholder="Downtown pudding gods" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

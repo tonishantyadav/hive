@@ -90,7 +90,7 @@ export const InviteMemberModal = () => {
               >
                 {inviteLink.isPending ? (
                   <>
-                    <BeatLoader color="white" size={10} />
+                    <BeatLoader color="black" size={10} />
                   </>
                 ) : (
                   <>
