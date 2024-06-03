@@ -30,6 +30,7 @@ export const ServerItem = ({
         fill
         src={serverImageUrl}
         alt="Server image"
+        sizes="33vw"
       />
     </Link>
   )
