@@ -1,5 +1,6 @@
 import { ChannelList, ChannelSearchBar } from '@/components/channel'
 import prisma from '@/prisma/client'
+import { auth } from '@clerk/nextjs/server'
 import { Channel, User } from '@prisma/client'
 
 export interface TextChannel extends Omit<Channel, 'channelCategory'> {
@@ -42,6 +43,7 @@ export const ChannelBody = async ({ serverId }: { serverId: string }) => {
   )
 
   const members = users.filter((user): user is User => user !== null)
+  const { userId: clerkUserId } = auth()
 
   return (
     <div className="flex h-0 flex-grow flex-col gap-2 p-1">
@@ -52,7 +54,7 @@ export const ChannelBody = async ({ serverId }: { serverId: string }) => {
         videoChannels={videoChannels}
       />
       <ChannelList
-        members={members}
+        members={members.filter((member) => member.clerkUserId !== clerkUserId)}
         textChannels={textChannels}
         voiceChannels={voiceChannels}
         videoChannels={videoChannels}
