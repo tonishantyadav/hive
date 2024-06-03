@@ -25,6 +25,7 @@ import { handleError } from '@/utils/error'
 import { ChannelCategory } from '@prisma/client'
 import { UseFormReturn } from 'react-hook-form'
 import { BeatLoader } from 'react-spinners'
+import _ from 'lodash'
 
 export const ChannelCreateForm = ({
   serverId,
@@ -86,7 +87,7 @@ export const ChannelCreateForm = ({
                     <SelectContent>
                       {Object.values(ChannelCategory).map((category) => (
                         <SelectItem key={category} value={category}>
-                          {category.toLowerCase()}
+                          {_.capitalize(category)}
                         </SelectItem>
                       ))}
                     </SelectContent>

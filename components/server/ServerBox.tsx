@@ -1,12 +1,8 @@
 import { ServerCreateButton, ServerList } from '@/components/server'
 import prisma from '@/prisma/client'
+import { UserButton } from '@clerk/nextjs'
 import { auth } from '@clerk/nextjs/server'
-import dynamic from 'next/dynamic'
 import { redirect } from 'next/navigation'
-
-const UserButton = dynamic(() =>
-  import('@clerk/nextjs').then((mod) => mod.UserButton)
-)
 
 export const ServerBox = async () => {
   const { userId: clerkUserId } = auth()

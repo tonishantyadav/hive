@@ -12,7 +12,7 @@ export const ChannelBox = ({
     <>
       <div className="hidden flex-col gap-2 md:inline-flex lg:inline-flex">
         <ChannelHeader server={server} userRole={userRole} />
-        <ChannelBody />
+        <ChannelBody serverId={server.id} />
       </div>
     </>
   )

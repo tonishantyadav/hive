@@ -1,8 +1,12 @@
 'use client'
 
+import {
+  TextChannel,
+  VideoChannel,
+  VoiceChannel,
+} from '@/components/channel/ChannelBody'
 import { Button } from '@/components/ui/button'
 import {
-  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
@@ -11,16 +15,32 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command'
-import { CommandIcon, Search } from 'lucide-react'
+import {
+  CommandIcon,
+  Mic2Icon,
+  Search,
+  TextIcon,
+  VideoIcon,
+} from 'lucide-react'
 import { useState } from 'react'
 
-export const ChannelSearchBar = () => {
+interface ChannelSearchBarProps {
+  textChannels: TextChannel[]
+  voiceChannels: VoiceChannel[]
+  videoChannels: VideoChannel[]
+}
+
+export const ChannelSearchBar = ({
+  textChannels,
+  voiceChannels,
+  videoChannels,
+}: ChannelSearchBarProps) => {
   const [open, setOpen] = useState(false)
 
   return (
     <>
       <Button
-        className="text-zinc-300/80hover:text-white flex items-center justify-between gap-1 rounded-sm border p-2"
+        className="flex items-center justify-between gap-1 rounded-sm border p-2 text-zinc-300/80 hover:text-white"
         variant="outline"
         onClick={() => setOpen(true)}
       >
@@ -34,20 +54,41 @@ export const ChannelSearchBar = () => {
         </kbd>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Type a command or search..." />
+        <CommandInput placeholder="Search channels..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Suggestions">
-            <CommandItem>Calendar</CommandItem>
-            <CommandItem>Search Emoji</CommandItem>
-            <CommandItem>Calculator</CommandItem>
-          </CommandGroup>
+          {textChannels.length > 0 && (
+            <CommandGroup heading="Text">
+              {textChannels.map((textChannel) => (
+                <CommandItem className="gap-1" key={textChannel.id}>
+                  <TextIcon className="h-4 w-4" />
+                  <span>{textChannel.name}</span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
           <CommandSeparator />
-          <CommandGroup heading="Settings">
-            <CommandItem>Profile</CommandItem>
-            <CommandItem>Billing</CommandItem>
-            <CommandItem>Settings</CommandItem>
-          </CommandGroup>
+          {voiceChannels.length > 0 && (
+            <CommandGroup heading="Voice">
+              {voiceChannels.map((voiceChannel) => (
+                <CommandItem className="gap-1" key={voiceChannel.id}>
+                  <Mic2Icon className="h-4 w-4" />
+                  <span>{voiceChannel.name}</span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
+          <CommandSeparator />
+          {videoChannels.length > 0 && (
+            <CommandGroup heading="Video">
+              {videoChannels.map((videoChannel) => (
+                <CommandItem className="gap-1" key={videoChannel.id}>
+                  <VideoIcon className="h-4 w-4" />
+                  <span>{videoChannel.name}</span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
         </CommandList>
       </CommandDialog>
     </>
