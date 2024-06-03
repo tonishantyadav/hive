@@ -1,4 +1,4 @@
-import { ChannelSearchBar } from '@/components/channel'
+import { ChannelList, ChannelSearchBar } from '@/components/channel'
 import prisma from '@/prisma/client'
 import { Channel, User } from '@prisma/client'
 
@@ -44,8 +44,14 @@ export const ChannelBody = async ({ serverId }: { serverId: string }) => {
   const members = users.filter((user): user is User => user !== null)
 
   return (
-    <div className="flex flex-1 flex-col p-1">
+    <div className="flex h-0 flex-grow flex-col gap-2 p-1">
       <ChannelSearchBar
+        members={members}
+        textChannels={textChannels}
+        voiceChannels={voiceChannels}
+        videoChannels={videoChannels}
+      />
+      <ChannelList
         members={members}
         textChannels={textChannels}
         voiceChannels={voiceChannels}

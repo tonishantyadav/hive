@@ -27,14 +27,6 @@ export const ServerBox = async () => {
         <ServerCreateButton />
         <div className="mx-auto h-[3px] w-10  rounded-full  bg-zinc-700" />
         <ServerList servers={servers} />
-        <div className="mx-auto h-[3px] w-10  rounded-full  bg-zinc-700" />
-        <UserButton
-          appearance={{
-            elements: {
-              avatarBox: 'h-[2.61rem] w-[2.61rem] shadow-sm',
-            },
-          }}
-        />
       </div>
     </div>
   )

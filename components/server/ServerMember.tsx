@@ -1,5 +1,6 @@
 'use client'
 
+import { memberRoleIconMap } from '@/components/channel/ChannelFooter'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -23,8 +24,6 @@ import {
   Loader2Icon,
   Shield,
   ShieldCheck,
-  ShieldCheckIcon,
-  ShieldPlusIcon,
   ShieldQuestion,
 } from 'lucide-react'
 
@@ -81,13 +80,9 @@ export const ServerMember = ({
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-1">
             {memberRoleIconMap[member.userRole]}
-            <span
-              className={cn(!memberRoleIconMap[member.userRole] ? 'ml-1' : '')}
-            >
-              {member.name}
-            </span>
+            <span>{member.name}</span>
           </div>
-          <span className="ml-1">{member.email}</span>
+          <span className="ml-1 text-xs text-zinc-400">{member.email}</span>
         </div>
       </div>
       <DropdownMenu>
@@ -162,10 +157,4 @@ export const ServerMember = ({
       </DropdownMenu>
     </div>
   )
-}
-
-export const memberRoleIconMap = {
-  ADMIN: <ShieldPlusIcon className="h-4 w-4 text-emerald-600" />,
-  MODERATOR: <ShieldCheckIcon className="h-4 w-4 text-indigo-500" />,
-  MEMBER: null,
 }

@@ -5,7 +5,7 @@ import {
   VideoChannel,
   VoiceChannel,
 } from '@/components/channel/ChannelBody'
-import { memberRoleIconMap } from '@/components/server/ServerMember'
+import { memberRoleIconMap } from '@/components/channel/ChannelFooter'
 import { Button } from '@/components/ui/button'
 import {
   CommandDialog,
