@@ -14,7 +14,7 @@ import {
 import { CommandIcon, Search } from 'lucide-react'
 import { useState } from 'react'
 
-export const ServerSearch = () => {
+export const ChannelSearchBar = () => {
   const [open, setOpen] = useState(false)
 
   return (
