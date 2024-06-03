@@ -44,11 +44,11 @@ export const InviteMemberCard = ({ inviteCode }: { inviteCode: string }) => {
       </CardHeader>
       <CardFooter>
         <Button
-          className="text-md flex w-full items-center gap-1 font-semibold"
+          className="text-md flex w-full items-center gap-1 font-medium"
           onClick={onClick}
         >
           {inviteCodeVerify.isPending ? (
-            <BeatLoader color="white" size={10} />
+            <BeatLoader size={10} />
           ) : (
             <span>Join</span>
           )}

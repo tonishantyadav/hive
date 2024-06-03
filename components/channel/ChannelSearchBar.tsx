@@ -15,13 +15,7 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command'
-import {
-  CommandIcon,
-  Mic2Icon,
-  Search,
-  TextIcon,
-  VideoIcon,
-} from 'lucide-react'
+import { CommandIcon, HashIcon, MicIcon, Search, VideoIcon } from 'lucide-react'
 import { useState } from 'react'
 
 interface ChannelSearchBarProps {
@@ -58,10 +52,13 @@ export const ChannelSearchBar = ({
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           {textChannels.length > 0 && (
-            <CommandGroup heading="Text">
+            <CommandGroup heading="Text channels">
               {textChannels.map((textChannel) => (
-                <CommandItem className="gap-1" key={textChannel.id}>
-                  <TextIcon className="h-4 w-4" />
+                <CommandItem
+                  className="gap-1 text-zinc-300/70"
+                  key={textChannel.id}
+                >
+                  <HashIcon className="h-4 w-4" />
                   <span>{textChannel.name}</span>
                 </CommandItem>
               ))}
@@ -69,10 +66,13 @@ export const ChannelSearchBar = ({
           )}
           <CommandSeparator />
           {voiceChannels.length > 0 && (
-            <CommandGroup heading="Voice">
+            <CommandGroup heading="Voice channels">
               {voiceChannels.map((voiceChannel) => (
-                <CommandItem className="gap-1" key={voiceChannel.id}>
-                  <Mic2Icon className="h-4 w-4" />
+                <CommandItem
+                  className="gap-1 text-zinc-300/70"
+                  key={voiceChannel.id}
+                >
+                  <MicIcon className="h-4 w-4" />
                   <span>{voiceChannel.name}</span>
                 </CommandItem>
               ))}
@@ -80,9 +80,12 @@ export const ChannelSearchBar = ({
           )}
           <CommandSeparator />
           {videoChannels.length > 0 && (
-            <CommandGroup heading="Video">
+            <CommandGroup heading="Video channels">
               {videoChannels.map((videoChannel) => (
-                <CommandItem className="gap-1" key={videoChannel.id}>
+                <CommandItem
+                  className="gap-1 text-zinc-300/70"
+                  key={videoChannel.id}
+                >
                   <VideoIcon className="h-4 w-4" />
                   <span>{videoChannel.name}</span>
                 </CommandItem>

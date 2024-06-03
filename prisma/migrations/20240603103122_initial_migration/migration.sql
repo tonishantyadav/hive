@@ -45,7 +45,6 @@ CREATE TABLE `Channel` (
     `updatedAt` DATETIME(3) NOT NULL,
     `serverId` VARCHAR(191) NOT NULL,
 
-    UNIQUE INDEX `Channel_serverId_key`(`serverId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

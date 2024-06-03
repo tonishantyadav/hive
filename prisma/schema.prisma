@@ -65,7 +65,7 @@ model Channel {
   channelCategory ChannelCategory @default(TEXT)
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
-  serverId        String          @unique
+  serverId        String
   channelMember   ChannelMember[]
   server          Server          @relation(fields: [serverId], references: [id], onDelete: Cascade)
 }

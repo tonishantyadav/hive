@@ -164,7 +164,7 @@ export const ServerMember = ({
   )
 }
 
-const memberRoleIcon = {
+export const memberRoleIcon = {
   ADMIN: <ShieldPlusIcon className="h-4 w-4 text-emerald-600" />,
   MODERATOR: <ShieldCheckIcon className="h-4 w-4 text-indigo-500" />,
   MEMBER: null,
