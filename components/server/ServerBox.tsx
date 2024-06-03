@@ -31,7 +31,7 @@ export const ServerBox = async () => {
         <UserButton
           appearance={{
             elements: {
-              avatarBox: 'h-[2.61rem] w-[2.61rem]',
+              avatarBox: 'h-[2.61rem] w-[2.61rem] shadow-sm',
             },
           }}
         />

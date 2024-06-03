@@ -1,6 +1,6 @@
 import { ChannelSearchBar } from '@/components/channel'
 import prisma from '@/prisma/client'
-import { Channel } from '@prisma/client'
+import { Channel, User } from '@prisma/client'
 
 export interface TextChannel extends Omit<Channel, 'channelCategory'> {
   channelCategory: 'TEXT'
@@ -28,9 +28,25 @@ export const ChannelBody = async ({ serverId }: { serverId: string }) => {
     (channel): channel is VideoChannel => channel.channelCategory === 'VIDEO'
   )
 
+  const serverMembers = await prisma.serverMember.findMany({
+    where: { serverId },
+  })
+  const users = await Promise.all(
+    serverMembers.map((serverMember) =>
+      prisma.user.findUnique({
+        where: {
+          id: serverMember.userId,
+        },
+      })
+    )
+  )
+
+  const members = users.filter((user): user is User => user !== null)
+
   return (
     <div className="flex flex-1 flex-col p-1">
       <ChannelSearchBar
+        members={members}
         textChannels={textChannels}
         voiceChannels={voiceChannels}
         videoChannels={videoChannels}

@@ -5,6 +5,7 @@ import {
   VideoChannel,
   VoiceChannel,
 } from '@/components/channel/ChannelBody'
+import { memberRoleIconMap } from '@/components/server/ServerMember'
 import { Button } from '@/components/ui/button'
 import {
   CommandDialog,
@@ -15,20 +16,33 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command'
-import { CommandIcon, HashIcon, MicIcon, Search, VideoIcon } from 'lucide-react'
+import { User } from '@prisma/client'
+import {
+  CommandIcon,
+  HashIcon,
+  MicIcon,
+  Search,
+  UserIcon,
+  VideoIcon,
+} from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 interface ChannelSearchBarProps {
+  members: User[]
   textChannels: TextChannel[]
   voiceChannels: VoiceChannel[]
   videoChannels: VideoChannel[]
 }
 
 export const ChannelSearchBar = ({
+  members,
   textChannels,
   voiceChannels,
   videoChannels,
 }: ChannelSearchBarProps) => {
+  const router = useRouter()
+  const pathname = usePathname()
   const [open, setOpen] = useState(false)
 
   return (
@@ -48,15 +62,18 @@ export const ChannelSearchBar = ({
         </kbd>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search channels..." />
+        <CommandInput placeholder="Search channels and members" />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           {textChannels.length > 0 && (
-            <CommandGroup heading="Text channels">
+            <CommandGroup heading="Text">
               {textChannels.map((textChannel) => (
                 <CommandItem
                   className="gap-1 text-zinc-300/70"
                   key={textChannel.id}
+                  onSelect={() =>
+                    router.push(`${pathname}/channels/${textChannel.id}`)
+                  }
                 >
                   <HashIcon className="h-4 w-4" />
                   <span>{textChannel.name}</span>
@@ -66,11 +83,14 @@ export const ChannelSearchBar = ({
           )}
           <CommandSeparator />
           {voiceChannels.length > 0 && (
-            <CommandGroup heading="Voice channels">
+            <CommandGroup heading="Voice">
               {voiceChannels.map((voiceChannel) => (
                 <CommandItem
                   className="gap-1 text-zinc-300/70"
                   key={voiceChannel.id}
+                  onSelect={() =>
+                    router.push(`${pathname}/channels/${voiceChannel.id}`)
+                  }
                 >
                   <MicIcon className="h-4 w-4" />
                   <span>{voiceChannel.name}</span>
@@ -80,14 +100,33 @@ export const ChannelSearchBar = ({
           )}
           <CommandSeparator />
           {videoChannels.length > 0 && (
-            <CommandGroup heading="Video channels">
+            <CommandGroup heading="Video">
               {videoChannels.map((videoChannel) => (
                 <CommandItem
                   className="gap-1 text-zinc-300/70"
                   key={videoChannel.id}
+                  onSelect={() =>
+                    router.push(`${pathname}/channels/${videoChannel.id}`)
+                  }
                 >
                   <VideoIcon className="h-4 w-4" />
                   <span>{videoChannel.name}</span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
+          <CommandSeparator />
+          {members.length > 0 && (
+            <CommandGroup heading="Members">
+              {members.map((member) => (
+                <CommandItem className="gap-1 text-zinc-300/70" key={member.id}>
+                  {member.userRole === 'ADMIN' ||
+                  member.userRole === 'MODERATOR' ? (
+                    memberRoleIconMap[member.userRole]
+                  ) : (
+                    <UserIcon className="h-4 w-4" />
+                  )}
+                  <span>{member.name}</span>
                 </CommandItem>
               ))}
             </CommandGroup>

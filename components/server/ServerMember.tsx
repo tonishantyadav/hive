@@ -80,9 +80,9 @@ export const ServerMember = ({
         </Avatar>
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-1">
-            {memberRoleIcon[member.userRole]}
+            {memberRoleIconMap[member.userRole]}
             <span
-              className={cn(!memberRoleIcon[member.userRole] ? 'ml-1' : '')}
+              className={cn(!memberRoleIconMap[member.userRole] ? 'ml-1' : '')}
             >
               {member.name}
             </span>
@@ -164,7 +164,7 @@ export const ServerMember = ({
   )
 }
 
-export const memberRoleIcon = {
+export const memberRoleIconMap = {
   ADMIN: <ShieldPlusIcon className="h-4 w-4 text-emerald-600" />,
   MODERATOR: <ShieldCheckIcon className="h-4 w-4 text-indigo-500" />,
   MEMBER: null,
