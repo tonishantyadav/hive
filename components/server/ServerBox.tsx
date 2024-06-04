@@ -1,6 +1,5 @@
 import { ServerCreateButton, ServerList } from '@/components/server'
 import prisma from '@/prisma/client'
-import { UserButton } from '@clerk/nextjs'
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 
@@ -22,7 +21,7 @@ export const ServerBox = async () => {
   })
 
   return (
-    <div className="hidden w-[100px] flex-col items-center gap-4 py-2 md:flex lg:flex">
+    <div className="flex w-[80px] flex-col items-center gap-4 py-2 md:w-[100px] lg:w-[100px]">
       <ServerCreateButton />
       <div className="mx-auto h-[3px] w-10 rounded-full bg-zinc-700" />
       <ServerList servers={servers} />

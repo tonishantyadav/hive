@@ -1,3 +1,4 @@
+import { SheetBox } from '@/components/SheetBox'
 import { ChannelBox } from '@/components/channel'
 import prisma from '@/prisma/client'
 import { auth } from '@clerk/nextjs/server'
@@ -14,9 +15,16 @@ const ServerPage = async ({ params }: { params: { id: string } }) => {
   if (!server) notFound()
 
   return (
-    <div className="lg:grid-cols-[300px,1fr grid h-screen divide-x md:grid-cols-[300px,1fr]">
-      <ChannelBox server={server} userRole={user.userRole} />
-      <div>Message Box</div>
+    <div className="grid h-screen divide-x md:grid-cols-[300px,1fr] lg:grid-cols-[300px,1fr]">
+      <div className="hidden flex-col gap-2 md:flex lg:flex">
+        <ChannelBox server={server} userRole={user.userRole} />
+      </div>
+      <div className="flex flex-col gap-2 p-1">
+        <div className="flex md:hidden lg:hidden">
+          <SheetBox server={server} userRole={user.userRole} />
+        </div>
+        <div>Message Box</div>
+      </div>
     </div>
   )
 }
