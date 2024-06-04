@@ -22,12 +22,10 @@ export const ServerBox = async () => {
   })
 
   return (
-    <div className="hidden h-full w-full md:inline-flex lg:inline-flex">
-      <div className="flex h-full w-full flex-col items-center gap-4 py-2">
-        <ServerCreateButton />
-        <div className="mx-auto h-[3px] w-10  rounded-full  bg-zinc-700" />
-        <ServerList servers={servers} />
-      </div>
+    <div className="hidden w-[100px] flex-col items-center gap-4 py-2 md:flex lg:flex">
+      <ServerCreateButton />
+      <div className="mx-auto h-[3px] w-10 rounded-full bg-zinc-700" />
+      <ServerList servers={servers} />
     </div>
   )
 }

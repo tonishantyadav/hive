@@ -14,9 +14,9 @@ const ServerPage = async ({ params }: { params: { id: string } }) => {
   if (!server) notFound()
 
   return (
-    <div className="grid h-full w-full grid-cols-[300px,1fr] divide-x">
+    <div className="lg:grid-cols-[300px,1fr grid h-screen divide-x md:grid-cols-[300px,1fr]">
       <ChannelBox server={server} userRole={user.userRole} />
-      <div className="h-full w-full">Message container</div>
+      <div>Message Box</div>
     </div>
   )
 }
