@@ -8,6 +8,7 @@ export type Modal =
   | 'DELETE_SERVER'
   | 'LEAVE_SERVER'
   | 'CREATE_CHANNEL'
+  | 'DELETE_CHANNEL'
   | 'INVITE_MEMBER'
   | 'MANAGE_MEMBER'
   | 'SHEET'

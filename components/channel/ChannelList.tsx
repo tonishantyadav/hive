@@ -1,10 +1,15 @@
+'use client'
+
 import {
   TextChannel,
   VideoChannel,
   VoiceChannel,
 } from '@/components/channel/ChannelBody'
+import { memberRoleIconMap } from '@/components/channel/ChannelFooter'
+import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
+import { useModalStore } from '@/stores/modal'
 import { User } from '@prisma/client'
 import {
   Edit,
@@ -16,8 +21,6 @@ import {
   Trash2Icon,
   VideoIcon,
 } from 'lucide-react'
-import { memberRoleIconMap } from './ChannelFooter'
-import { Button } from '../ui/button'
 
 interface ChannelListProps {
   members: User[]
@@ -26,16 +29,14 @@ interface ChannelListProps {
   videoChannels: VideoChannel[]
 }
 
-const tags = Array.from({ length: 50 }).map(
-  (_, i, a) => `v1.2.0-beta.${a.length - i}`
-)
-
 export const ChannelList = ({
   members,
   textChannels,
   voiceChannels,
   videoChannels,
 }: ChannelListProps) => {
+  const { setChannel, onOpen } = useModalStore()
+
   return (
     <ScrollArea>
       <div className="flex flex-col gap-5 p-4">
@@ -48,9 +49,9 @@ export const ChannelList = ({
           </div>
           {textChannels.map((textChannel) => (
             <Button
+              className="group flex w-full items-center justify-between gap-1 py-2 text-zinc-300"
               key={textChannel.id}
               variant="ghost"
-              className="group flex w-full items-center justify-between gap-1 py-2 text-zinc-300"
             >
               <div className="flex items-center gap-1">
                 <Hash className="h-4 w-4" />
@@ -58,7 +59,13 @@ export const ChannelList = ({
               </div>
               <div className="hidden items-center gap-1 group-hover:inline-flex">
                 <Edit className="h-4 w-4" />
-                <Trash2Icon className="h-4 w-4" />
+                <Trash2Icon
+                  className="h-4 w-4"
+                  onClick={() => {
+                    setChannel(textChannel)
+                    onOpen('DELETE_CHANNEL')
+                  }}
+                />
               </div>
             </Button>
           ))}
@@ -73,9 +80,9 @@ export const ChannelList = ({
           </div>
           {voiceChannels.map((voiceChannel) => (
             <Button
+              className="group flex w-full items-center justify-between gap-1 py-2 text-zinc-300"
               key={voiceChannel.id}
               variant="ghost"
-              className="group flex w-full items-center justify-between gap-1 py-2 text-zinc-300"
             >
               <div className="flex items-center gap-1">
                 <Mic className="h-4 w-4" />
@@ -83,7 +90,13 @@ export const ChannelList = ({
               </div>
               <div className="hidden items-center gap-1 group-hover:inline-flex">
                 <Edit className="h-4 w-4" />
-                <Trash2Icon className="h-4 w-4" />
+                <Trash2Icon
+                  className="h-4 w-4"
+                  onClick={() => {
+                    setChannel(voiceChannel)
+                    onOpen('DELETE_CHANNEL')
+                  }}
+                />
               </div>
             </Button>
           ))}
@@ -96,11 +109,11 @@ export const ChannelList = ({
               <PlusIcon className="h-4 w-4" />
             </Button>
           </div>
-          {textChannels.map((videoChannel) => (
+          {videoChannels.map((videoChannel) => (
             <Button
+              className="group flex w-full items-center justify-between gap-1 py-2 text-zinc-300"
               key={videoChannel.id}
               variant="ghost"
-              className="group flex w-full items-center justify-between gap-1 py-2 text-zinc-300"
             >
               <div className="flex items-center gap-1">
                 <VideoIcon className="h-4 w-4" />
@@ -108,7 +121,13 @@ export const ChannelList = ({
               </div>
               <div className="hidden items-center gap-1 group-hover:inline-flex">
                 <Edit className="h-4 w-4" />
-                <Trash2Icon className="h-4 w-4" />
+                <Trash2Icon
+                  className="h-4 w-4"
+                  onClick={() => {
+                    setChannel(videoChannel)
+                    onOpen('DELETE_CHANNEL')
+                  }}
+                />
               </div>
             </Button>
           ))}
