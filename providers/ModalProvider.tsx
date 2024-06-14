@@ -4,6 +4,7 @@ import {
   ChannelCreateModal,
   ChannelDeleteModal,
   ChannelTextCreateModal,
+  ChannelUpdateModal,
   ChannelVideoCreateModal,
   ChannelVoiceCreateModal,
 } from '@/components/channel'
@@ -28,6 +29,8 @@ export const ModalProvider = () => {
       return <ServerLeaveModal />
     case 'CREATE_CHANNEL':
       return <ChannelCreateModal />
+    case 'UPDATE_CHANNEL':
+      return <ChannelUpdateModal />
     case 'DELETE_CHANNEL':
       return <ChannelDeleteModal />
     case 'CREATE_TEXT_CHANNEL':

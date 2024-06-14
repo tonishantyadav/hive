@@ -16,6 +16,7 @@ import {
   Hash,
   HashIcon,
   MicIcon,
+  PencilIcon,
   PlusIcon,
   Settings,
   Trash2,
@@ -67,7 +68,13 @@ export const ChannelList = ({
                     <span className="text-sm">{textChannel.name}</span>
                   </div>
                   <div className="hidden items-center gap-1 group-hover:flex">
-                    <Edit className="h-4 w-4 group-hover:text-indigo-500" />
+                    <PencilIcon
+                      className="h-4 w-4 group-hover:text-indigo-500"
+                      onClick={() => {
+                        setChannel(textChannel)
+                        onOpen('UPDATE_CHANNEL')
+                      }}
+                    />
                     <Trash2Icon
                       className="h-4 w-4 group-hover:text-rose-500"
                       onClick={() => {
@@ -114,7 +121,13 @@ export const ChannelList = ({
                     <span className="text-sm">{voiceChannel.name}</span>
                   </div>
                   <div className="hidden items-center gap-1 group-hover:inline-flex">
-                    <Edit className="h-4 w-4 group-hover:text-indigo-500" />
+                    <PencilIcon
+                      className="h-4 w-4 group-hover:text-indigo-500"
+                      onClick={() => {
+                        setChannel(voiceChannel)
+                        onOpen('UPDATE_CHANNEL')
+                      }}
+                    />
                     <Trash2Icon
                       className="h-4 w-4 group-hover:text-rose-500"
                       onClick={() => {
@@ -161,7 +174,13 @@ export const ChannelList = ({
                     <span className="text-sm">{videoChannel.name}</span>
                   </div>
                   <div className="hidden items-center gap-1 group-hover:inline-flex">
-                    <Edit className="h-4 w-4 group-hover:text-indigo-500" />
+                    <PencilIcon
+                      className="h-4 w-4 group-hover:text-indigo-500"
+                      onClick={() => {
+                        setChannel(videoChannel)
+                        onOpen('UPDATE_CHANNEL')
+                      }}
+                    />
                     <Trash2Icon
                       className="h-4 w-4 group-hover:text-rose-500"
                       onClick={() => {
@@ -206,10 +225,6 @@ export const ChannelList = ({
                   <div className="flex items-center gap-1">
                     {memberRoleIconMap[member.userRole]}
                     <span className="text-sm">{member.name}</span>
-                  </div>
-                  <div className="hidden gap-1 group-hover:inline-flex">
-                    <Edit className="h-4 w-4 group-hover:text-indigo-500" />
-                    <Trash2 className="h-4 w-4 group-hover:text-rose-500" />
                   </div>
                 </Button>
               ))}
