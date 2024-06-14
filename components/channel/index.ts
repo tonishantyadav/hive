@@ -9,4 +9,5 @@ export { ChannelList } from './ChannelList'
 export { ChannelSearchBar } from './ChannelSearchBar'
 export { ChannelTextCreateForm } from './ChannelTextCreateForm'
 export { ChannelTextCreateModal } from './ChannelTextCreateModal'
-
+export { ChannelVoiceCreateForm } from './ChannelVoiceCreateForm'
+export { ChannelVoiceCreateModal } from './ChannelVoiceCreateModal'
