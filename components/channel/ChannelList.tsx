@@ -45,7 +45,12 @@ export const ChannelList = ({
         <div>
           <div className="flex items-center justify-between">
             <h4 className="text-sm font-medium leading-none">TEXT CHANNELS</h4>
-            <Button variant="ghost" size="icon" className="rounded-full">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full"
+              onClick={() => onOpen('CREATE_TEXT_CHANNEL')}
+            >
               <PlusIcon className="h-4 w-4" />
             </Button>
           </div>

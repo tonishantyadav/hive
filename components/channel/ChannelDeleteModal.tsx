@@ -54,7 +54,7 @@ export const ChannelDeleteModal = () => {
                 <span className="font-medium text-zinc-300">
                   {channel.name}
                 </span>{' '}
-                from{' '}
+                channel from{' '}
                 <span className="font-medium text-zinc-300">{server.name}</span>{' '}
                 server.
               </AlertDialogDescription>

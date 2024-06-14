@@ -1,6 +1,10 @@
 'use client'
 
-import { ChannelCreateModal, ChannelDeleteModal } from '@/components/channel'
+import {
+  ChannelCreateModal,
+  ChannelDeleteModal,
+  ChannelTextCreateModal,
+} from '@/components/channel'
 import { InviteMemberModal } from '@/components/invite'
 import { MemberManageModal } from '@/components/member'
 import {
@@ -24,6 +28,8 @@ export const ModalProvider = () => {
       return <ChannelCreateModal />
     case 'DELETE_CHANNEL':
       return <ChannelDeleteModal />
+    case 'CREATE_TEXT_CHANNEL':
+      return <ChannelTextCreateModal />
     case 'INVITE_MEMBER':
       return <InviteMemberModal />
     case 'MANAGE_MEMBER':

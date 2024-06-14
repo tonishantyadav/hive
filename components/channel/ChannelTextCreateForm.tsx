@@ -1,5 +1,6 @@
 'use client'
 
+import { TextChannelCreateSchema } from '@/components/channel/ChannelTextCreateModal'
 import { Button } from '@/components/ui/button'
 import { DialogFooter } from '@/components/ui/dialog'
 import {
@@ -11,38 +12,38 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Label } from '@/components/ui/label'
 import { toast } from '@/components/ui/use-toast'
 import { useChannelCreate } from '@/hooks/channel'
-import { ChannelCreateFormData } from '@/schemas/channel'
+import { useModalStore } from '@/stores/modal'
 import { handleError } from '@/utils/error'
 import { ChannelCategory } from '@prisma/client'
+import _ from 'lodash'
+import { useRouter } from 'next/navigation'
 import { UseFormReturn } from 'react-hook-form'
 import { BeatLoader } from 'react-spinners'
-import _ from 'lodash'
+import { z } from 'zod'
 
-export const ChannelCreateForm = ({
+export const ChannelTextCreateForm = ({
   serverId,
   form,
 }: {
   serverId: string
-  form: UseFormReturn<ChannelCreateFormData>
+  form: UseFormReturn<z.infer<typeof TextChannelCreateSchema>>
 }) => {
+  const router = useRouter()
   const channelCreate = useChannelCreate()
+  const { onClose } = useModalStore()
 
-  const onSubmit = async (data: ChannelCreateFormData) => {
+  const onSubmit = async (data: z.infer<typeof TextChannelCreateSchema>) => {
     try {
       await channelCreate.mutateAsync({
         serverId,
         channelName: data.channelName,
-        channelCategory: data.channelCategory,
+        channelCategory: ChannelCategory.TEXT,
       })
+      router.refresh()
+      onClose('CREATE_TEXT_CHANNEL')
     } catch (error) {
       const errorMessage = handleError(error)
       toast({
@@ -50,6 +51,7 @@ export const ChannelCreateForm = ({
         title: 'Uh-oh! Something went wrong.',
         description: errorMessage,
       })
+      onClose('CREATE_TEXT_CHANNEL')
     }
   }
 
@@ -70,36 +72,13 @@ export const ChannelCreateForm = ({
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="channelCategory"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Category</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select channel category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.values(ChannelCategory).map((category) => (
-                        <SelectItem key={category} value={category}>
-                          {_.capitalize(category)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="mt-2 flex flex-col space-y-3">
+            <Label className="text-zinc-200/80">Category</Label>
+            <Input value={_.capitalize(ChannelCategory.TEXT)} disabled={true} />
+          </div>
           <DialogFooter className="mt-2">
             <Button
-              className="flex w-full items-center font-semibold"
+              className="text-md flex w-full items-center font-semibold"
               type="submit"
               disabled={channelCreate.isPending}
             >
