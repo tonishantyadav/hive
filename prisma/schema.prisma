@@ -26,16 +26,15 @@ enum ChannelCategory {
 }
 
 model User {
-  id            String          @id @default(cuid())
-  clerkUserId   String          @unique
-  name          String
-  email         String
-  imageUrl      String
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  userRole      UserRole        @default(MEMBER)
-  member        ServerMember[]
-  channelMember ChannelMember[]
+  id          String         @id @default(cuid())
+  clerkUserId String         @unique
+  name        String
+  email       String
+  imageUrl    String
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  userRole    UserRole       @default(MEMBER)
+  member      ServerMember[]
 }
 
 model Server {
@@ -66,16 +65,5 @@ model Channel {
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
   serverId        String
-  channelMember   ChannelMember[]
   server          Server          @relation(fields: [serverId], references: [id], onDelete: Cascade)
-}
-
-model ChannelMember {
-  id        String  @id @default(cuid())
-  userId    String
-  channelId String
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  channel   Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, channelId])
 }

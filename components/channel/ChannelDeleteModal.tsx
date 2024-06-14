@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
-import { useServerDelete } from '@/hooks/server'
+import { useChannelDelete } from '@/hooks/channel'
 import { useModalStore } from '@/stores/modal'
 import { handleError } from '@/utils/error'
 import { useRouter } from 'next/navigation'
@@ -18,16 +18,18 @@ import { BeatLoader } from 'react-spinners'
 
 export const ChannelDeleteModal = () => {
   const router = useRouter()
-  const serverDelete = useServerDelete()
+  const channelDelete = useChannelDelete()
   const { modal, open, server, channel, onClose } = useModalStore()
 
   const onDelete = async () => {
-    console.log(channel)
     try {
-      if (channel) {
-        await serverDelete.mutateAsync(channel.id)
+      if (server && channel) {
+        await channelDelete.mutateAsync({
+          serverId: server.id,
+          channelId: channel.id,
+        })
         onClose('DELETE_CHANNEL')
-        router.push('/')
+        router.refresh()
       }
     } catch (error) {
       const errorMessage = handleError(error)
@@ -69,7 +71,7 @@ export const ChannelDeleteModal = () => {
                 className="bg-rose-600 text-white hover:bg-rose-700"
                 onClick={onDelete}
               >
-                {serverDelete.isPending ? (
+                {channelDelete.isPending ? (
                   <BeatLoader size={10} color="white" />
                 ) : (
                   'Continue'

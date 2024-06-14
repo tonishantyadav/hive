@@ -26,11 +26,6 @@ export async function GET(request: NextRequest) {
     const channels = await prisma.channel.findMany({
       where: {
         serverId: server.id,
-        channelMember: {
-          some: {
-            userId: user.id,
-          },
-        },
       },
     })
     return NextResponse.json({ data: channels }, { status: 200 })
