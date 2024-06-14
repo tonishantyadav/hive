@@ -46,7 +46,7 @@ export const ChannelVideoCreateModal = () => {
               <div className="flex items-center justify-between gap-1 md:justify-start lg:justify-start">
                 <MicIcon className="h-4 w-4 font-semibold" />
                 <DialogTitle className="text-xl">
-                  Create video Channel
+                  Create Video Channel
                 </DialogTitle>
               </div>
               <DialogDescription className="flex justify-start text-sm text-zinc-300">

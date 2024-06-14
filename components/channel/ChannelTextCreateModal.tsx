@@ -46,7 +46,7 @@ export const ChannelTextCreateModal = () => {
               <div className="flex items-center justify-between gap-1 md:justify-start lg:justify-start">
                 <HashIcon className="h-4 w-4 font-semibold" />
                 <DialogTitle className="text-xl">
-                  Create text Channel
+                  Create Text Channel
                 </DialogTitle>
               </div>
               <DialogDescription className="flex justify-start text-sm text-zinc-300">

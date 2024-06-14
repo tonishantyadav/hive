@@ -1,9 +1,6 @@
 'use client'
 
-import {
-  ChannelTextCreateForm,
-  ChannelVoiceCreateForm,
-} from '@/components/channel'
+import { ChannelVoiceCreateForm } from '@/components/channel'
 import {
   Dialog,
   DialogContent,
@@ -49,7 +46,7 @@ export const ChannelVoiceCreateModal = () => {
               <div className="flex items-center justify-between gap-1 md:justify-start lg:justify-start">
                 <MicIcon className="h-4 w-4 font-semibold" />
                 <DialogTitle className="text-xl">
-                  Create voice Channel
+                  Create Voice Channel
                 </DialogTitle>
               </div>
               <DialogDescription className="flex justify-start text-sm text-zinc-300">
