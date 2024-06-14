@@ -66,10 +66,10 @@ export const ChannelList = ({
                     <Hash className="h-4 w-4" />
                     <span className="text-sm">{textChannel.name}</span>
                   </div>
-                  <div className="hidden items-center gap-1 group-hover:inline-flex">
-                    <Edit className="h-4 w-4" />
+                  <div className="hidden items-center gap-1 group-hover:flex">
+                    <Edit className="h-4 w-4 group-hover:text-indigo-500" />
                     <Trash2Icon
-                      className="h-4 w-4"
+                      className="h-4 w-4 group-hover:text-rose-500"
                       onClick={() => {
                         setChannel(textChannel)
                         onOpen('DELETE_CHANNEL')
@@ -114,9 +114,9 @@ export const ChannelList = ({
                     <span className="text-sm">{voiceChannel.name}</span>
                   </div>
                   <div className="hidden items-center gap-1 group-hover:inline-flex">
-                    <Edit className="h-4 w-4" />
+                    <Edit className="h-4 w-4 group-hover:text-indigo-500" />
                     <Trash2Icon
-                      className="h-4 w-4"
+                      className="h-4 w-4 group-hover:text-rose-500"
                       onClick={() => {
                         setChannel(voiceChannel)
                         onOpen('DELETE_CHANNEL')
@@ -139,7 +139,12 @@ export const ChannelList = ({
         <div>
           <div className="flex items-center justify-between">
             <h4 className="text-sm font-medium leading-none">VIDEO CHANNELS</h4>
-            <Button variant="ghost" size="icon" className="rounded-full">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full"
+              onClick={() => onOpen('CREATE_VIDEO_CHANNEL')}
+            >
               <PlusIcon className="h-4 w-4" />
             </Button>
           </div>
@@ -156,9 +161,9 @@ export const ChannelList = ({
                     <span className="text-sm">{videoChannel.name}</span>
                   </div>
                   <div className="hidden items-center gap-1 group-hover:inline-flex">
-                    <Edit className="h-4 w-4" />
+                    <Edit className="h-4 w-4 group-hover:text-indigo-500" />
                     <Trash2Icon
-                      className="h-4 w-4"
+                      className="h-4 w-4 group-hover:text-rose-500"
                       onClick={() => {
                         setChannel(videoChannel)
                         onOpen('DELETE_CHANNEL')
@@ -198,8 +203,8 @@ export const ChannelList = ({
                     <span className="text-sm">{member.name}</span>
                   </div>
                   <div className="hidden gap-1 group-hover:inline-flex">
-                    <Edit className="h-4 w-4" />
-                    <Trash2 className="h-4 w-4" />
+                    <Edit className="h-4 w-4 group-hover:text-indigo-500" />
+                    <Trash2 className="h-4 w-4 group-hover:text-rose-500" />
                   </div>
                 </Button>
               ))}

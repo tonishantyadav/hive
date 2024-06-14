@@ -4,6 +4,7 @@ import {
   ChannelCreateModal,
   ChannelDeleteModal,
   ChannelTextCreateModal,
+  ChannelVideoCreateModal,
   ChannelVoiceCreateModal,
 } from '@/components/channel'
 import { InviteMemberModal } from '@/components/invite'
@@ -33,6 +34,8 @@ export const ModalProvider = () => {
       return <ChannelTextCreateModal />
     case 'CREATE_VOICE_CHANNEL':
       return <ChannelVoiceCreateModal />
+    case 'CREATE_VIDEO_CHANNEL':
+      return <ChannelVideoCreateModal />
     case 'INVITE_MEMBER':
       return <InviteMemberModal />
     case 'MANAGE_MEMBER':
