@@ -38,6 +38,7 @@ export const ChannelDeleteModal = () => {
         title: 'Something went wrong.',
         description: errorMessage,
       })
+      onClose('DELETE_CHANNEL')
     }
   }
 
