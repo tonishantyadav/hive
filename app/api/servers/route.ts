@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
           inviteCode: uuidv4(),
         },
       })
-      await prisma.serverMember.create({
+      await prisma.member.create({
         data: {
           userId: user.id,
           serverId: server.id,

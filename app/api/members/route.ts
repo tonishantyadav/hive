@@ -17,22 +17,22 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Server not found.' }, { status: 404 })
 
   try {
-    const serverMembers = await prisma.serverMember.findMany({
+    const members = await prisma.member.findMany({
       where: { serverId },
     })
     const users = await Promise.all(
-      serverMembers.map((serverMember) =>
+      members.map((member) =>
         prisma.user.findUnique({
           where: {
-            id: serverMember.userId,
+            id: member.userId,
           },
         })
       )
     )
 
-    const members = users.filter((user): user is User => user !== null)
+    const filteredMembers = users.filter((user): user is User => user !== null)
 
-    return NextResponse.json(members)
+    return NextResponse.json(filteredMembers)
   } catch (error) {
     return NextResponse.json(
       { error: 'An unexpected error occurred.' },

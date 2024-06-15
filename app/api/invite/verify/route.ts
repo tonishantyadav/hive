@@ -49,14 +49,14 @@ export async function POST(request: NextRequest) {
     )
 
   try {
-    const serverMember = await prisma.serverMember.findFirst({
+    const member = await prisma.member.findFirst({
       where: {
         userId: user.id,
         serverId: server.id,
       },
     })
-    if (!serverMember) {
-      await prisma.serverMember.create({
+    if (!member) {
+      await prisma.member.create({
         data: {
           serverId: server.id,
           userId: user.id,

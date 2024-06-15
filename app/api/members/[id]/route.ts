@@ -55,19 +55,19 @@ export async function DELETE(
 
   const { serverId } = validation.data
 
-  const serverMember = await prisma.serverMember.findFirst({
+  const member = await prisma.member.findFirst({
     where: {
       userId: params.id,
       serverId,
     },
   })
-  if (!serverMember)
+  if (!member)
     return NextResponse.json({ error: 'Member not found.' }, { status: 404 })
 
   try {
-    await prisma.serverMember.delete({
+    await prisma.member.delete({
       where: {
-        id: serverMember.id,
+        id: member.id,
       },
     })
     return NextResponse.json({}, { status: 200 })

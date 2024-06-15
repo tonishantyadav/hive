@@ -29,32 +29,34 @@ export const ChannelBody = async ({ serverId }: { serverId: string }) => {
     (channel): channel is VideoChannel => channel.channelCategory === 'VIDEO'
   )
 
-  const serverMembers = await prisma.serverMember.findMany({
+  const members = await prisma.member.findMany({
     where: { serverId },
   })
   const users = await Promise.all(
-    serverMembers.map((serverMember) =>
+    members.map((member) =>
       prisma.user.findUnique({
         where: {
-          id: serverMember.userId,
+          id: member.userId,
         },
       })
     )
   )
 
-  const members = users.filter((user): user is User => user !== null)
+  const filteredMembers = users.filter((user): user is User => user !== null)
   const { userId: clerkUserId } = auth()
 
   return (
     <div className="flex h-0 flex-grow flex-col gap-2 p-1">
       <ChannelSearchBar
-        members={members}
+        members={filteredMembers}
         textChannels={textChannels}
         voiceChannels={voiceChannels}
         videoChannels={videoChannels}
       />
       <ChannelList
-        members={members.filter((member) => member.clerkUserId !== clerkUserId)}
+        members={filteredMembers.filter(
+          (member) => member.clerkUserId !== clerkUserId
+        )}
         textChannels={textChannels}
         voiceChannels={voiceChannels}
         videoChannels={videoChannels}
