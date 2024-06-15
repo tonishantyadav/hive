@@ -33,7 +33,7 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <ModalProvider />
-              <main>
+              <main className="h-screen">
                 {children}
                 <Toaster />
               </main>
