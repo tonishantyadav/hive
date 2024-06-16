@@ -1,5 +1,6 @@
 import prisma from '@/prisma/client'
 import { WebhookEvent } from '@clerk/nextjs/server'
+import { error } from 'console'
 import { headers } from 'next/headers'
 import { Webhook } from 'svix'
 
@@ -58,7 +59,7 @@ export async function POST(req: Request) {
       const name = evt.data.first_name + ' ' + evt.data.last_name
       const email = evt.data.email_addresses[0].email_address
       const imageUrl = evt.data.image_url
-      await prisma.user.create({
+      const user = await prisma.user.create({
         data: {
           clerkUserId,
           name,
@@ -66,18 +67,35 @@ export async function POST(req: Request) {
           imageUrl,
         },
       })
+      const myServer = await prisma.myServer.create({
+        data: {
+          name: 'My Server',
+          userId: user.id,
+        },
+      })
+      await prisma.myChannel.create({
+        data: {
+          name: 'general',
+          myServerId: myServer.id,
+        },
+      })
     } else if (eventType === 'user.deleted') {
       const clerkUserId = evt.data.id
       const user = await prisma.user.findUnique({
         where: { clerkUserId },
       })
-      if (user) await prisma.user.delete({ where: { id: user.id } })
+      if (!user) {
+        console.log('User not found: ', error)
+        return new Response('', { status: 404 })
+      }
+      await prisma.user.delete({
+        where: {
+          id: user.id,
+        },
+      })
     }
   } catch (error) {
-    console.log(
-      'Error occurred while performing db operation with clerk data: ',
-      error
-    )
+    console.log('Error occurred while syncing clerk and db: ', error)
   }
 
   return new Response('', { status: 200 })

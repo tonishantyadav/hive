@@ -11,6 +11,8 @@
   "dependencies": {
     "@clerk/nextjs": "^5.0.5",
     "@clerk/themes": "^2.1.7",
+    "@dicebear/collection": "^9.0.0",
+    "@dicebear/core": "^9.0.0",
     "@hookform/resolvers": "^3.4.2",
     "@prisma/client": "^5.14.0",
     "@radix-ui/react-alert-dialog": "^1.0.5",
@@ -47,6 +49,7 @@
     "svix": "^1.24.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "unique-names-generator": "^4.7.1",
     "uploadthing": "^6.10.4",
     "uuid": "^9.0.1",
     "vaul": "^0.9.1",

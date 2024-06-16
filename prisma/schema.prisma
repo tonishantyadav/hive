@@ -26,14 +26,16 @@ enum ChannelCategory {
 }
 
 model User {
-  id          String   @id @default(cuid())
-  clerkUserId String   @unique
+  id          String    @id @default(cuid())
+  clerkUserId String    @unique
   name        String
   email       String
   imageUrl    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  userRole    UserRole @default(MEMBER)
+  redirectUrl String    @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userRole    UserRole  @default(MEMBER)
+  myServer    MyServer?
   member      Member[]
 }
 
@@ -42,18 +44,20 @@ model MyServer {
   name      String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+  userId    String     @unique
+  user      User       @relation(fields: [userId], references: [id])
   myChannel MyChannel?
 }
 
 model Server {
-  id           String    @id @default(uuid())
-  name         String
-  imageUrl     String
-  inviteCode   String    @unique
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  serverMember Member[]
-  channel      Channel[]
+  id         String    @id @default(uuid())
+  name       String
+  imageUrl   String
+  inviteCode String    @unique
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  member     Member[]
+  channel    Channel[]
 }
 
 model MyChannel {
