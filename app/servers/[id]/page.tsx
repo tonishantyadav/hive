@@ -4,7 +4,7 @@ import prisma from '@/prisma/client'
 import { auth } from '@clerk/nextjs/server'
 import { notFound, redirect } from 'next/navigation'
 
-const ServerPage = async ({ params }: { params: { id: string } }) => {
+const ServerDetailPage = async ({ params }: { params: { id: string } }) => {
   const { userId: clerkUserId } = auth()
   if (!clerkUserId) return redirect('/')
 
@@ -29,4 +29,4 @@ const ServerPage = async ({ params }: { params: { id: string } }) => {
   )
 }
 
-export default ServerPage
+export default ServerDetailPage

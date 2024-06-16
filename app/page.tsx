@@ -1,9 +1,9 @@
 import Container from '@/components/Container'
 import { Button } from '@/components/ui/button'
-import highVoltage from '@/public/high-voltage.svg'
+import highVoltageIcon from '@/public/high-voltage-icon.svg'
+import { SignInButton } from '@clerk/nextjs'
 import { ArrowRightIcon } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
 
 const HomePage = () => {
   return (
@@ -26,7 +26,7 @@ const HeaderSection = () => {
         Hive is now public{' '}
         <span className="px-1">
           <Image
-            src={highVoltage}
+            src={highVoltageIcon}
             alt="High voltage icon"
             className="h-[10px] w-[10px] md:h-[18px] md:w-[18px] lg:h-[18px] lg:w-[18px]"
           />
@@ -40,7 +40,7 @@ const HeaderSection = () => {
         instantly in a clean, user-friendly environment.
       </p>
       <div>
-        <Link href="/dashboard">
+        <SignInButton>
           <Button
             className="flex space-x-1 rounded-full shadow-lg transition hover:scale-110"
             size="lg"
@@ -50,7 +50,7 @@ const HeaderSection = () => {
             </span>
             <ArrowRightIcon className="h-4 w-4 md:h-5 md:w-5 lg:h-5 lg:w-5" />
           </Button>
-        </Link>
+        </SignInButton>
       </div>
     </>
   )

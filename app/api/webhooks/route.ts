@@ -1,4 +1,5 @@
 import prisma from '@/prisma/client'
+import { randName } from '@/utils/random'
 import { WebhookEvent } from '@clerk/nextjs/server'
 import { error } from 'console'
 import { headers } from 'next/headers'
@@ -69,7 +70,7 @@ export async function POST(req: Request) {
       })
       const myServer = await prisma.myServer.create({
         data: {
-          name: 'My Server',
+          name: randName(),
           userId: user.id,
         },
       })

@@ -1,3 +1,4 @@
+import { toast } from '@/components/ui/use-toast'
 import { useUploadThing } from '@/lib/uploadthing'
 import { checkFileSize } from '@/utils/file-size'
 import { useCallback, useState } from 'react'
@@ -17,7 +18,11 @@ export const useFileUpload = () => {
       setFileUrl(res[0].url)
     },
     onUploadError: () => {
-      // Show toast message
+      toast({
+        variant: 'destructive',
+        title: 'Uh-Oh! Something went wrong',
+        description: 'Unable to upload your file.',
+      })
     },
   })
 

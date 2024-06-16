@@ -31,7 +31,6 @@ model User {
   name        String
   email       String
   imageUrl    String
-  redirectUrl String    @unique
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   userRole    UserRole  @default(MEMBER)
@@ -42,6 +41,7 @@ model User {
 model MyServer {
   id        String     @id @default(uuid())
   name      String
+  imageUrl  String?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   userId    String     @unique

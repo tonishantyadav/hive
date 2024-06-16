@@ -19,7 +19,7 @@ export const randName = () => uniqueNamesGenerator(config)
 export const randAvatar = (seed: string) => {
   const avatar = createAvatar(identicon, {
     seed,
-    size: 128,
+    size: 50,
   })
   return avatar.toDataUri()
 }
