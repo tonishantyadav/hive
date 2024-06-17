@@ -5,36 +5,42 @@ import { useUploadThing } from '@/lib/uploadthing'
 import { randAvatar } from '@/utils/random'
 import { blobToFile, urlToBlob } from '@/utils/uri-to-blob'
 import axios from 'axios'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
-export const MyServer = ({
+export const DefaultServer = ({
   userId,
-  myServerId,
-  myServerName,
-  myServerImage,
+  serverId,
+  serverName,
+  serverImage,
+  channelId,
 }: {
   userId: string
-  myServerId: string
-  myServerName: string
-  myServerImage: string | null
+  serverId: string
+  serverName: string
+  serverImage: string | null
+  channelId: string
 }) => {
   const router = useRouter()
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(myServerImage)
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(serverImage)
   const [uploading, setUploading] = useState<boolean>(false)
 
   const { startUpload } = useUploadThing('imageUploader', {
     onClientUploadComplete: async (res) => {
       setAvatarUrl(res[0].url)
       try {
-        await axios.patch(`/api/my-servers/${myServerId}`, {
+        await axios.patch(`/api/servers/${serverId}`, {
           imageUrl: res[0].url,
         })
         router.refresh()
       } catch (error) {
         setAvatarUrl(null)
         setUploading(false)
-        console.log(`Unable to update the my server (${myServerName}): `, error)
+        console.log(
+          `Unable to update the default server image (${serverName}): `,
+          error
+        )
       }
     },
     onUploadError: () => {
@@ -44,9 +50,7 @@ export const MyServer = ({
 
   const uploadAvatarIfNeeded = useCallback(async () => {
     if (!avatarUrl && !uploading) {
-      const blob = await urlToBlob(
-        randAvatar(userId + myServerId + myServerName)
-      )
+      const blob = await urlToBlob(randAvatar(userId + serverId + serverName))
       if (!blob) {
         console.error('Failed to convert URL to blob')
         return
@@ -65,12 +69,12 @@ export const MyServer = ({
     // eslint-disable-next-line
   }, [avatarUrl, uploading])
 
-  console.log(avatarUrl)
-
   return (
-    <Avatar className="h-10 w-10">
-      {avatarUrl && <AvatarImage src={avatarUrl} />}
-      <AvatarFallback>{myServerName[0]}</AvatarFallback>
-    </Avatar>
+    <Link href={`/servers/${serverId}/channels/${channelId}`}>
+      <Avatar className="h-10 w-10">
+        {avatarUrl && <AvatarImage src={avatarUrl} />}
+        <AvatarFallback>{serverName[0]}</AvatarFallback>
+      </Avatar>
+    </Link>
   )
 }

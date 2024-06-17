@@ -56,7 +56,7 @@ export const ChannelHeader = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="flex w-[16rem] flex-col md:w-[18.2rem] lg:w-[18.2rem]">
-          {(isAdmin || isModerator || isMember) && (
+          {(isAdmin || isModerator || isMember) && !server.isDefault && (
             <DropdownMenuItem
               className="group flex cursor-pointer justify-between "
               onClick={() => {
@@ -67,7 +67,7 @@ export const ChannelHeader = ({
               <UserPlus2Icon className="h-4 w-4 text-indigo-500 group-hover:text-white" />
             </DropdownMenuItem>
           )}
-          {(isAdmin || isModerator) && (
+          {(isAdmin || isModerator) && !server.isDefault && (
             <DropdownMenuItem
               className="flex cursor-pointer justify-between"
               onClick={() => onOpen('CREATE_CHANNEL')}
@@ -76,7 +76,7 @@ export const ChannelHeader = ({
               <PlusCircleIcon className="h-4 w-4" />
             </DropdownMenuItem>
           )}
-          {isAdmin && (
+          {isAdmin && !server.isDefault && (
             <DropdownMenuItem
               className="flex cursor-pointer justify-between"
               onClick={() => onOpen('MANAGE_MEMBER')}
@@ -85,7 +85,7 @@ export const ChannelHeader = ({
               <Users2Icon className="h-4 w-4" />
             </DropdownMenuItem>
           )}
-          {isAdmin && (
+          {isAdmin && !server.isDefault && (
             <DropdownMenuItem className="flex cursor-pointer justify-between">
               <span>Server Settings</span>
               <SettingsIcon className="h-4 w-4" />

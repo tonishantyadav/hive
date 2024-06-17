@@ -11,7 +11,7 @@ export const ChannelBox = ({
   return (
     <>
       <ChannelHeader server={server} userRole={userRole} />
-      <ChannelBody serverId={server.id} />
+      <ChannelBody serverId={server.id} isDefault={server.isDefault} />
       <ChannelFooter />
     </>
   )

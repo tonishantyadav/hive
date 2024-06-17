@@ -15,7 +15,13 @@ export interface VideoChannel extends Omit<Channel, 'channelCategory'> {
   channelCategory: 'VIDEO'
 }
 
-export const ChannelBody = async ({ serverId }: { serverId: string }) => {
+export const ChannelBody = async ({
+  serverId,
+  isDefault,
+}: {
+  serverId: string
+  isDefault: boolean
+}) => {
   const channels = await prisma.channel.findMany({
     where: { serverId },
   })

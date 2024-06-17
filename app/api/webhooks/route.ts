@@ -68,16 +68,22 @@ export async function POST(req: Request) {
           imageUrl,
         },
       })
-      const myServer = await prisma.myServer.create({
+      const server = await prisma.server.create({
         data: {
           name: randName(),
-          userId: user.id,
+          isDefault: true,
         },
       })
-      await prisma.myChannel.create({
+      const channel = await prisma.channel.create({
         data: {
+          serverId: server.id,
           name: 'general',
-          myServerId: myServer.id,
+        },
+      })
+      const member = await prisma.member.create({
+        data: {
+          userId: user.id,
+          serverId: server.id,
         },
       })
     } else if (eventType === 'user.deleted') {
