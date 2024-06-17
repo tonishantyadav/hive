@@ -1,6 +1,6 @@
 import prisma from '@/prisma/client'
 import { auth } from '@clerk/nextjs/server'
-import { redirect } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 const ServersPage = async () => {
   const { userId: clerkUserId } = auth()
@@ -9,7 +9,7 @@ const ServersPage = async () => {
   const user = await prisma.user.findUnique({ where: { clerkUserId } })
   if (!user) redirect('/')
 
-  const server = await prisma.server.findFirst({
+  const defaultServer = await prisma.server.findFirst({
     where: {
       isDefault: true,
       member: {
@@ -19,17 +19,16 @@ const ServersPage = async () => {
       },
     },
   })
-  if (!server) redirect('/')
+  if (!defaultServer) notFound()
 
-  const channel = await prisma.channel.findFirst({
+  const generalChannel = await prisma.channel.findFirst({
     where: {
-      serverId: server.id,
-      name: 'general',
+      serverId: defaultServer.id,
     },
   })
-  if (!channel) redirect('/')
+  if (!generalChannel) notFound()
 
-  redirect(`/servers/${server.id}/channels/${channel.id}`)
+  redirect(`/servers/${defaultServer.id}/channels/${generalChannel.id}`)
 }
 
 export default ServersPage

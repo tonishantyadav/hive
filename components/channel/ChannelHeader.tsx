@@ -40,6 +40,8 @@ export const ChannelHeader = ({
     // eslint-disable-next-line
   }, [])
 
+  if (server.isDefault) return null
+
   return (
     <div>
       <DropdownMenu>
@@ -56,7 +58,7 @@ export const ChannelHeader = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="flex w-[16rem] flex-col md:w-[18.2rem] lg:w-[18.2rem]">
-          {(isAdmin || isModerator || isMember) && !server.isDefault && (
+          {(isAdmin || isModerator || isMember) && (
             <DropdownMenuItem
               className="group flex cursor-pointer justify-between "
               onClick={() => {
@@ -67,7 +69,7 @@ export const ChannelHeader = ({
               <UserPlus2Icon className="h-4 w-4 text-indigo-500 group-hover:text-white" />
             </DropdownMenuItem>
           )}
-          {(isAdmin || isModerator) && !server.isDefault && (
+          {(isAdmin || isModerator) && (
             <DropdownMenuItem
               className="flex cursor-pointer justify-between"
               onClick={() => onOpen('CREATE_CHANNEL')}
@@ -76,7 +78,7 @@ export const ChannelHeader = ({
               <PlusCircleIcon className="h-4 w-4" />
             </DropdownMenuItem>
           )}
-          {isAdmin && !server.isDefault && (
+          {isAdmin && (
             <DropdownMenuItem
               className="flex cursor-pointer justify-between"
               onClick={() => onOpen('MANAGE_MEMBER')}
@@ -85,7 +87,7 @@ export const ChannelHeader = ({
               <Users2Icon className="h-4 w-4" />
             </DropdownMenuItem>
           )}
-          {isAdmin && !server.isDefault && (
+          {isAdmin && (
             <DropdownMenuItem className="flex cursor-pointer justify-between">
               <span>Server Settings</span>
               <SettingsIcon className="h-4 w-4" />

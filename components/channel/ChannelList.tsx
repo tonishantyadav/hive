@@ -12,20 +12,20 @@ import { Separator } from '@/components/ui/separator'
 import { useModalStore } from '@/stores/modal'
 import { User } from '@prisma/client'
 import {
-  Edit,
   Hash,
   HashIcon,
   MicIcon,
   PencilIcon,
   PlusIcon,
   Settings,
-  Trash2,
   Trash2Icon,
   UserRoundIcon,
   VideoIcon,
 } from 'lucide-react'
+import Link from 'next/link'
 
 interface ChannelListProps {
+  serverId: string
   members: User[]
   textChannels: TextChannel[]
   voiceChannels: VoiceChannel[]
@@ -33,6 +33,7 @@ interface ChannelListProps {
 }
 
 export const ChannelList = ({
+  serverId,
   members,
   textChannels,
   voiceChannels,
@@ -65,7 +66,12 @@ export const ChannelList = ({
                 >
                   <div className="flex items-center gap-1">
                     <Hash className="h-4 w-4" />
-                    <span className="text-sm">{textChannel.name}</span>
+                    <Link
+                      href={`/servers/${serverId}/channels/${textChannel.id}`}
+                      className="text-sm hover:underline"
+                    >
+                      {textChannel.name}
+                    </Link>
                   </div>
                   <div className="hidden items-center gap-1 group-hover:flex">
                     <PencilIcon
@@ -118,7 +124,12 @@ export const ChannelList = ({
                 >
                   <div className="flex items-center gap-1">
                     <MicIcon className="h-4 w-4" />
-                    <span className="text-sm">{voiceChannel.name}</span>
+                    <Link
+                      href={`/servers/${serverId}/channels/${voiceChannel.id}`}
+                      className="text-sm hover:underline"
+                    >
+                      {voiceChannel.name}
+                    </Link>
                   </div>
                   <div className="hidden items-center gap-1 group-hover:inline-flex">
                     <PencilIcon
@@ -171,7 +182,12 @@ export const ChannelList = ({
                 >
                   <div className="flex items-center gap-1">
                     <VideoIcon className="h-4 w-4" />
-                    <span className="text-sm">{videoChannel.name}</span>
+                    <Link
+                      href={`/servers/${serverId}/channels/${videoChannel.id}`}
+                      className="text-sm hover:underline"
+                    >
+                      {videoChannel.name}
+                    </Link>
                   </div>
                   <div className="hidden items-center gap-1 group-hover:inline-flex">
                     <PencilIcon

@@ -1,7 +1,12 @@
-import { ChannelList, ChannelSearchBar } from '@/components/channel'
+import {
+  ChannelList,
+  ChannelSearchBar,
+  GeneralChannel,
+} from '@/components/channel'
 import prisma from '@/prisma/client'
 import { auth } from '@clerk/nextjs/server'
 import { Channel, User } from '@prisma/client'
+import { notFound } from 'next/navigation'
 
 export interface TextChannel extends Omit<Channel, 'channelCategory'> {
   channelCategory: 'TEXT'
@@ -15,23 +20,27 @@ export interface VideoChannel extends Omit<Channel, 'channelCategory'> {
   channelCategory: 'VIDEO'
 }
 
-export const ChannelBody = async ({
-  serverId,
-  isDefault,
-}: {
-  serverId: string
-  isDefault: boolean
-}) => {
+export const ChannelBody = async ({ serverId }: { serverId: string }) => {
   const channels = await prisma.channel.findMany({
     where: { serverId },
   })
-  const textChannels: TextChannel[] = channels.filter(
+
+  const generalChannel = channels.find((channel) => channel.name === 'general')
+  if (!generalChannel) notFound()
+
+  const filteredChannels = channels.filter(
+    (channel) => channel.id !== generalChannel.id
+  )
+
+  const textChannels: TextChannel[] = filteredChannels.filter(
     (channel): channel is TextChannel => channel.channelCategory === 'TEXT'
   )
-  const voiceChannels: VoiceChannel[] = channels.filter(
+
+  const voiceChannels: VoiceChannel[] = filteredChannels.filter(
     (channel): channel is VoiceChannel => channel.channelCategory === 'VOICE'
   )
-  const videoChannels: VideoChannel[] = channels.filter(
+
+  const videoChannels: VideoChannel[] = filteredChannels.filter(
     (channel): channel is VideoChannel => channel.channelCategory === 'VIDEO'
   )
 
@@ -59,7 +68,13 @@ export const ChannelBody = async ({
         voiceChannels={voiceChannels}
         videoChannels={videoChannels}
       />
+      <GeneralChannel
+        serverId={serverId}
+        channelId={generalChannel.id}
+        channelName={generalChannel.name}
+      />
       <ChannelList
+        serverId={serverId}
         members={filteredMembers.filter(
           (member) => member.clerkUserId !== clerkUserId
         )}
