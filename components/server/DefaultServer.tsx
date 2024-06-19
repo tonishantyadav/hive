@@ -6,8 +6,10 @@ import { randAvatar } from '@/utils/random'
 import { blobToFile, urlToBlob } from '@/utils/uri-to-blob'
 import axios from 'axios'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
+import Image from 'next/image'
+import { cn } from '@/lib/utils'
 
 export const DefaultServer = ({
   userId,
@@ -23,8 +25,11 @@ export const DefaultServer = ({
   channelId: string
 }) => {
   const router = useRouter()
+  const pathname = usePathname()
   const [avatarUrl, setAvatarUrl] = useState<string | null>(serverImage)
   const [uploading, setUploading] = useState<boolean>(false)
+
+  const isDefault = pathname.includes(serverId)
 
   const { startUpload } = useUploadThing('imageUploader', {
     onClientUploadComplete: async (res) => {
@@ -70,11 +75,29 @@ export const DefaultServer = ({
   }, [avatarUrl, uploading])
 
   return (
-    <Link href={`/servers/${serverId}/channels/${channelId}`}>
-      <Avatar className="h-10 w-10">
-        {avatarUrl && <AvatarImage src={avatarUrl} />}
-        <AvatarFallback>{serverName[0]}</AvatarFallback>
-      </Avatar>
+    <Link
+      href={`/servers/${serverId}/channels/${channelId}`}
+      className="group relative flex h-10 w-10 gap-4 rounded-full"
+    >
+      <div
+        className={cn(
+          'relative right-3 w-1 rounded-full bg-white group-hover:inline-block',
+          !isDefault ? 'hidden' : ''
+        )}
+      />{' '}
+      {avatarUrl ? (
+        <Image
+          className="rounded-full hover:rounded-xl"
+          fill
+          src={avatarUrl}
+          alt="Default server image"
+          sizes="33vw"
+        />
+      ) : (
+        <Avatar className="h-10 w-10">
+          <AvatarFallback>{serverName[0]}</AvatarFallback>
+        </Avatar>
+      )}
     </Link>
   )
 }

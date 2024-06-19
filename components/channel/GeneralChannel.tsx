@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { HomeIcon, PinIcon } from 'lucide-react'
+import { HomeIcon, LockIcon, PinIcon } from 'lucide-react'
 import Link from 'next/link'
 
 export const GeneralChannel = ({
@@ -13,17 +13,23 @@ export const GeneralChannel = ({
   channelName: string
 }) => {
   return (
-    <Link href={`/servers/${serverId}/channels/${channelId}`}>
-      <Button
+    <Link
+      href={`/servers/${serverId}/channels/${channelId}`}
+      className={cn(
+        'group flex items-center justify-between rounded-md p-2',
+        channelName === 'general' ? 'bg-zinc-800' : ''
+      )}
+    >
+      <div
         className={cn(
-          'group flex w-full items-center justify-start gap-1 rounded-full py-2 capitalize text-zinc-300',
+          'group flex w-full items-center gap-1 rounded-md capitalize text-neutral-300 hover:text-neutral-100',
           channelName === 'general' ? 'bg-zinc-800' : ''
         )}
-        variant="ghost"
       >
         <PinIcon className="h-4 w-4 text-indigo-400" />
-        <span className="text-sm">{channelName}</span>
-      </Button>
+        <span className="text-md font-medium">{channelName}</span>
+      </div>
+      <LockIcon className="h-4 w-4 text-neutral-400 group-hover:text-neutral-100" />
     </Link>
   )
 }

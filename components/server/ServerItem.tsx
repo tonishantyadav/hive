@@ -1,7 +1,7 @@
 'use client'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
+import Image from 'next/image'
 import Link from 'next/link'
 import { notFound, useParams } from 'next/navigation'
 
@@ -21,19 +21,24 @@ export const ServerItem = ({
 
   return (
     <Link
-      className="group flex"
+      className="group relative flex h-10 w-10 gap-4 rounded-full"
       href={`/servers/${serverId}/channels/${channelId}`}
     >
       <div
         className={cn(
-          'relative right-2 w-1 rounded-full bg-white group-hover:inline-block',
-          params.id !== serverId ? 'hidden' : ' '
+          'relative right-3 w-1 rounded-full bg-white group-hover:inline-block',
+          params.id !== serverId ? 'hidden' : ''
         )}
       />
-      <Avatar className="h-10 w-10">
-        {serverImageUrl && <AvatarImage src={serverImageUrl} />}
-        <AvatarFallback>{serverName[0]}</AvatarFallback>
-      </Avatar>
+      {serverImageUrl && (
+        <Image
+          className="rounded-full hover:rounded-xl"
+          fill
+          src={serverImageUrl}
+          alt="Server image"
+          sizes="33vw"
+        />
+      )}
     </Link>
   )
 }

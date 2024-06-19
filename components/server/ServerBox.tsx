@@ -12,14 +12,14 @@ export const ServerBox = async () => {
 
   const servers = await prisma.server.findMany({
     where: {
-      member: {
+      members: {
         some: {
           userId: user.id,
         },
       },
     },
     include: {
-      channel: true,
+      channels: true,
     },
   })
 

@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
         data: {
           serverId: server.id,
           name: 'general',
+          isDefault: true,
         },
       })
       const member = await prisma.member.create({

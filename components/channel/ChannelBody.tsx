@@ -25,7 +25,7 @@ export const ChannelBody = async ({ serverId }: { serverId: string }) => {
     where: { serverId },
   })
 
-  const generalChannel = channels.find((channel) => channel.name === 'general')
+  const generalChannel = channels.find((channel) => channel.isDefault)
   if (!generalChannel) notFound()
 
   const filteredChannels = channels.filter(

@@ -12,7 +12,7 @@ const ServersPage = async () => {
   const defaultServer = await prisma.server.findFirst({
     where: {
       isDefault: true,
-      member: {
+      members: {
         some: {
           userId: user.id,
         },
