@@ -5,6 +5,7 @@ import { dark } from '@clerk/themes'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { SocketProvider } from '@/providers/SocketProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -32,11 +33,13 @@ export default function RootLayout({
               defaultTheme="dark"
               disableTransitionOnChange
             >
-              <ModalProvider />
-              <main className="h-screen">
-                {children}
-                <Toaster />
-              </main>
+              <SocketProvider>
+                <ModalProvider />
+                <main className="h-screen">
+                  {children}
+                  <Toaster />
+                </main>
+              </SocketProvider>
             </ThemeProvider>
           </QueryClientProvider>
         </ClerkProvider>

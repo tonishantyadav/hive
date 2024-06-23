@@ -9,6 +9,7 @@ import { memberRoleIconMap } from '@/components/channel/ChannelFooter'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
+import { useSocket } from '@/providers/SocketProvider'
 import { useModalStore } from '@/stores/modal'
 import { User } from '@prisma/client'
 import {
