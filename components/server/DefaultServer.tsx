@@ -29,7 +29,7 @@ export const DefaultServer = ({
   const [avatarUrl, setAvatarUrl] = useState<string | null>(serverImage)
   const [uploading, setUploading] = useState<boolean>(false)
 
-  const isDefault = pathname.includes(serverId)
+  const isDefault = pathname ? pathname.includes(serverId) : false
 
   const { startUpload } = useUploadThing('imageUploader', {
     onClientUploadComplete: async (res) => {

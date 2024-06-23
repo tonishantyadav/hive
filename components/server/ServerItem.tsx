@@ -27,7 +27,7 @@ export const ServerItem = ({
       <div
         className={cn(
           'relative right-3 w-1 rounded-full bg-white group-hover:inline-block',
-          params.id !== serverId ? 'hidden' : ''
+          params && params.id !== serverId ? 'hidden' : ''
         )}
       />
       {serverImageUrl && (

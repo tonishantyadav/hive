@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import prisma from '@/prisma/client'
 import { SignOutButton } from '@clerk/nextjs'
 import { auth } from '@clerk/nextjs/server'
+import { UserRole } from '@prisma/client'
 import {
   LogOutIcon,
   ShieldCheckIcon,
@@ -10,6 +11,7 @@ import {
   UserIcon,
 } from 'lucide-react'
 import { redirect } from 'next/navigation'
+import { ReactNode } from 'react'
 
 export const ChannelFooter = async () => {
   const { userId: clerkUserId } = auth()
@@ -46,8 +48,8 @@ export const ChannelFooter = async () => {
   )
 }
 
-export const memberRoleIconMap = {
-  ADMIN: <ShieldPlusIcon className="h-4 w-4 text-emerald-600" />,
-  MODERATOR: <ShieldCheckIcon className="h-4 w-4 text-indigo-500" />,
-  MEMBER: <UserIcon className="h-4 w-4 text-zinc-200/80" />,
+export const memberRoleIconMap: Record<UserRole, ReactNode> = {
+  [UserRole.ADMIN]: <ShieldPlusIcon className="h-4 w-4 text-emerald-600" />,
+  [UserRole.MODERATOR]: <ShieldCheckIcon className="h-4 w-4 text-indigo-500" />,
+  [UserRole.MEMBER]: <UserIcon className="h-4 w-4 text-zinc-200/80" />,
 }
