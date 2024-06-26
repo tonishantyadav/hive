@@ -18,10 +18,7 @@ export const ChatBox = ({
           channelName={channel.name}
           channelCategory={channel.channelCategory}
         />
-        <div className="flex items-center">
-          <ChatNetworkStatus />
-          <SheetBox server={server} userRole={userRole} />
-        </div>
+        <SheetBox server={server} userRole={userRole} />
       </div>
       <ChatBody />
     </div>

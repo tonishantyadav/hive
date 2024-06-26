@@ -1,5 +1,11 @@
 import React from 'react'
+import { ChatContent, ChatInput } from '@/components/chat'
 
 export const ChatBody = () => {
-  return <div className="flex flex-grow flex-col p-2">Chat Body</div>
+  return (
+    <div className="flex flex-grow flex-col">
+      <ChatContent />
+      <ChatInput />
+    </div>
+  )
 }

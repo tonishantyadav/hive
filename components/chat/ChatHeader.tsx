@@ -1,4 +1,5 @@
 import { channelIcon } from '@/components/channel/ChannelBox'
+import { ChatNetworkStatus } from '@/components/chat'
 import { ChannelCategory } from '@prisma/client'
 
 export const ChatHeader = ({
@@ -14,6 +15,7 @@ export const ChatHeader = ({
       <h1 className="text-xl font-semibold capitalize md:text-2xl lg:text-2xl">
         {channelName}
       </h1>
+      <ChatNetworkStatus />
     </div>
   )
 }
