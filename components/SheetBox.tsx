@@ -13,20 +13,22 @@ export const SheetBox = ({
   userRole: UserRole
 }) => {
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Menu className="h-4 w-4" />
-        </Button>
-      </SheetTrigger>
-      <SheetContent className="flex h-full w-fit p-0" side="left">
-        <div className="flex h-full flex-col gap-4 border py-2">
-          <ServerBox />
-        </div>
-        <div className="flex w-full flex-col gap-2 p-1">
-          <ChannelBox server={server} userRole={userRole} />
-        </div>
-      </SheetContent>
-    </Sheet>
+    <div className="md:hidden lg:hidden">
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button variant="ghost" size="icon">
+            <Menu className="h-4 w-4" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent className="flex h-full w-fit p-0" side="right">
+          <div className="flex h-full flex-col gap-4 border py-2">
+            <ServerBox />
+          </div>
+          <div className="flex w-full flex-col gap-2 p-1">
+            <ChannelBox server={server} userRole={userRole} />
+          </div>
+        </SheetContent>
+      </Sheet>
+    </div>
   )
 }

@@ -1,4 +1,3 @@
-import { SheetBox } from '@/components/SheetBox'
 import { ChannelBox } from '@/components/channel'
 import { ChatBox } from '@/components/chat'
 import prisma from '@/prisma/client'
