@@ -23,9 +23,9 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const socketInstance = new (SocketClient as any)(
-      process.env.NEXT_PUBLIC_SITE_URL!,
+      process.env.NEXT_PUBLIC_APP_URL!,
       {
-        path: '/api/socket',
+        path: '/api/socket/io',
         addTrailingSlash: false,
       }
     )

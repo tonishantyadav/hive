@@ -20,7 +20,7 @@ export const ChatBox = ({
         />
         <SheetBox server={server} userRole={userRole} />
       </div>
-      <ChatBody />
+      <ChatBody serverId={server.id} channelId={channel.id} />
     </div>
   )
 }

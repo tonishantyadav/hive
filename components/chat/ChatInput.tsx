@@ -9,28 +9,55 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useMessageCreate } from '@/hooks/chat'
+import { handleError } from '@/utils/error'
 import {
   PaperclipIcon,
   SendHorizonalIcon,
-  SendIcon,
   SmileIcon,
+  Loader2Icon,
 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { toast } from '@/components/ui/use-toast'
+import { useRouter } from 'next/navigation'
 
 const ChatInputFormSchema = z.object({
   message: z.string().min(1, "Message can't be empty"),
 })
 
-export const ChatInput = () => {
+export const ChatInput = ({
+  serverId,
+  channelId,
+}: {
+  serverId: string
+  channelId: string
+}) => {
   const form = useForm<z.infer<typeof ChatInputFormSchema>>({
     defaultValues: {
       message: '',
     },
   })
+  const router = useRouter()
+  const messageCreate = useMessageCreate()
 
-  const onSubmit = (data: ChatInputFormData) => {
-    console.log(data)
+  const onSubmit = async (data: ChatInputFormData) => {
+    try {
+      await messageCreate.mutateAsync({
+        serverId,
+        channelId,
+        message: data.message,
+      })
+      form.reset()
+      router.refresh()
+    } catch (error) {
+      const errorMessage = handleError(error)
+      toast({
+        variant: 'destructive',
+        title: 'Uh-Oh! Something went wrong.',
+        description: errorMessage,
+      })
+    }
   }
 
   return (
@@ -69,12 +96,16 @@ export const ChatInput = () => {
                     </div>
                   </div>
                   <Button
-                    className="mb-1 rounded-full bg-zinc-700 text-white hover:bg-zinc-800"
+                    className="mb-1 rounded-full bg-zinc-800 text-white hover:bg-zinc-800/80"
                     size="icon"
                     type="submit"
                     disabled={!form.getValues('message').length}
                   >
-                    <SendHorizonalIcon className="h-4 w-4" />
+                    {messageCreate.isPending ? (
+                      <Loader2Icon className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <SendHorizonalIcon className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </FormControl>
