@@ -8,6 +8,7 @@ import {
   ChannelVideoCreateModal,
   ChannelVoiceCreateModal,
 } from '@/components/channel'
+import { MessageAttachement } from '@/components/chat'
 import { InviteMemberModal } from '@/components/invite'
 import { MemberManageModal } from '@/components/member'
 import {
@@ -43,6 +44,8 @@ export const ModalProvider = () => {
       return <InviteMemberModal />
     case 'MANAGE_MEMBER':
       return <MemberManageModal />
+    case 'MESSAGE_ATTACHEMENT':
+      return <MessageAttachement />
     default:
       return null
   }

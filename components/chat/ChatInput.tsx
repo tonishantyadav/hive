@@ -9,18 +9,19 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { toast } from '@/components/ui/use-toast'
 import { useMessageCreate } from '@/hooks/chat'
+import { useModalStore } from '@/stores/modal'
 import { handleError } from '@/utils/error'
 import {
+  Loader2Icon,
   PaperclipIcon,
   SendHorizonalIcon,
   SmileIcon,
-  Loader2Icon,
 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { toast } from '@/components/ui/use-toast'
-import { useRouter } from 'next/navigation'
 
 const ChatInputFormSchema = z.object({
   message: z.string().min(1, "Message can't be empty"),
@@ -40,6 +41,7 @@ export const ChatInput = ({
   })
   const router = useRouter()
   const messageCreate = useMessageCreate()
+  const { onOpen } = useModalStore()
 
   const onSubmit = async (data: ChatInputFormData) => {
     try {
@@ -81,6 +83,10 @@ export const ChatInput = ({
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 rounded-full hover:bg-indigo-600"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          onOpen('MESSAGE_ATTACHEMENT')
+                        }}
                       >
                         <PaperclipIcon className="h-4 w-4" />
                       </Button>
@@ -90,6 +96,7 @@ export const ChatInput = ({
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 rounded-full hover:bg-indigo-600"
+                        onClick={(e) => e.preventDefault()}
                       >
                         <SmileIcon className="h-4 w-4" />
                       </Button>

@@ -8,25 +8,29 @@ import { BeatLoader } from 'react-spinners'
 
 interface DropzoneProps {
   fileUrl: string | null
+  accept: Accept
   isUploading: boolean
   onDrop: (acceptedFiles: File[]) => Promise<void>
 }
 
-export const Dropzone = ({ fileUrl, isUploading, onDrop }: DropzoneProps) => {
+export const Dropzone = ({
+  fileUrl,
+  accept,
+  isUploading,
+  onDrop,
+}: DropzoneProps) => {
   const { getRootProps, getInputProps, open } = useDropzone({
     onDrop,
     noClick: true,
     multiple: false,
-    accept: {
-      'image/*': ['.jpeg', '.png'],
-    },
+    accept: fileAccept[accept],
   })
   const [imageLoad, setImageLoad] = useState(true)
 
   return (
     <>
       <div className="h-60 rounded-xl border-2 border-dashed">
-        {fileUrl ? (
+        {fileUrl && accept === 'image' ? (
           <>
             {imageLoad && (
               <div className="flex h-full items-center justify-center">
@@ -56,4 +60,11 @@ export const Dropzone = ({ fileUrl, isUploading, onDrop }: DropzoneProps) => {
       </div>
     </>
   )
+}
+
+type Accept = 'all' | 'image'
+
+const fileAccept: Record<Accept, { [key: string]: string[] }> = {
+  image: { 'image/*': ['.jpeg', '.png'] },
+  all: { 'image/*': ['.jpeg', '.png'], 'application/pdf': ['.pdf'] },
 }

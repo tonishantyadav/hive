@@ -46,6 +46,7 @@ export const ServerCreateModal = () => {
             <div className="flex flex-col gap-2">
               <Dropzone
                 fileUrl={fileUrl}
+                accept="image"
                 isUploading={isUploading}
                 onDrop={onDrop}
               />

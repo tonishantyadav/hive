@@ -1,19 +1,17 @@
 'use client'
 
-import { cn } from '@/lib/utils'
 import { useSocket } from '@/providers/SocketProvider'
-import { GlobeIcon, WifiIcon } from 'lucide-react'
+import { WifiIcon, WifiOffIcon } from 'lucide-react'
 
 export const ChatNetworkStatus = () => {
   const { isConnected } = useSocket()
   return (
-    <WifiIcon
-      className={cn(
-        'h-4 w-4',
-        isConnected
-          ? 'text-emerald-400 hover:text-emerald-500'
-          : 'text-red-400 hover:text-red-500'
+    <>
+      {isConnected ? (
+        <WifiIcon className="h-4 w-4 text-emerald-500" />
+      ) : (
+        <WifiOffIcon className="h-4 w-4 text-red-500" />
       )}
-    />
+    </>
   )
 }

@@ -16,6 +16,7 @@ export type Modal =
   | 'INVITE_MEMBER'
   | 'MANAGE_MEMBER'
   | 'SHEET'
+  | 'MESSAGE_ATTACHEMENT'
 
 interface ModalStore {
   modal: Modal | null

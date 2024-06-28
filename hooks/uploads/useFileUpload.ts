@@ -11,7 +11,7 @@ export const useFileUpload = () => {
   const [isUploadingDone, setIsUploadingDone] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
 
-  const { startUpload } = useUploadThing('imageUploader', {
+  const { startUpload } = useUploadThing('fileUploader', {
     onClientUploadComplete: async (res) => {
       setIsUploading(false)
       setIsUploadingDone(true)
@@ -40,6 +40,7 @@ export const useFileUpload = () => {
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     try {
+      console.log(acceptedFiles)
       setIsUploading(true)
       setFile(acceptedFiles[0])
       onUploadProgress()
