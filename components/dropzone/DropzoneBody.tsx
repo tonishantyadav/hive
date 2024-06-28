@@ -20,7 +20,7 @@ export const DropzoneBody = ({
     >
       <input {...getInputProps()} />
       <UploadCloudIcon className="h-[4rem] w-[4rem] text-zinc-700" />
-      <span className="text-lg font-medium">Drop your image</span>
+      <span className="text-lg font-medium">Drop your file</span>
       <span>or</span>
       {isUploading ? (
         <Button
@@ -32,7 +32,7 @@ export const DropzoneBody = ({
         </Button>
       ) : (
         <Button
-          className="my-2 bg-indigo-600 font-medium text-white hover:bg-indigo-700"
+          className="my-2 rounded-full bg-indigo-500 font-medium text-white hover:bg-indigo-600"
           onClick={open}
         >
           Browse

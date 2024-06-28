@@ -41,7 +41,7 @@ export const ChatInput = ({
   })
   const router = useRouter()
   const messageCreate = useMessageCreate()
-  const { onOpen } = useModalStore()
+  const { onOpen, attachement } = useModalStore()
 
   const onSubmit = async (data: ChatInputFormData) => {
     try {
@@ -61,6 +61,8 @@ export const ChatInput = ({
       })
     }
   }
+
+  console.log(attachement)
 
   return (
     <Form {...form}>

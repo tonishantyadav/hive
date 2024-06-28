@@ -7,11 +7,13 @@ import { useDropzone } from 'react-dropzone'
 import { BeatLoader } from 'react-spinners'
 
 interface DropzoneProps {
-  fileUrl: string | null
   accept: Accept
+  fileUrl: string | null
   isUploading: boolean
   onDrop: (acceptedFiles: File[]) => Promise<void>
 }
+
+export type Accept = 'all' | 'image' | 'pdf'
 
 export const Dropzone = ({
   fileUrl,
@@ -62,9 +64,8 @@ export const Dropzone = ({
   )
 }
 
-type Accept = 'all' | 'image'
-
 const fileAccept: Record<Accept, { [key: string]: string[] }> = {
-  image: { 'image/*': ['.jpeg', '.png'] },
   all: { 'image/*': ['.jpeg', '.png'], 'application/pdf': ['.pdf'] },
+  image: { 'image/*': ['.jpeg', '.png'] },
+  pdf: { 'application/pdf': ['.pdf'] },
 }

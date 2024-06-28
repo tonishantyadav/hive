@@ -1,5 +1,6 @@
 'use client'
 
+import { Attachement } from '@/components/chat/MessageAttachement'
 import { Channel, Server, User } from '@prisma/client'
 import { create } from 'zustand'
 
@@ -24,11 +25,13 @@ interface ModalStore {
   server?: Server | null
   channel?: Channel | null
   user?: User | null
+  attachement?: Attachement | null
   onOpen: (modal: Modal) => void
   onClose: (modal: Modal) => void
   setServer: (server: Server) => void
   setChannel: (channel: Channel) => void
   setUser: (user: User) => void
+  setAttachement: (attachement: Attachement) => void
 }
 
 export const useModalStore = create<ModalStore>((set) => ({
@@ -37,9 +40,11 @@ export const useModalStore = create<ModalStore>((set) => ({
   server: null,
   channel: null,
   user: null,
+  file: null,
   onOpen: (modal) => set({ open: true, modal }),
   onClose: (modal) => set({ open: false, modal }),
   setServer: (server) => set({ server }),
   setChannel: (channel) => set({ channel }),
   setUser: (user) => set({ user }),
+  setAttachement: (attachement) => set({ attachement }),
 }))

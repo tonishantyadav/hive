@@ -1,6 +1,7 @@
 'use client'
 
 import { Dropzone } from '@/components/dropzone'
+import { Accept } from '@/components/dropzone/Dropzone'
 import {
   Dialog,
   DialogContent,
@@ -11,18 +12,16 @@ import {
 import { useFileUpload } from '@/hooks/uploads/useFileUpload'
 import { useModalStore } from '@/stores/modal'
 import { PaperclipIcon } from 'lucide-react'
-import { useEffect } from 'react'
+
+export interface Attachement {
+  name: string
+  url: string
+  type: string
+}
 
 export const MessageAttachement = () => {
   const { modal, open, onClose } = useModalStore()
-  const { fileUrl, isUploading, onDrop } = useFileUpload()
-
-  useEffect(() => {
-    if (fileUrl) onClose('MESSAGE_ATTACHEMENT')
-    // eslint-disable-next-line
-  }, [fileUrl])
-
-  console.log(fileUrl)
+  const { fileUrl, isUploading, onDrop } = useFileUpload(true) // Upload file as an message attachement
 
   return (
     <>
@@ -35,12 +34,12 @@ export const MessageAttachement = () => {
                 <span>Add your attachement</span>
               </DialogTitle>
               <DialogDescription>
-                Share your image and pdf with others.
+                Easily add image or pdf and share it with others.
               </DialogDescription>
             </DialogHeader>
             <Dropzone
-              fileUrl={fileUrl}
               accept="all"
+              fileUrl={fileUrl}
               isUploading={isUploading}
               onDrop={onDrop}
             />
