@@ -18,7 +18,7 @@ export interface Attachement {
   type: string
 }
 
-export const MessageAttachement = () => {
+export const MessageAttachementModal = () => {
   const { modal, open, onClose } = useModalStore()
   const { fileUrl, isUploading, onDrop } = useFileUpload(true) // Upload file as an message attachement
 

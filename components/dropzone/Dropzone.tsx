@@ -64,7 +64,7 @@ export const Dropzone = ({
   )
 }
 
-const fileAccept: Record<Accept, { [key: string]: string[] }> = {
+export const fileAccept: Record<Accept, { [key: string]: string[] }> = {
   all: { 'image/*': ['.jpeg', '.png'], 'application/pdf': ['.pdf'] },
   image: { 'image/*': ['.jpeg', '.png'] },
   pdf: { 'application/pdf': ['.pdf'] },

@@ -1,5 +1,6 @@
 'use client'
 
+import { MessageAttachementPreview } from '@/components/message'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -62,68 +63,69 @@ export const ChatInput = ({
     }
   }
 
-  console.log(attachement)
-
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="message"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <div className="flex items-center justify-between gap-2 p-3">
-                  <div className="relative flex w-full items-center pb-1">
-                    <Input
-                      placeholder="What's in your mind?"
-                      className="h-12 pl-12 pr-12"
-                      {...field}
-                    />
-                    <div className="absolute left-2 flex items-center">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 rounded-full hover:bg-indigo-600"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          onOpen('MESSAGE_ATTACHEMENT')
-                        }}
-                      >
-                        <PaperclipIcon className="h-4 w-4" />
-                      </Button>
+    <div className="flex flex-col">
+      {attachement && <MessageAttachementPreview attachement={attachement} />}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex items-center justify-between gap-2 p-3">
+                    <div className="relative flex w-full items-center pb-1">
+                      <Input
+                        placeholder="What's in your mind?"
+                        className="h-12 pl-12 pr-12"
+                        {...field}
+                      />
+                      <div className="absolute left-2 flex items-center">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 rounded-full hover:bg-indigo-600"
+                          onClick={(e) => {
+                            e.preventDefault()
+                            onOpen('MESSAGE_ATTACHEMENT')
+                          }}
+                        >
+                          <PaperclipIcon className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      <div className="absolute right-2 flex items-center">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 rounded-full hover:bg-indigo-600"
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          <SmileIcon className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
-                    <div className="absolute right-2 flex items-center">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 rounded-full hover:bg-indigo-600"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <SmileIcon className="h-4 w-4" />
-                      </Button>
-                    </div>
+                    <Button
+                      className="mb-1 rounded-full bg-zinc-800 text-white hover:bg-zinc-800/80"
+                      size="icon"
+                      type="submit"
+                      disabled={!form.getValues('message').length}
+                    >
+                      {messageCreate.isPending ? (
+                        <Loader2Icon className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <SendHorizonalIcon className="h-4 w-4" />
+                      )}
+                    </Button>
                   </div>
-                  <Button
-                    className="mb-1 rounded-full bg-zinc-800 text-white hover:bg-zinc-800/80"
-                    size="icon"
-                    type="submit"
-                    disabled={!form.getValues('message').length}
-                  >
-                    {messageCreate.isPending ? (
-                      <Loader2Icon className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <SendHorizonalIcon className="h-4 w-4" />
-                    )}
-                  </Button>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </form>
-    </Form>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </form>
+      </Form>
+    </div>
   )
 }
 
