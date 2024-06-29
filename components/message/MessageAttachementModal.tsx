@@ -11,6 +11,7 @@ import {
 import { useFileUpload } from '@/hooks/uploads/useFileUpload'
 import { useModalStore } from '@/stores/modal'
 import { PaperclipIcon } from 'lucide-react'
+import { useEffect } from 'react'
 
 export interface Attachement {
   name: string
@@ -21,6 +22,11 @@ export interface Attachement {
 export const MessageAttachementModal = () => {
   const { modal, open, onClose } = useModalStore()
   const { fileUrl, isUploading, onDrop } = useFileUpload(true) // Upload file as an message attachement
+
+  useEffect(() => {
+    if (fileUrl) onClose('MESSAGE_ATTACHEMENT')
+    // eslint-disable-next-line
+  }, [fileUrl])
 
   return (
     <>

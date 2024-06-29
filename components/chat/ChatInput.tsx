@@ -39,7 +39,7 @@ export const ChatInput = ({
   const router = useRouter()
   const messageCreate = useMessageCreate()
   const { onOpen, attachement, setAttachement } = useModalStore()
-  const [disabled, setDisabled] = useState(true)
+  const [disabled, setDisabled] = useState<boolean>(true)
 
   const onSubmit = async (data: ChatInputFormData) => {
     try {
@@ -76,8 +76,12 @@ export const ChatInput = ({
   }, [form, attachement])
 
   useEffect(() => {
-    attachement && attachement.url ? setDisabled(false) : setDisabled(true)
-  }, [attachement])
+    attachement && attachement.url
+      ? setDisabled(false)
+      : form.getValues('message')
+        ? setDisabled(false)
+        : setDisabled(true)
+  }, [form, attachement])
 
   return (
     <div className="flex flex-col">

@@ -9,7 +9,7 @@ export const ServerCreateButton = () => {
 
   return (
     <Button
-      className="rounded-full bg-emerald-500 hover:rounded-xl hover:bg-emerald-500/80"
+      className="rounded-full bg-indigo-500 hover:rounded-xl hover:bg-indigo-600"
       size="icon"
       onClick={() => onOpen('CREATE_SERVER')}
     >
