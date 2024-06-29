@@ -50,7 +50,7 @@ export const ChatInput = ({
         fileUrl: attachement?.url,
       })
       form.reset()
-      // setAttachement(null)
+      setAttachement(null)
       router.refresh()
     } catch (error) {
       const errorMessage = handleError(error)

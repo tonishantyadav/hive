@@ -1,6 +1,5 @@
 import { Attachement } from '@/components/message/MessageAttachementModal'
-import { FileTextIcon } from 'lucide-react'
-import Image from 'next/image'
+import { FileTextIcon, ImageIcon } from 'lucide-react'
 
 export const MessageAttachementPreview = ({
   attachement,
@@ -10,20 +9,13 @@ export const MessageAttachementPreview = ({
   const isImage = imageExtensions.includes(attachement.type)
 
   return (
-    <>
+    <div className="flex">
       {isImage ? (
-        <div className="relative mx-3 flex h-12 w-12">
-          <Image
-            src={attachement.url}
-            alt="Server uploaded image"
-            fill={true}
-            className="rounded-xl"
-          />
-        </div>
+        <ImageIcon className="mx-2 h-10 w-10 justify-center fill-rose-400 stroke-rose-600" />
       ) : (
         <FileTextIcon className="mx-2 h-10 w-10 fill-rose-400 stroke-rose-600" />
       )}
-    </>
+    </div>
   )
 }
 
