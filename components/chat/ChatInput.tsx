@@ -1,6 +1,6 @@
 'use client'
 
-import { MessageAttachementPreview } from '@/components/message'
+import { EmojiPicker, MessageAttachementPreview } from '@/components/message'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -14,18 +14,14 @@ import { toast } from '@/components/ui/use-toast'
 import { useMessageCreate } from '@/hooks/chat'
 import { useModalStore } from '@/stores/modal'
 import { handleError } from '@/utils/error'
-import {
-  Loader2Icon,
-  PaperclipIcon,
-  SendHorizonalIcon,
-  SmileIcon,
-} from 'lucide-react'
+import { Loader2Icon, PaperclipIcon, SendHorizonalIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 const ChatInputFormSchema = z.object({
-  message: z.string().min(1, "Message can't be empty"),
+  message: z.string().optional(),
 })
 
 export const ChatInput = ({
@@ -42,7 +38,8 @@ export const ChatInput = ({
   })
   const router = useRouter()
   const messageCreate = useMessageCreate()
-  const { onOpen, attachement } = useModalStore()
+  const { onOpen, attachement, setAttachement } = useModalStore()
+  const [disabled, setDisabled] = useState(true)
 
   const onSubmit = async (data: ChatInputFormData) => {
     try {
@@ -50,8 +47,10 @@ export const ChatInput = ({
         serverId,
         channelId,
         message: data.message,
+        fileUrl: attachement?.url,
       })
       form.reset()
+      // setAttachement(null)
       router.refresh()
     } catch (error) {
       const errorMessage = handleError(error)
@@ -62,6 +61,23 @@ export const ChatInput = ({
       })
     }
   }
+
+  useEffect(() => {
+    // Watch both the message input and the attachment URL
+    const subscription = form.watch((value) => {
+      value.message && value.message.length > 0
+        ? setDisabled(false)
+        : attachement && attachement.url
+          ? setDisabled(false)
+          : setDisabled(true)
+    })
+    // Clean up the subscription on unmount
+    return () => subscription.unsubscribe()
+  }, [form, attachement])
+
+  useEffect(() => {
+    attachement && attachement.url ? setDisabled(false) : setDisabled(true)
+  }, [attachement])
 
   return (
     <div className="flex flex-col">
@@ -95,21 +111,18 @@ export const ChatInput = ({
                         </Button>
                       </div>
                       <div className="absolute right-2 flex items-center">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 rounded-full hover:bg-indigo-600"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <SmileIcon className="h-4 w-4" />
-                        </Button>
+                        <EmojiPicker
+                          onChange={(emoji: string) =>
+                            field.onChange(`${field.value} ${emoji}`)
+                          }
+                        />
                       </div>
                     </div>
                     <Button
                       className="mb-1 rounded-full bg-zinc-800 text-white hover:bg-zinc-800/80"
                       size="icon"
                       type="submit"
-                      disabled={!form.getValues('message').length}
+                      disabled={disabled}
                     >
                       {messageCreate.isPending ? (
                         <Loader2Icon className="h-4 w-4 animate-spin" />

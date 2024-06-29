@@ -31,7 +31,7 @@ interface ModalStore {
   setServer: (server: Server) => void
   setChannel: (channel: Channel) => void
   setUser: (user: User) => void
-  setAttachement: (attachement: Attachement) => void
+  setAttachement: (attachement: Attachement | null) => void
 }
 
 export const useModalStore = create<ModalStore>((set) => ({

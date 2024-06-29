@@ -21,7 +21,7 @@ export const MessageAttachementPreview = ({
           />
         </div>
       ) : (
-        <FileTextIcon className="mx-3 h-10 w-10 fill-rose-400 stroke-rose-600" />
+        <FileTextIcon className="mx-2 h-10 w-10 fill-rose-400 stroke-rose-600" />
       )}
     </>
   )

@@ -38,6 +38,11 @@ export default async function handler(
 
   const { serverId, channelId, message, fileUrl } = validation.data
 
+  if (!message && !fileUrl)
+    return res.status(400).json({
+      error: 'Invalid request data. Please check your inputs and try again.',
+    })
+
   const server = await prisma.server.findFirst({
     where: {
       id: serverId,
