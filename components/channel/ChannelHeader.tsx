@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useModalStore } from '@/stores/modal'
-import { Server, UserRole } from '@prisma/client'
+import { Server, MemberRole } from '@prisma/client'
 import {
   BotIcon,
   ChevronDownIcon,
@@ -24,16 +24,16 @@ import { useEffect } from 'react'
 
 export const ChannelHeader = ({
   server,
-  userRole,
+  memberRole,
 }: {
   server: Server
-  userRole: string
+  memberRole: MemberRole
 }) => {
   const { onOpen, setServer } = useModalStore()
 
-  const isAdmin = userRole === UserRole.ADMIN
-  const isModerator = userRole === UserRole.MODERATOR
-  const isMember = userRole === UserRole.MEMBER
+  const isAdmin = memberRole === MemberRole.ADMIN
+  const isModerator = memberRole === MemberRole.MODERATOR
+  const isMember = memberRole === MemberRole.MEMBER
 
   useEffect(() => {
     if (server) setServer(server)

@@ -4,8 +4,7 @@ import {
   GeneralChannel,
 } from '@/components/channel'
 import prisma from '@/prisma/client'
-import { auth } from '@clerk/nextjs/server'
-import { Channel, User } from '@prisma/client'
+import { Channel, Member, User } from '@prisma/client'
 import { notFound } from 'next/navigation'
 
 export interface TextChannel extends Omit<Channel, 'channelCategory'> {
@@ -20,7 +19,17 @@ export interface VideoChannel extends Omit<Channel, 'channelCategory'> {
   channelCategory: 'VIDEO'
 }
 
-export const ChannelBody = async ({ serverId }: { serverId: string }) => {
+export interface MemberWithUser extends Member {
+  user: User
+}
+
+export const ChannelBody = async ({
+  userId,
+  serverId,
+}: {
+  userId: string
+  serverId: string
+}) => {
   const channels = await prisma.channel.findMany({
     where: { serverId },
   })
@@ -46,19 +55,10 @@ export const ChannelBody = async ({ serverId }: { serverId: string }) => {
 
   const members = await prisma.member.findMany({
     where: { serverId },
+    include: { user: true },
   })
-  const users = await Promise.all(
-    members.map((member) =>
-      prisma.user.findUnique({
-        where: {
-          id: member.userId,
-        },
-      })
-    )
-  )
 
-  const filteredMembers = users.filter((user): user is User => user !== null)
-  const { userId: clerkUserId } = auth()
+  const filteredMembers = members.filter((member) => member.userId !== userId)
 
   return (
     <div className="flex h-0 flex-grow flex-col gap-2 p-1">
@@ -75,9 +75,7 @@ export const ChannelBody = async ({ serverId }: { serverId: string }) => {
       />
       <ChannelList
         serverId={serverId}
-        members={filteredMembers.filter(
-          (member) => member.clerkUserId !== clerkUserId
-        )}
+        members={filteredMembers.filter((member) => member.userId !== userId)}
         textChannels={textChannels}
         voiceChannels={voiceChannels}
         videoChannels={videoChannels}

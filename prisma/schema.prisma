@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRole {
+enum MemberRole {
   ADMIN
   MODERATOR
   MEMBER
@@ -20,21 +20,72 @@ enum ChannelCategory {
 }
 
 model User {
-  id          String   @id @default(cuid())
-  clerkUserId String   @unique
-  name        String
-  email       String
-  imageUrl    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  userRole    UserRole @default(MEMBER)
-  member      Member[]
+  id            String    @id @default(cuid())
+  name          String?
+  username      String?   @unique
+  email         String?   @unique
+  emailVerified DateTime?
+  password      String?   @unique
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  account       Account?
+  members       Member[]
+  session       Session[]
+}
+
+model Account {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String?  @db.Text
+  access_token             String?  @db.Text
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String?  @db.Text
+  session_state            String?
+  refresh_token_expires_in Int?
+  user                     User?    @relation(fields: [userId], references: [id])
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Member {
+  id                     String          @id @default(cuid())
+  memberRole             MemberRole      @default(MEMBER)
+  userId                 String
+  serverId               String
+  user                   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  server                 Server          @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  messages               Message[]
+  directMessagesSent     DirectMessage[] @relation("Sender")
+  directMessagesReceived DirectMessage[] @relation("Receiver")
+
+  @@unique([userId, serverId])
 }
 
 model Server {
   id         String    @id @default(uuid())
   name       String
-  imageUrl   String?
+  image      String?
   inviteCode String?   @unique
   isDefault  Boolean   @default(false)
   createdAt  DateTime  @default(now())
@@ -53,19 +104,6 @@ model Channel {
   serverId        String
   server          Server          @relation(fields: [serverId], references: [id], onDelete: Cascade)
   chat            Chat?
-}
-
-model Member {
-  id                     String          @id @default(cuid())
-  userId                 String
-  serverId               String
-  user                   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  server                 Server          @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  messages               Message[]
-  directMessagesSent     DirectMessage[] @relation("Sender")
-  directMessagesReceived DirectMessage[] @relation("Receiver")
-
-  @@unique([userId, serverId])
 }
 
 model Chat {
@@ -91,10 +129,10 @@ model DirectMessage {
   id         String   @id @default(cuid())
   message    String
   fileUrl    String?
-  senderId   String
-  receiverId String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  senderId   String
+  receiverId String
   sender     Member   @relation("Sender", fields: [senderId], references: [id], onDelete: Cascade)
   receiver   Member   @relation("Receiver", fields: [receiverId], references: [id], onDelete: Cascade)
 }

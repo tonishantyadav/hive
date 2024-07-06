@@ -20,18 +20,20 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-const ChatInputFormSchema = z.object({
+const ChatInputSchema = z.object({
   message: z.string().optional(),
 })
 
 export const ChatInput = ({
+  userId,
   serverId,
   channelId,
 }: {
+  userId: string
   serverId: string
   channelId: string
 }) => {
-  const form = useForm<z.infer<typeof ChatInputFormSchema>>({
+  const form = useForm<z.infer<typeof ChatInputSchema>>({
     defaultValues: {
       message: '',
     },
@@ -41,9 +43,10 @@ export const ChatInput = ({
   const { onOpen, attachement, setAttachement } = useModalStore()
   const [disabled, setDisabled] = useState<boolean>(true)
 
-  const onSubmit = async (data: ChatInputFormData) => {
+  const onSubmit = async (data: ChatInputData) => {
     try {
       await messageCreate.mutateAsync({
+        userId,
         serverId,
         channelId,
         message: data.message,
@@ -146,4 +149,4 @@ export const ChatInput = ({
   )
 }
 
-type ChatInputFormData = z.infer<typeof ChatInputFormSchema>
+type ChatInputData = z.infer<typeof ChatInputSchema>

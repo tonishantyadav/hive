@@ -1,4 +1,4 @@
-export const urlToBlob = async (url: string): Promise<Blob | null> => {
+export async function urlToBlob(url: string): Promise<Blob | null> {
   try {
     const response = await fetch(url)
     const blob = await response.blob()
@@ -9,7 +9,7 @@ export const urlToBlob = async (url: string): Promise<Blob | null> => {
   }
 }
 
-export const blobToFile = (blob: Blob, filename: string): File => {
+export function blobToFile(blob: Blob, filename: string): File {
   const file = new File([blob], filename, { type: blob.type })
   return file
 }

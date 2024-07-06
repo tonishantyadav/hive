@@ -1,15 +1,17 @@
 import { SheetBox } from '@/components/SheetBox'
-import { ChatBody, ChatHeader, ChatNetworkStatus } from '@/components/chat'
-import { Channel, Server, UserRole } from '@prisma/client'
+import { ChatBody, ChatHeader } from '@/components/chat'
+import { Channel, MemberRole, Server, User } from '@prisma/client'
 
 export const ChatBox = ({
+  user,
   server,
   channel,
-  userRole,
+  memberRole,
 }: {
+  user: User
   server: Server
   channel: Channel
-  userRole: UserRole
+  memberRole: MemberRole
 }) => {
   return (
     <div className="flex flex-col divide-y">
@@ -18,9 +20,9 @@ export const ChatBox = ({
           channelName={channel.name}
           channelCategory={channel.channelCategory}
         />
-        <SheetBox server={server} userRole={userRole} />
+        <SheetBox user={user} server={server} memberRole={memberRole} />
       </div>
-      <ChatBody serverId={server.id} channelId={channel.id} />
+      <ChatBody userId={user.id} serverId={server.id} channelId={channel.id} />
     </div>
   )
 }

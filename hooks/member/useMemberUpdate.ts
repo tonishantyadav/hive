@@ -1,11 +1,11 @@
-import { User, UserRole } from '@prisma/client'
+import { MemberRole, User } from '@prisma/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 
 type MemberRoleUpdate = {
   serverId: string
   memberId: string
-  memberRole: UserRole
+  memberRole: MemberRole
 }
 
 export const useMemberUpdate = () => {

@@ -1,5 +1,4 @@
 import prisma from '@/prisma/client'
-import { User } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
@@ -19,20 +18,10 @@ export async function GET(request: NextRequest) {
   try {
     const members = await prisma.member.findMany({
       where: { serverId },
+      include: { user: true },
     })
-    const users = await Promise.all(
-      members.map((member) =>
-        prisma.user.findUnique({
-          where: {
-            id: member.userId,
-          },
-        })
-      )
-    )
 
-    const filteredMembers = users.filter((user): user is User => user !== null)
-
-    return NextResponse.json(filteredMembers)
+    return NextResponse.json(members)
   } catch (error) {
     return NextResponse.json(
       { error: 'An unexpected error occurred.' },

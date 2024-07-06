@@ -1,20 +1,22 @@
 import { ChannelBody, ChannelFooter, ChannelHeader } from '@/components/channel'
-import { ChannelCategory, Server, UserRole } from '@prisma/client'
+import { ChannelCategory, MemberRole, Server, User } from '@prisma/client'
 import { HashIcon, MicIcon, VideoIcon } from 'lucide-react'
 import { ReactNode } from 'react'
 
 export const ChannelBox = ({
+  user,
   server,
-  userRole,
+  memberRole,
 }: {
+  user: User
   server: Server
-  userRole: UserRole
+  memberRole: MemberRole
 }) => {
   return (
     <>
-      <ChannelHeader server={server} userRole={userRole} />
-      <ChannelBody serverId={server.id} />
-      <ChannelFooter />
+      <ChannelHeader server={server} memberRole={memberRole} />
+      <ChannelBody userId={user.id} serverId={server.id} />
+      <ChannelFooter user={user} memberRole={memberRole} />
     </>
   )
 }

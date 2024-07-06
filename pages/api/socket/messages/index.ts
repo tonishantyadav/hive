@@ -1,7 +1,6 @@
 import prisma from '@/prisma/client'
-import { messageSchema } from '@/schemas/message'
+import { MessageSchema } from '@/schemas/message'
 import { NextApiResponse } from '@/types/socket'
-import { getAuth } from '@clerk/nextjs/server'
 import { NextApiRequest } from 'next'
 
 export default async function handler(
@@ -14,33 +13,23 @@ export default async function handler(
       .json({ error: 'Method not allowed. Please use POST request.' })
   }
 
-  const { userId: clerkUserId } = getAuth(req)
-  if (!clerkUserId) {
-    return res
-      .status(401)
-      .json({ error: 'Unauthorized access. Please signin and try again.' })
-  }
-
-  const user = await prisma.user.findUnique({ where: { clerkUserId } })
-  if (!user) {
-    return res
-      .status(401)
-      .json({ error: 'User not found. Please signin with a valid account.' })
-  }
-
-  const validation = messageSchema.safeParse(req.body)
+  const validation = MessageSchema.safeParse(req.body)
   if (!validation.success) {
     return res.status(400).json({
-      error: 'Invalid request data. Please check your inputs and try again.',
-      details: validation.error.issues,
+      error: 'Invalid request.',
     })
   }
 
-  const { serverId, channelId, message, fileUrl } = validation.data
+  const { userId, serverId, channelId, message, fileUrl } = validation.data
+
+  const user = await prisma.user.findUnique({ where: { id: userId } })
+  if (!user) {
+    return res.status(401).json({ error: 'Unauthorized user.' })
+  }
 
   if (!message && !fileUrl)
     return res.status(400).json({
-      error: 'Invalid request data. Please check your inputs and try again.',
+      error: 'Invalid request.',
     })
 
   const server = await prisma.server.findFirst({

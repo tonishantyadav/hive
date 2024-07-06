@@ -1,5 +1,5 @@
+import { auth } from '@/auth'
 import prisma from '@/prisma/client'
-import { auth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
@@ -10,26 +10,26 @@ export async function PATCH(
   const body = await request.json()
   const validation = z
     .object({
-      imageUrl: z.string(),
+      image: z.string(),
     })
     .safeParse(body)
 
   if (!validation.success || !params.id)
     return NextResponse.json({ error: 'Invalid request.' }, { status: 400 })
 
-  const { imageUrl } = validation.data
+  const { image } = validation.data
 
   const server = await prisma.server.findUnique({
     where: { id: params.id },
   })
   if (!server)
-    return NextResponse.json({ error: 'My Server not found.' }, { status: 404 })
+    return NextResponse.json({ error: 'Server not found.' }, { status: 404 })
 
   try {
     if (server.isDefault)
       await prisma.server.update({
         where: { id: server.id },
-        data: { imageUrl },
+        data: { image },
       })
     return NextResponse.json({}, { status: 200 })
   } catch (error) {
@@ -47,11 +47,13 @@ export async function DELETE(
   if (!params.id)
     return NextResponse.json({ error: 'Invalid request.' }, { status: 400 })
 
-  const { userId: clerkUserId } = auth()
-  if (!clerkUserId)
+  const session = await auth()
+  if (!session || !session.user)
     return NextResponse.json({ error: 'Unauthorized user.' }, { status: 401 })
 
-  const user = await prisma.user.findUnique({ where: { clerkUserId } })
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email! },
+  })
   if (!user)
     return NextResponse.json({ error: 'Unauthorized user.' }, { status: 401 })
 
@@ -59,7 +61,16 @@ export async function DELETE(
   if (!server)
     return NextResponse.json({ error: 'Server not found.' }, { status: 404 })
 
-  if (user.userRole !== 'ADMIN')
+  const member = await prisma.member.findFirst({
+    where: {
+      userId: user.id,
+      serverId: server.id,
+    },
+  })
+  if (!member)
+    return NextResponse.json({ error: 'Member not found.' }, { status: 404 })
+
+  if (member.memberRole !== 'ADMIN')
     return NextResponse.json(
       {
         error: 'Only admin can delete the server.',

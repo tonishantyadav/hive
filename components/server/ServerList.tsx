@@ -24,10 +24,9 @@ export const ServerList = ({ userId, servers }: ServerListProps) => {
     <div className="hide-scrollbar h-[32rem] w-full overflow-y-auto">
       <div className="flex flex-col items-center gap-3">
         <DefaultServer
-          userId={userId}
           serverId={defaultServer.id}
           serverName={defaultServer.name}
-          serverImage={defaultServer.imageUrl}
+          serverImage={defaultServer.image}
           channelId={generalChannel.id}
         />
         {filteredServers.map((server) => (
@@ -35,7 +34,7 @@ export const ServerList = ({ userId, servers }: ServerListProps) => {
             key={server.id}
             serverId={server.id}
             serverName={server.name}
-            serverImageUrl={server.imageUrl}
+            serverImageUrl={server.image}
             channelId={server.channels.find((ch) => ch.name === 'general')?.id}
           />
         ))}

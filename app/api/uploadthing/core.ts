@@ -1,5 +1,5 @@
+import { auth } from '@/auth'
 import prisma from '@/prisma/client'
-import { auth } from '@clerk/nextjs/server'
 import { createUploadthing, type FileRouter } from 'uploadthing/next'
 import { UploadThingError } from 'uploadthing/server'
 
@@ -14,10 +14,12 @@ export const ourFileRouter = {
   })
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {
-      const { userId: clerkUserId } = auth()
-      if (!clerkUserId) throw new UploadThingError('Unauthorized')
+      const session = await auth()
+      if (!session || !session.user) throw new UploadThingError('Unauthorized')
 
-      const user = await prisma.user.findUnique({ where: { clerkUserId } })
+      const user = await prisma.user.findUnique({
+        where: { email: session.user.email! },
+      })
 
       if (!user) throw new UploadThingError('Unauthorized')
 
@@ -30,7 +32,7 @@ export const ourFileRouter = {
       console.log('Uploaded by (userId): ', metadata.userId)
       console.log('File url: ', file.url)
 
-      // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
+      // Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return { uploadedBy: metadata.userId }
     }),
 } satisfies FileRouter

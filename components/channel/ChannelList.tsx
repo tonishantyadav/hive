@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  MemberWithUser,
   TextChannel,
   VideoChannel,
   VoiceChannel,
@@ -9,9 +10,7 @@ import { memberRoleIconMap } from '@/components/channel/ChannelFooter'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
-import { useSocket } from '@/providers/SocketProvider'
 import { useModalStore } from '@/stores/modal'
-import { User } from '@prisma/client'
 import {
   Hash,
   HashIcon,
@@ -27,7 +26,7 @@ import Link from 'next/link'
 
 interface ChannelListProps {
   serverId: string
-  members: User[]
+  members: MemberWithUser[]
   textChannels: TextChannel[]
   voiceChannels: VoiceChannel[]
   videoChannels: VideoChannel[]
@@ -240,8 +239,8 @@ export const ChannelList = ({
                   className="group flex w-full items-center justify-between gap-1 py-2 text-zinc-300"
                 >
                   <div className="flex items-center gap-1">
-                    {memberRoleIconMap[member.userRole]}
-                    <span className="text-sm">{member.name}</span>
+                    {memberRoleIconMap[member.memberRole]}
+                    <span className="text-sm">{member.user.username}</span>
                   </div>
                 </Button>
               ))}

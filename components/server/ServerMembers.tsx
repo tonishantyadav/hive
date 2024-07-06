@@ -1,21 +1,21 @@
 'use client'
 
+import { MemberWithUser } from '@/components/channel/ChannelBody'
+import { ServerMember } from '@/components/server'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useServerMembers } from '@/hooks/server'
 import { handleError } from '@/utils/error'
-import { User } from '@prisma/client'
 import { FrownIcon, Loader2Icon, Users2Icon } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { ServerMember } from '@/components/server'
 
 export const ServerMembers = ({ serverId }: { serverId: string }) => {
   const { data, isLoading, isError, error } = useServerMembers(serverId)
-  const [members, setMembers] = useState<User[] | null>(null)
+  const [members, setMembers] = useState<MemberWithUser[] | null>(null)
 
   useEffect(() => {
     if (data) {
-      const admin = data.filter((member) => member.userRole === 'ADMIN')
-      const members = data.filter((member) => member.userRole !== 'ADMIN')
+      const admin = data.filter((member) => member.memberRole === 'ADMIN')
+      const members = data.filter((member) => member.memberRole !== 'ADMIN')
       setMembers(admin.concat(members))
     }
   }, [data])

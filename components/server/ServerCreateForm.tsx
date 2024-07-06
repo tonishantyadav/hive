@@ -31,7 +31,7 @@ export const ServerCreateForm = ({ fileUrl, isUploading, form }: Props) => {
     if (fileUrl && data) {
       await server.mutateAsync({
         name: data.name,
-        imageUrl: fileUrl,
+        image: fileUrl,
       })
       router.refresh()
     }

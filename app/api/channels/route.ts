@@ -1,17 +1,19 @@
+import { auth } from '@/auth'
 import prisma from '@/prisma/client'
 import { ChannelCreateSchema } from '@/schemas/channel'
-import { auth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const serverId = searchParams.get('server')
 
-  const { userId: clerkUserId } = auth()
-  if (!clerkUserId)
+  const session = await auth()
+  if (!session || !session.user)
     return NextResponse.json({ error: 'Unauthorized user.' }, { status: 401 })
 
-  const user = await prisma.user.findUnique({ where: { clerkUserId } })
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email! },
+  })
   if (!user)
     return NextResponse.json({ error: 'Unauthorized user.' }, { status: 401 })
 

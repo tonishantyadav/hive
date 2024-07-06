@@ -1,13 +1,16 @@
+import { auth } from '@/auth'
 import { ServerCreateButton, ServerList } from '@/components/server'
 import prisma from '@/prisma/client'
-import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 
 export const ServerBox = async () => {
-  const { userId: clerkUserId } = auth()
-  if (!clerkUserId) redirect('/')
+  const session = await auth()
 
-  const user = await prisma.user.findUnique({ where: { clerkUserId } })
+  if (!session || !session.user) redirect('/')
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email! },
+  })
   if (!user) redirect('/')
 
   const servers = await prisma.server.findMany({

@@ -1,12 +1,17 @@
+'use server'
+
+import { blobToFile, urlToBlob } from '@/utils/url-to-blob'
+import { initials } from '@dicebear/collection'
+import { createAvatar } from '@dicebear/core'
 import {
   Config,
   animals,
   names,
   uniqueNamesGenerator,
 } from 'unique-names-generator'
+import { UTApi } from 'uploadthing/server'
 
-import { createAvatar } from '@dicebear/core'
-import { identicon } from '@dicebear/collection'
+const utapi = new UTApi()
 
 const config: Config = {
   separator: ' ',
@@ -14,12 +19,33 @@ const config: Config = {
   dictionaries: [animals, names],
 }
 
-export const randName = () => uniqueNamesGenerator(config)
+export const randName = async () => await uniqueNamesGenerator(config)
 
-export const randAvatar = (seed: string) => {
-  const avatar = createAvatar(identicon, {
+export async function randAvatar(seed: string) {
+  const avatar = createAvatar(initials, {
     seed,
-    size: 128,
   })
   return avatar.toDataUri()
+}
+
+export async function randImage(key: string) {
+  const avatar = await randAvatar(key)
+  const blob = await urlToBlob(avatar)
+  if (!blob) {
+    console.log('Failed to convert URL to Blob')
+    return null
+  }
+
+  const imageFile = blobToFile(blob!, 'random-image.svg')
+  if (!imageFile) {
+    console.log('Failed to convert Blob to File')
+    return null
+  }
+
+  const response = await utapi.uploadFiles(imageFile)
+  if (!response) {
+    console.log('Failed to upload random image on Uploadthing')
+    return null
+  }
+  return response.data!.url
 }

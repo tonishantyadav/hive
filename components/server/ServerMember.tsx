@@ -1,5 +1,6 @@
 'use client'
 
+import { MemberWithUser } from '@/components/channel/ChannelBody'
 import { memberRoleIconMap } from '@/components/channel/ChannelFooter'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -16,7 +17,7 @@ import { toast } from '@/components/ui/use-toast'
 import { useMemberDelete, useMemberUpdate } from '@/hooks/member'
 import { cn } from '@/lib/utils'
 import { handleError } from '@/utils/error'
-import { User, UserRole } from '@prisma/client'
+import { MemberRole } from '@prisma/client'
 import {
   CheckIcon,
   EllipsisIcon,
@@ -32,12 +33,12 @@ export const ServerMember = ({
   member,
 }: {
   serverId: string
-  member: User
+  member: MemberWithUser
 }) => {
   const memberUpdate = useMemberUpdate()
   const memberDelete = useMemberDelete()
 
-  const onChangeMemberRole = async (memberRole: UserRole) => {
+  const onChangeMemberRole = async (memberRole: MemberRole) => {
     try {
       await memberUpdate.mutateAsync({
         serverId,
@@ -74,15 +75,17 @@ export const ServerMember = ({
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-1.5">
         <Avatar className="h-8 w-8">
-          <AvatarImage src={member.imageUrl} />
-          <AvatarFallback>{member.name[0]}</AvatarFallback>
+          <AvatarImage src={member.user.image!} />
+          <AvatarFallback>{member.user.name![0]}</AvatarFallback>
         </Avatar>
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-1">
-            {memberRoleIconMap[member.userRole]}
-            <span>{member.name}</span>
+            {memberRoleIconMap[member.memberRole]}
+            <span>{member.user.name}</span>
           </div>
-          <span className="ml-1 text-xs text-zinc-400">{member.email}</span>
+          <span className="ml-1 text-xs text-zinc-400">
+            {member.user.email}
+          </span>
         </div>
       </div>
       <DropdownMenu>
@@ -90,7 +93,7 @@ export const ServerMember = ({
           <EllipsisIcon
             className={cn(
               'h-4 w-4',
-              member.userRole !== 'ADMIN' ? 'inline-flex' : 'hidden'
+              member.memberRole !== 'ADMIN' ? 'inline-flex' : 'hidden'
             )}
           />
         </DropdownMenuTrigger>
@@ -111,10 +114,11 @@ export const ServerMember = ({
                     <span>Member</span>
                   </div>
                   <div className="ml-4">
-                    {member.userRole === 'MEMBER' && memberUpdate.isPending ? (
+                    {member.memberRole === 'MEMBER' &&
+                    memberUpdate.isPending ? (
                       <Loader2Icon className="h-4 w-4 animate-spin" />
                     ) : (
-                      member.userRole === 'MEMBER' && (
+                      member.memberRole === 'MEMBER' && (
                         <CheckIcon className="h-4 w-4" />
                       )
                     )}
@@ -129,11 +133,11 @@ export const ServerMember = ({
                     <span>Moderator</span>
                   </div>
                   <div className="ml-4">
-                    {member.userRole === 'MODERATOR' &&
+                    {member.memberRole === 'MODERATOR' &&
                     memberUpdate.isPending ? (
                       <Loader2Icon className="h-4 w-4 animate-spin" />
                     ) : (
-                      member.userRole === 'MODERATOR' && (
+                      member.memberRole === 'MODERATOR' && (
                         <CheckIcon className="h-4 w-4" />
                       )
                     )}

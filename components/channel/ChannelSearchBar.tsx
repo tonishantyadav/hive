@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  MemberWithUser,
   TextChannel,
   VideoChannel,
   VoiceChannel,
@@ -16,7 +17,6 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command'
-import { User } from '@prisma/client'
 import {
   CommandIcon,
   HashIcon,
@@ -29,7 +29,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 interface ChannelSearchBarProps {
-  members: User[]
+  members: MemberWithUser[]
   textChannels: TextChannel[]
   voiceChannels: VoiceChannel[]
   videoChannels: VideoChannel[]
@@ -131,13 +131,13 @@ export const ChannelSearchBar = ({
             <CommandGroup heading="Members">
               {members.map((member) => (
                 <CommandItem className="gap-1 text-zinc-300/70" key={member.id}>
-                  {member.userRole === 'ADMIN' ||
-                  member.userRole === 'MODERATOR' ? (
-                    memberRoleIconMap[member.userRole]
+                  {member.memberRole === 'ADMIN' ||
+                  member.memberRole === 'MODERATOR' ? (
+                    memberRoleIconMap[member.memberRole]
                   ) : (
                     <UserIcon className="h-4 w-4" />
                   )}
-                  <span>{member.name}</span>
+                  <span>{member.user.username}</span>
                 </CommandItem>
               ))}
             </CommandGroup>

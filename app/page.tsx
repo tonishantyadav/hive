@@ -1,11 +1,11 @@
 import Container from '@/components/Container'
 import { Button } from '@/components/ui/button'
 import highVoltageIcon from '@/public/high-voltage-icon.svg'
-import { SignInButton } from '@clerk/nextjs'
 import { ArrowRightIcon } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
-const HomePage = () => {
+const HomePage = async () => {
   return (
     <div className="relative h-full w-full bg-background">
       <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_80%_at_50%_10%,#000_70%,transparent_100%)]">
@@ -39,19 +39,17 @@ const HeaderSection = () => {
         Experience fast and easy communication with Hive. Connect with friends
         instantly in a clean, user-friendly environment.
       </p>
-      <div>
-        <SignInButton>
-          <Button
-            className="flex space-x-1 rounded-full shadow-lg transition hover:scale-110"
-            size="lg"
-          >
-            <span className="text-md font-bold md:text-lg lg:text-lg">
-              Get Started
-            </span>
-            <ArrowRightIcon className="h-4 w-4 md:h-5 md:w-5 lg:h-5 lg:w-5" />
-          </Button>
-        </SignInButton>
-      </div>
+      <Link href="/signin">
+        <Button
+          className="flex space-x-1 rounded-full shadow-lg transition hover:scale-110"
+          size="lg"
+        >
+          <span className="text-md font-bold md:text-lg lg:text-lg">
+            Get Started
+          </span>
+          <ArrowRightIcon className="h-4 w-4 md:h-5 md:w-5 lg:h-5 lg:w-5" />
+        </Button>
+      </Link>
     </>
   )
 }

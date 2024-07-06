@@ -1,5 +1,5 @@
 import prisma from '@/prisma/client'
-import { UserRole } from '@prisma/client'
+import { MemberRole } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
@@ -10,26 +10,27 @@ export async function PATCH(
   const body = await request.json()
   const validation = z
     .object({
-      memberRole: z.nativeEnum(UserRole),
+      serverId: z.string(),
+      memberRole: z.nativeEnum(MemberRole),
     })
     .safeParse(body)
 
   if (!validation.success)
     return NextResponse.json({ error: 'Invalid request.' }, { status: 400 })
 
-  const { memberRole } = validation.data
+  const { serverId, memberRole } = validation.data
 
-  const user = await prisma.user.findUnique({
-    where: { id: params.id },
+  const member = await prisma.member.findFirst({
+    where: {
+      serverId,
+      userId: params.id,
+    },
   })
-  if (!user)
+  if (!member)
     return NextResponse.json({ error: 'Member not found.' }, { status: 404 })
 
   try {
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { userRole: memberRole },
-    })
+    prisma.member.update({ where: { id: member.id }, data: { memberRole } })
     return NextResponse.json({ status: 200 })
   } catch (error) {
     return NextResponse.json(
@@ -57,8 +58,8 @@ export async function DELETE(
 
   const member = await prisma.member.findFirst({
     where: {
-      userId: params.id,
       serverId,
+      userId: params.id,
     },
   })
   if (!member)

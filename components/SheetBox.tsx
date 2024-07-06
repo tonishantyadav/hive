@@ -2,15 +2,17 @@ import { ChannelBox } from '@/components/channel'
 import { ServerBox } from '@/components/server'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { Server, UserRole } from '@prisma/client'
+import { MemberRole, Server, User } from '@prisma/client'
 import { Menu } from 'lucide-react'
 
 export const SheetBox = ({
+  user,
   server,
-  userRole,
+  memberRole,
 }: {
+  user: User
   server: Server
-  userRole: UserRole
+  memberRole: MemberRole
 }) => {
   return (
     <div className="md:hidden lg:hidden">
@@ -25,7 +27,7 @@ export const SheetBox = ({
             <ServerBox />
           </div>
           <div className="flex w-full flex-col gap-2 p-1">
-            <ChannelBox server={server} userRole={userRole} />
+            <ChannelBox user={user} server={server} memberRole={memberRole} />
           </div>
         </SheetContent>
       </Sheet>

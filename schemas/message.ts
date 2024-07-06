@@ -1,8 +1,17 @@
 import { z } from 'zod'
 
-export const messageSchema = z.object({
-  serverId: z.string().min(1, 'serverId is required'),
-  channelId: z.string().min(1, 'channelId is required'),
+export type MessageData = {
+  userId: string
+  serverId: string
+  channelId: string
+  message?: string
+  fileUrl?: string
+}
+
+export const MessageSchema = z.object({
+  userId: z.string(),
+  serverId: z.string(),
+  channelId: z.string(),
   message: z.string().optional(),
-  fileUrl: z.string().url('Invalid URL format for fileUrl').optional(),
+  fileUrl: z.string().optional(),
 })

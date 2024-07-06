@@ -1,19 +1,39 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import NextAuth from 'next-auth'
+import authConfig from '@/auth.config'
 
-const isPublicRoute = createRouteMatcher([
-  '/(.*)',
-  '/sign-in(.*)',
-  '/sign-up(.*)',
-  '/api/webhooks(.*)',
-  '/api/uploadthing(.*)',
-])
+const { auth: middleware } = NextAuth(authConfig)
 
-export default clerkMiddleware((auth, request) => {
-  if (!isPublicRoute(request)) {
-    auth().protect()
+export default middleware(async (req) => {
+  const session = req.auth
+  const href = req.nextUrl.href
+  const pathname = req.nextUrl.pathname
+
+  const publicRoute = publicRoutes.includes(pathname)
+
+  if (!session && !publicRoute) {
+    const newUrl = new URL('/', req.nextUrl.origin)
+    return Response.redirect(newUrl)
+  }
+
+  if (session) return
+
+  if (session && pathname === '/signin') {
+    if (href.includes('/signin')) {
+      const newUrl = new URL('/', req.nextUrl.origin)
+      return Response.redirect(newUrl)
+    }
+    return Response.redirect(req.nextUrl.origin)
   }
 })
 
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 }
+
+const publicRoutes = [
+  '/',
+  '/signin',
+  '/api/uploadthing',
+  '/api/auth',
+  '/api/servers',
+]
