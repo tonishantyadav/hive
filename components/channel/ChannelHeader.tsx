@@ -14,6 +14,7 @@ import {
   BotIcon,
   ChevronDownIcon,
   LogOutIcon,
+  MenuIcon,
   PlusCircleIcon,
   SettingsIcon,
   Trash2Icon,
@@ -51,7 +52,7 @@ export const ChannelHeader = ({
             variant="ghost"
           >
             <div className="flex items-center gap-1">
-              <BotIcon className="h-4 w-4" />
+              <MenuIcon className="h-4 w-4" />
               <span className="capitalize">{server.name}</span>
             </div>
             <ChevronDownIcon className="h-4 w-4" />

@@ -13,7 +13,7 @@ export const MessageAttachementPreview = ({
   const { setAttachement } = useModalStore()
 
   return (
-    <div className="flex">
+    <div className="flex justify-end">
       <div className="group">
         {' '}
         {isImage ? (
