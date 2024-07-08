@@ -1,29 +1,16 @@
-import React from 'react'
-import { ChatContent, ChatFooter, ChatInput } from '@/components/chat'
-import { string } from 'zod'
+import { ChatContent, ChatInput } from '@/components/chat'
 
 export interface ChatBodyProps {
   userId: string
   serverId: string
   channelId: string
-  channelName: string
 }
 
-export const ChatBody = ({
-  userId,
-  serverId,
-  channelId,
-  channelName,
-}: ChatBodyProps) => {
+export const ChatBody = ({ userId, serverId, channelId }: ChatBodyProps) => {
   return (
     <div className="flex flex-grow flex-col">
       <ChatContent />
-      <ChatFooter
-        userId={userId}
-        serverId={serverId}
-        channelId={channelId}
-        channelName={channelName}
-      />
+      <ChatInput userId={userId} serverId={serverId} channelId={channelId} />
     </div>
   )
 }

@@ -44,7 +44,7 @@ const HeaderSection = () => {
           className="flex space-x-1 rounded-full shadow-lg transition hover:scale-110"
           size="lg"
         >
-          <span className="text-md font-bold md:text-lg lg:text-lg">
+          <span className="text-md font-semibold md:text-lg lg:text-lg">
             Get Started
           </span>
           <ArrowRightIcon className="h-4 w-4 md:h-5 md:w-5 lg:h-5 lg:w-5" />

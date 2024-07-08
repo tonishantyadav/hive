@@ -10,10 +10,13 @@ export const ChatHeader = ({
   channelCategory: ChannelCategory
 }) => {
   return (
-    <div className="flex items-center gap-1">
-      {channelIcon[channelCategory]('md:w-6 md:h-6 h-4 w-4 lg:h-6 lg:w-6')}
+    <div className="flex items-center justify-between gap-1">
+      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-900">
+        {' '}
+        {channelIcon[channelCategory]('w-4 h-4')}
+      </div>
       <h1 className="text-xl font-semibold capitalize md:text-2xl lg:text-2xl">
-        {channelName}
+        Welcome to {channelName}
       </h1>
       <ChatNetworkStatus />
     </div>
