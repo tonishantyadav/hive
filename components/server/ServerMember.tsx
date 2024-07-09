@@ -73,7 +73,7 @@ export const ServerMember = ({
 
   return (
     <div className="flex items-center justify-between">
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-1">
         <Avatar className="h-8 w-8">
           <AvatarImage src={member.user.image!} />
           <AvatarFallback>{member.user.name![0]}</AvatarFallback>

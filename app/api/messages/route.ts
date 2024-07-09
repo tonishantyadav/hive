@@ -1,3 +1,4 @@
+import { MessageWithMember } from '@/components/chat/ChatContent'
 import prisma from '@/prisma/client'
 import { Message } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
@@ -17,7 +18,7 @@ export async function GET(request: NextRequest) {
   const chat = await prisma.chat.findUnique({ where: { channelId } })
   if (!chat) return NextResponse.json({}, { status: 200 })
 
-  let messages: Message[] = []
+  let messages: MessageWithMember[] = []
 
   try {
     if (cursor) {
@@ -31,6 +32,13 @@ export async function GET(request: NextRequest) {
         orderBy: {
           createdAt: 'desc',
         },
+        include: {
+          member: {
+            include: {
+              user: true,
+            },
+          },
+        },
       })
     } else {
       messages = await prisma.message.findMany({
@@ -40,6 +48,13 @@ export async function GET(request: NextRequest) {
         },
         orderBy: {
           createdAt: 'desc',
+        },
+        include: {
+          member: {
+            include: {
+              user: true,
+            },
+          },
         },
       })
     }

@@ -79,7 +79,7 @@ export default async function handler(
     const newMessage = await prisma.message.create({
       data: {
         chatId: chat.id,
-        senderId: member.id,
+        memberId: member.id,
         message,
         fileUrl,
       },
