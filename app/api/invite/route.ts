@@ -12,7 +12,7 @@ export async function POST(request: NextResponse) {
     .safeParse(body)
 
   if (!validation.success)
-    return NextResponse.json(validation.error.format(), { status: 400 })
+    return NextResponse.json('Invalid request.', { status: 400 })
 
   const { serverId } = validation.data
 
