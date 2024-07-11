@@ -9,7 +9,7 @@ export interface ChatBodyProps {
 export const ChatBody = ({ userId, serverId, channelId }: ChatBodyProps) => {
   return (
     <div className="flex flex-grow flex-col">
-      <ChatContent channelId={channelId} />
+      <ChatContent userId={userId} channelId={channelId} />
       <ChatInput userId={userId} serverId={serverId} channelId={channelId} />
     </div>
   )

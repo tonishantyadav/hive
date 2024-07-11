@@ -38,7 +38,6 @@ export const ChatInput = ({
       message: '',
     },
   })
-  const router = useRouter()
   const messageCreate = useMessageCreate()
   const { onOpen, attachement, setAttachement } = useModalStore()
   const [disabled, setDisabled] = useState<boolean>(true)
@@ -54,7 +53,6 @@ export const ChatInput = ({
       })
       form.reset()
       setAttachement(null)
-      router.refresh()
     } catch (error) {
       const errorMessage = handleError(error)
       toast({

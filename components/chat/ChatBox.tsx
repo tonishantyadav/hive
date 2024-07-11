@@ -15,7 +15,7 @@ export const ChatBox = ({
 }) => {
   return (
     <div className="flex flex-col divide-y">
-      <div className="flex items-center justify-between gap-2 p-[0.480rem]">
+      <div className="flex items-center justify-between gap-2 p-3">
         <ChatHeader
           channelName={channel.name}
           channelCategory={channel.channelCategory}
