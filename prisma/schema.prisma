@@ -69,41 +69,44 @@ model Session {
 }
 
 model Member {
-  id                     String          @id @default(cuid())
-  memberRole             MemberRole      @default(MEMBER)
+  id                     String           @id @default(cuid())
+  memberRole             MemberRole       @default(MEMBER)
   userId                 String
   serverId               String
-  user                   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  server                 Server          @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  user                   User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  server                 Server           @relation(fields: [serverId], references: [id], onDelete: Cascade)
   messages               Message[]
-  directMessagesSent     DirectMessage[] @relation("Sender")
-  directMessagesReceived DirectMessage[] @relation("Receiver")
+  directMessagesSent     DirectMessage[]  @relation("Sender")
+  directMessagesReceived DirectMessage[]  @relation("Receiver")
+  VisitedChannels        VisitedChannel[]
 
   @@unique([userId, serverId])
 }
 
 model Server {
-  id         String    @id @default(uuid())
-  name       String
-  image      String?
-  inviteCode String?   @unique
-  isDefault  Boolean   @default(false)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  members    Member[]
-  channels   Channel[]
+  id              String           @id @default(uuid())
+  name            String
+  image           String?
+  inviteCode      String?          @unique
+  isDefault       Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  members         Member[]
+  channels        Channel[]
+  VisitedChannels VisitedChannel[]
 }
 
 model Channel {
-  id              String          @id @default(cuid())
+  id              String           @id @default(cuid())
   name            String
-  channelCategory ChannelCategory @default(TEXT)
-  isDefault       Boolean         @default(false)
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
+  channelCategory ChannelCategory  @default(TEXT)
+  isDefault       Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
   serverId        String
-  server          Server          @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  server          Server           @relation(fields: [serverId], references: [id], onDelete: Cascade)
   chat            Chat?
+  VisitedChannels VisitedChannel[]
 }
 
 model Chat {
@@ -135,4 +138,17 @@ model DirectMessage {
   receiverId String
   sender     Member   @relation("Sender", fields: [senderId], references: [id], onDelete: Cascade)
   receiver   Member   @relation("Receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+}
+
+model VisitedChannel {
+  id        String   @id @default(cuid())
+  visitedAt DateTime @default(now())
+  serverId  String
+  channelId String
+  memberId  String
+  server    Server   @relation(fields: [serverId], references: [id], onDelete: NoAction)
+  channel   Channel  @relation(fields: [channelId], references: [id], onDelete: NoAction)
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: NoAction)
+
+  @@index([serverId, channelId])
 }

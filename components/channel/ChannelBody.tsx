@@ -2,6 +2,7 @@ import {
   ChannelList,
   ChannelSearchBar,
   GeneralChannel,
+  VisitedChannelList,
 } from '@/components/channel'
 import prisma from '@/prisma/client'
 import { Channel, Member, User } from '@prisma/client'
@@ -25,13 +26,30 @@ export interface MemberWithUser extends Member {
 
 export const ChannelBody = async ({
   userId,
+  memberId,
   serverId,
 }: {
   userId: string
+  memberId: string
   serverId: string
 }) => {
   const channels = await prisma.channel.findMany({
     where: { serverId },
+  })
+
+  const visitedChannels = await prisma.visitedChannel.findMany({
+    where: { memberId },
+    orderBy: {
+      visitedAt: 'desc',
+    },
+    include: {
+      channel: true,
+    },
+  })
+
+  const members = await prisma.member.findMany({
+    where: { serverId },
+    include: { user: true },
   })
 
   const generalChannel = channels.find((channel) => channel.isDefault)
@@ -53,11 +71,6 @@ export const ChannelBody = async ({
     (channel): channel is VideoChannel => channel.channelCategory === 'VIDEO'
   )
 
-  const members = await prisma.member.findMany({
-    where: { serverId },
-    include: { user: true },
-  })
-
   const filteredMembers = members.filter((member) => member.userId !== userId)
 
   return (
@@ -73,13 +86,17 @@ export const ChannelBody = async ({
         channelId={generalChannel.id}
         channelName={generalChannel.name}
       />
-      <ChannelList
-        serverId={serverId}
-        members={filteredMembers.filter((member) => member.userId !== userId)}
-        textChannels={textChannels}
-        voiceChannels={voiceChannels}
-        videoChannels={videoChannels}
-      />
+      {true ? (
+        <VisitedChannelList visitedChannels={visitedChannels} />
+      ) : (
+        <ChannelList
+          serverId={serverId}
+          members={filteredMembers}
+          textChannels={textChannels}
+          voiceChannels={voiceChannels}
+          videoChannels={videoChannels}
+        />
+      )}
     </div>
   )
 }
