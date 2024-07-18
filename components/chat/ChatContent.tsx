@@ -4,8 +4,9 @@ import { MemberWithUser } from '@/components/channel/ChannelBody'
 import { ChatMessage } from '@/components/chat'
 import { useMessages } from '@/hooks/chat'
 import { Message } from '@prisma/client'
-import { GhostIcon, Loader2Icon, LoaderIcon } from 'lucide-react'
+import { GhostIcon, Loader2Icon } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { ScrollArea } from '../ui/scroll-area'
 
 export interface MessageWithMember extends Message {
   member: MemberWithUser
@@ -25,15 +26,15 @@ export const ChatContent = ({
   useEffect(() => {
     if (data && data.pages) {
       const allMessages = data.pages.flatMap((page) => page.messages)
-      setMessages(allMessages)
+      setMessages(allMessages.reverse())
     }
   }, [data])
 
   if (isPending)
     return (
-      <div className="flex flex-grow flex-col items-center justify-center gap-1">
+      <div className="flex flex-grow flex-col items-center justify-center gap-1 text-zinc-400">
         <Loader2Icon className="h-5 w-5 animate-spin" />
-        <span className="text-md text-zinc-400">Loading...</span>
+        <span className="text-md">Loading...</span>
       </div>
     )
 
@@ -48,17 +49,15 @@ export const ChatContent = ({
     )
 
   return (
-    <>
-      <div className="flex flex-grow flex-col-reverse gap-2 rounded-lg px-3 py-5">
-        {isPending && <Loader2Icon className="h-4 w-4 animate-spin" />}
-        {messages && messages[0] && (
-          <>
-            {messages.map((message) => (
-              <ChatMessage userId={userId} message={message} key={message.id} />
-            ))}
-          </>
-        )}
-      </div>
-    </>
+    <ScrollArea className="h-0 flex-grow">
+      {isPending && <Loader2Icon className="h-4 w-4 animate-spin" />}
+      {messages && messages[0] && (
+        <>
+          {messages.reverse().map((message) => (
+            <ChatMessage userId={userId} message={message} key={message.id} />
+          ))}
+        </>
+      )}
+    </ScrollArea>
   )
 }

@@ -16,11 +16,7 @@ export const EmojiPicker = ({ onChange }: EmojiPickerProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8 rounded-full hover:bg-indigo-600"
-        >
+        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
           <SmileIcon className="h-4 w-4" />
         </Button>
       </PopoverTrigger>

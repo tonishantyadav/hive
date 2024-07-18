@@ -106,7 +106,7 @@ export const ChatInput = ({
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 rounded-full hover:bg-indigo-600"
+                          className="h-8 w-8 rounded-full"
                           onClick={(e) => {
                             e.preventDefault()
                             onOpen('MESSAGE_ATTACHEMENT')

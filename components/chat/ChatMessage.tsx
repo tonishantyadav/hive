@@ -3,7 +3,7 @@
 import { memberRoleIconMap } from '@/components/channel/ChannelFooter'
 import { MessageWithMember } from '@/components/chat/ChatContent'
 import { cn } from '@/lib/utils'
-import { PencilIcon, TrashIcon } from 'lucide-react'
+import { FileIcon, ImageIcon, PencilIcon, TrashIcon } from 'lucide-react'
 import { useState } from 'react'
 
 export const ChatMessage = ({
@@ -13,6 +13,7 @@ export const ChatMessage = ({
   userId: string
   message: MessageWithMember
 }) => {
+  const isPdf = message.fileUrl && message.fileUrl.includes('pdf')
   const isYou = message.member.userId === userId
   const isAdminOrModerator =
     message.member.memberRole === 'ADMIN' ||
@@ -22,7 +23,7 @@ export const ChatMessage = ({
   const [isDeleted, setIsDeleted] = useState<boolean>(false)
 
   return (
-    <div className="group flex h-fit w-fit max-w-lg flex-col gap-2 rounded-lg bg-zinc-900 p-2">
+    <div className="group mx-2.5 my-2 flex h-fit w-fit max-w-lg flex-col gap-2 rounded-lg bg-zinc-900 p-2">
       <div className="flex items-center justify-between">
         <div className="flex h-fit w-fit items-center gap-1 rounded-full bg-black/30 px-3 py-1">
           {memberRoleIconMap[message.member.memberRole]}
@@ -56,6 +57,15 @@ export const ChatMessage = ({
           </div>
         )}
       </div>
+      {message.fileUrl && (
+        <>
+          {isPdf ? (
+            <FileIcon className="h-10 w-10 fill-rose-400 stroke-rose-600" />
+          ) : (
+            <ImageIcon className="h-10 w-10 fill-rose-400 stroke-rose-600" />
+          )}
+        </>
+      )}
       <p
         className={cn(
           'break-words px-2 text-sm',
