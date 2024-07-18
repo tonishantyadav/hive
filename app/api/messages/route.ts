@@ -1,6 +1,5 @@
 import { MessageWithMember } from '@/components/chat/ChatContent'
 import prisma from '@/prisma/client'
-import { Message } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
 const take = 5
@@ -12,8 +11,6 @@ export async function GET(request: NextRequest) {
 
   if (!channelId)
     return NextResponse.json({ error: 'Invalid request.' }, { status: 404 })
-
-  console.log({ channelId, cursor })
 
   const chat = await prisma.chat.findUnique({ where: { channelId } })
   if (!chat) return NextResponse.json({}, { status: 200 })

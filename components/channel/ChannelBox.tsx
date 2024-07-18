@@ -11,20 +11,19 @@ import { ReactNode } from 'react'
 
 export const ChannelBox = ({
   user,
-  member,
   server,
+  memberId,
   memberRole,
 }: {
   user: User
-  member: Member
   server: Server
+  memberId: string
   memberRole: MemberRole
 }) => {
-  console.log(member)
   return (
     <>
       <ChannelHeader server={server} memberRole={memberRole} />
-      <ChannelBody userId={user.id} memberId={member.id} serverId={server.id} />
+      <ChannelBody userId={user.id} memberId={memberId} serverId={server.id} />
       <ChannelFooter user={user} memberRole={memberRole} />
     </>
   )

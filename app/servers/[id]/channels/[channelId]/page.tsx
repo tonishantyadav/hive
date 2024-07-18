@@ -56,8 +56,8 @@ const ChannelPage = async ({
       <div className="hidden flex-col gap-2 md:flex lg:flex">
         <ChannelBox
           user={user}
-          member={member}
           server={server}
+          memberId={member.id}
           memberRole={member.memberRole}
         />
       </div>
