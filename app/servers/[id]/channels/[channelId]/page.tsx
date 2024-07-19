@@ -38,9 +38,9 @@ const ChannelPage = async ({
     try {
       await prisma.visitedChannel.create({
         data: {
+          userId: user.id,
           serverId: server.id,
           channelId: channel.id,
-          memberId: member.id,
         },
       })
     } catch (error) {

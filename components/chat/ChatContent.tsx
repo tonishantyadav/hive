@@ -40,11 +40,9 @@ export const ChatContent = ({
 
   if (messages && !messages[0] && !isPending)
     return (
-      <div className="flex flex-grow flex-col items-center justify-center gap-1">
-        <GhostIcon className="h-14 w-14 text-zinc-600" />
-        <span className="text-xl font-semibold text-zinc-600">
-          Nobody cooked here yet!
-        </span>
+      <div className="flex flex-grow flex-col items-center justify-center gap-1 text-zinc-600">
+        <GhostIcon className="h-14 w-14" />
+        <span className="text-xl font-semibold ">Nobody cooked here yet</span>
       </div>
     )
 

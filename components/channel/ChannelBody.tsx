@@ -28,17 +28,19 @@ export const ChannelBody = async ({
   userId,
   memberId,
   serverId,
+  serverDefault,
 }: {
   userId: string
   memberId: string
   serverId: string
+  serverDefault: boolean
 }) => {
   const channels = await prisma.channel.findMany({
     where: { serverId },
   })
 
   const visitedChannels = await prisma.visitedChannel.findMany({
-    where: { memberId },
+    where: { userId },
     orderBy: {
       visitedAt: 'desc',
     },
@@ -86,7 +88,7 @@ export const ChannelBody = async ({
         channelId={generalChannel.id}
         channelName={generalChannel.name}
       />
-      {true ? (
+      {serverDefault ? (
         <VisitedChannelList visitedChannels={visitedChannels} />
       ) : (
         <ChannelList

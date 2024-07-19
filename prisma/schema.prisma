@@ -20,18 +20,19 @@ enum ChannelCategory {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  username      String?   @unique
-  email         String?   @unique
-  emailVerified DateTime?
-  password      String?   @unique
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  account       Account?
-  members       Member[]
-  session       Session[]
+  id             String           @id @default(cuid())
+  name           String?
+  username       String?          @unique
+  email          String?          @unique
+  emailVerified  DateTime?
+  password       String?          @unique
+  image          String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  account        Account?
+  members        Member[]
+  session        Session[]
+  VisitedChannel VisitedChannel[]
 }
 
 model Account {
@@ -69,16 +70,15 @@ model Session {
 }
 
 model Member {
-  id                     String           @id @default(cuid())
-  memberRole             MemberRole       @default(MEMBER)
+  id                     String          @id @default(cuid())
+  memberRole             MemberRole      @default(MEMBER)
   userId                 String
   serverId               String
-  user                   User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  server                 Server           @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  user                   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  server                 Server          @relation(fields: [serverId], references: [id], onDelete: Cascade)
   messages               Message[]
-  directMessagesSent     DirectMessage[]  @relation("Sender")
-  directMessagesReceived DirectMessage[]  @relation("Receiver")
-  VisitedChannels        VisitedChannel[]
+  directMessagesSent     DirectMessage[] @relation("Sender")
+  directMessagesReceived DirectMessage[] @relation("Receiver")
 
   @@unique([userId, serverId])
 }
@@ -145,10 +145,10 @@ model VisitedChannel {
   visitedAt DateTime @default(now())
   serverId  String
   channelId String
-  memberId  String
+  userId    String
   server    Server   @relation(fields: [serverId], references: [id], onDelete: NoAction)
   channel   Channel  @relation(fields: [channelId], references: [id], onDelete: NoAction)
-  member    Member   @relation(fields: [memberId], references: [id], onDelete: NoAction)
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction)
 
   @@index([serverId, channelId])
 }

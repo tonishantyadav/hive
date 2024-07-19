@@ -23,7 +23,12 @@ export const ChannelBox = ({
   return (
     <>
       <ChannelHeader server={server} memberRole={memberRole} />
-      <ChannelBody userId={user.id} memberId={memberId} serverId={server.id} />
+      <ChannelBody
+        userId={user.id}
+        memberId={memberId}
+        serverId={server.id}
+        serverDefault={server.isDefault}
+      />
       <ChannelFooter user={user} memberRole={memberRole} />
     </>
   )

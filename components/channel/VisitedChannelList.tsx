@@ -1,6 +1,6 @@
 import { channelIcon } from '@/components/channel/ChannelBox'
 import { Channel, VisitedChannel } from '@prisma/client'
-import { HistoryIcon } from 'lucide-react'
+import { GhostIcon, HistoryIcon } from 'lucide-react'
 import Link from 'next/link'
 import { MdArrowOutward } from 'react-icons/md'
 
@@ -14,7 +14,7 @@ export const VisitedChannelList = ({
   visitedChannels: VisitedChannelWithChannel[]
 }) => {
   return (
-    <div className="col m-2 flex flex-col gap-2">
+    <div className="m-2 flex flex-col gap-2">
       <div className="flex items-center justify-end gap-1 text-zinc-300">
         <HistoryIcon className="h-4 w-4" />
         <span>Recent</span>
@@ -34,9 +34,9 @@ export const VisitedChannelList = ({
           </Link>
         ))
       ) : (
-        <div className="flex flex-col items-center justify-center">
-          <HistoryIcon className="h-4 w-4" />
-          <span>No channels found!</span>
+        <div className="mt-32 flex flex-col items-center justify-center text-zinc-600">
+          <GhostIcon className="h-8 w-8" />
+          <span className="text-md font-semibold">No recent visits</span>
         </div>
       )}
     </div>
