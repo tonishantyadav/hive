@@ -3,7 +3,9 @@
 import { memberRoleIconMap } from '@/components/channel/ChannelFooter'
 import { MessageWithMember } from '@/components/chat/ChatContent'
 import { cn } from '@/lib/utils'
-import { FileIcon, ImageIcon, PencilIcon, TrashIcon } from 'lucide-react'
+import { formatTimeStamp } from '@/utils/format-timestamp'
+import { FileTextIcon, ImageIcon, PencilIcon, TrashIcon } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 
 export const ChatMessage = ({
@@ -23,7 +25,7 @@ export const ChatMessage = ({
   const [isDeleted, setIsDeleted] = useState<boolean>(false)
 
   return (
-    <div className="group mx-2.5 my-2 flex h-fit w-fit max-w-lg flex-col gap-2 rounded-lg bg-zinc-900 p-2">
+    <div className="group mx-2.5 my-2 flex h-fit w-fit max-w-xs flex-col gap-2 rounded-lg bg-zinc-900 p-2 md:max-w-sm lg:max-w-lg">
       <div className="flex items-center justify-between">
         <div className="flex h-fit w-fit items-center gap-1 rounded-full bg-black/30 px-3 py-1">
           {memberRoleIconMap[message.member.memberRole]}
@@ -31,6 +33,9 @@ export const ChatMessage = ({
             {isYou ? 'You ' : message.member.user.name}
           </span>
         </div>
+        <span className="flex pl-5 pr-2 text-[0.60rem] text-zinc-300 group-hover:hidden">
+          {formatTimeStamp(message.createdAt)}
+        </span>
         {isEdited && !isDeleted && (
           <div className="flex px-2 text-xs font-medium  text-zinc-400 group-hover:hidden">
             edited
@@ -60,15 +65,27 @@ export const ChatMessage = ({
       {message.fileUrl && (
         <>
           {isPdf ? (
-            <FileIcon className="h-10 w-10 fill-rose-400 stroke-rose-600" />
+            <Link
+              href={message.fileUrl}
+              target="_blank"
+              className="w-fit cursor-pointer"
+            >
+              <FileTextIcon className="h-10 w-10 fill-rose-400 stroke-rose-600 hover:stroke-rose-700" />
+            </Link>
           ) : (
-            <ImageIcon className="h-10 w-10 fill-rose-400 stroke-rose-600" />
+            <Link
+              href={message.fileUrl}
+              target="_blank"
+              className="w-fit cursor-pointer"
+            >
+              <ImageIcon className="h-10 w-10 fill-rose-400 stroke-rose-600 hover:stroke-rose-700" />
+            </Link>
           )}
         </>
       )}
       <p
         className={cn(
-          'break-words px-2 text-sm',
+          'break-words px-2 text-xs',
           isDeleted ? 'italic text-zinc-400' : ''
         )}
       >
@@ -77,3 +94,5 @@ export const ChatMessage = ({
     </div>
   )
 }
+
+const TIMESTAMP_FORMAT = 'd MMM yyyy, HH:mm'
