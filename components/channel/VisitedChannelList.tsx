@@ -23,7 +23,7 @@ export const VisitedChannelList = ({
         visitedChannels.map((visitedChannel) => (
           <Link
             href={`/servers/${visitedChannel.serverId}/channels/${visitedChannel.channelId}`}
-            className="flex w-fit flex-col gap-2 rounded-md text-zinc-300/80 hover:text-zinc-300"
+            className="flex w-fit flex-col gap-2 rounded-md text-zinc-300/80 hover:text-zinc-100"
             key={visitedChannel.id}
           >
             <div className="flex items-center gap-1">

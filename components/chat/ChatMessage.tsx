@@ -2,11 +2,38 @@
 
 import { memberRoleIconMap } from '@/components/channel/ChannelFooter'
 import { MessageWithMember } from '@/components/chat/ChatContent'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { useMessageDelete, useMessageEdit } from '@/hooks/chat'
 import { cn } from '@/lib/utils'
+import { MessageEditSchema } from '@/schemas/message'
 import { formatTimeStamp } from '@/utils/format-timestamp'
-import { FileTextIcon, ImageIcon, PencilIcon, TrashIcon } from 'lucide-react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  FileTextIcon,
+  ImageIcon,
+  Loader2Icon,
+  PencilIcon,
+  TrashIcon,
+} from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 export const ChatMessage = ({
   userId,
@@ -15,14 +42,27 @@ export const ChatMessage = ({
   userId: string
   message: MessageWithMember
 }) => {
+  const form = useForm<z.infer<typeof MessageEditSchema>>({
+    resolver: zodResolver(MessageEditSchema),
+    defaultValues: {
+      message: message.message || undefined,
+    },
+  })
   const isPdf = message.fileUrl && message.fileUrl.includes('pdf')
   const isYou = message.member.userId === userId
   const isAdminOrModerator =
     message.member.memberRole === 'ADMIN' ||
     message.member.memberRole === 'MODERATOR'
+  const messageEdit = useMessageEdit()
+  const messageDelete = useMessageDelete()
 
-  const [isEdited, setIsEdited] = useState<boolean>(false)
-  const [isDeleted, setIsDeleted] = useState<boolean>(false)
+  const onSubmit = async (data: z.infer<typeof MessageEditSchema>) => {
+    if (data.message)
+      await messageEdit.mutateAsync({
+        messageId: message.id,
+        messageContent: data.message,
+      })
+  }
 
   return (
     <div className="group mx-2.5 my-2 flex h-fit w-fit max-w-xs flex-col gap-2 rounded-lg bg-zinc-900 p-2 md:max-w-sm lg:max-w-lg">
@@ -33,32 +73,75 @@ export const ChatMessage = ({
             {isYou ? 'You ' : message.member.user.name}
           </span>
         </div>
-        <span className="flex pl-5 pr-2 text-[0.60rem] text-zinc-300 group-hover:hidden">
-          {formatTimeStamp(message.createdAt)}
-        </span>
-        {isEdited && !isDeleted && (
-          <div className="flex px-2 text-xs font-medium  text-zinc-400 group-hover:hidden">
-            edited
-          </div>
-        )}
-        {!isDeleted && (
+        <div className="flex items-center gap-1 pl-5">
+          <span
+            className={cn(
+              'text-[0.60rem] text-zinc-300',
+              !message.isDeleted ? 'group-hover:hidden' : ''
+            )}
+          >
+            {formatTimeStamp(
+              message.isEdited ? message.updatedAt : message.createdAt
+            )}
+          </span>
+          {message.isEdited && !message.isDeleted && (
+            <div className="flex text-xs font-medium text-zinc-400 group-hover:hidden">
+              (edited)
+            </div>
+          )}
+        </div>
+        {!message.isDeleted && (
           <div className="hidden gap-1 pl-5 group-hover:flex">
             {isYou && (
-              <PencilIcon
-                className="h-4 w-4 text-zinc-400 hover:text-zinc-500"
-                onClick={() => {
-                  setIsEdited(true)
-                }}
-              />
+              <Dialog>
+                <DialogTrigger asChild>
+                  <PencilIcon className="h-4 w-4 text-zinc-400 hover:text-zinc-500" />
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>
+                      <span>Edit Your Message</span>
+                    </DialogTitle>
+                  </DialogHeader>
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                      <FormField
+                        control={form.control}
+                        name="message"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                            <DialogFooter>
+                              <Button>
+                                {messageEdit.isPending ? (
+                                  <Loader2Icon className="h-4 w-4 animate-spin" />
+                                ) : (
+                                  <span>Submit</span>
+                                )}
+                              </Button>
+                            </DialogFooter>
+                          </FormItem>
+                        )}
+                      />
+                    </form>
+                  </Form>
+                </DialogContent>
+              </Dialog>
             )}
-            {(isYou || isAdminOrModerator) && (
-              <TrashIcon
-                className="h-4 w-4 text-zinc-400 hover:text-zinc-500"
-                onClick={() => {
-                  setIsDeleted(true)
-                }}
-              />
-            )}
+            {(isYou || isAdminOrModerator) &&
+              (messageDelete.isPending ? (
+                <Loader2Icon className="h-4 w-4 animate-spin" />
+              ) : (
+                <TrashIcon
+                  className="h-4 w-4 text-zinc-400 hover:text-zinc-500"
+                  onClick={async () =>
+                    await messageDelete.mutateAsync(message.id)
+                  }
+                />
+              ))}
           </div>
         )}
       </div>
@@ -86,13 +169,11 @@ export const ChatMessage = ({
       <p
         className={cn(
           'break-words px-2 text-xs',
-          isDeleted ? 'italic text-zinc-400' : ''
+          message.isDeleted ? 'italic text-zinc-400' : ''
         )}
       >
-        {isDeleted ? 'This message has been deleted' : message.message}
+        {message.isDeleted ? 'This message has been deleted' : message.message}
       </p>
     </div>
   )
 }
-
-const TIMESTAMP_FORMAT = 'd MMM yyyy, HH:mm'

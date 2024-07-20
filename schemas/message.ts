@@ -15,3 +15,16 @@ export const MessageSchema = z.object({
   message: z.string().optional(),
   fileUrl: z.string().optional(),
 })
+
+export type MessageEditData = {
+  messageId: string
+  messageContent: string
+}
+
+export const MessageEditSchema = z.object({
+  message: z
+    .string()
+    .min(1, 'Message is too short')
+    .max(255, 'Message is too long')
+    .optional(),
+})
