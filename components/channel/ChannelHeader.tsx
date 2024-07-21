@@ -9,9 +9,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useModalStore } from '@/stores/modal'
-import { Server, MemberRole } from '@prisma/client'
+import { MemberRole, Server } from '@prisma/client'
 import {
-  BotIcon,
   ChevronDownIcon,
   LogOutIcon,
   MenuIcon,

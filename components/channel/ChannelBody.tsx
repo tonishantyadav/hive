@@ -77,12 +77,15 @@ export const ChannelBody = async ({
 
   return (
     <div className="flex h-0 flex-grow flex-col gap-2 p-1">
-      <ChannelSearchBar
-        members={filteredMembers}
-        textChannels={textChannels}
-        voiceChannels={voiceChannels}
-        videoChannels={videoChannels}
-      />
+      {!serverDefault && (
+        <ChannelSearchBar
+          members={filteredMembers}
+          textChannels={textChannels}
+          voiceChannels={voiceChannels}
+          videoChannels={videoChannels}
+        />
+      )}
+
       <GeneralChannel
         serverId={serverId}
         channelId={generalChannel.id}
