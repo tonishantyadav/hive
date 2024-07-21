@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 
-export const useChannelUpdate = () => {
+export const useChannelEdit = () => {
   return useMutation({
     mutationFn: async ({
       serverId,

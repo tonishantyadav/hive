@@ -8,10 +8,12 @@ import { Menu } from 'lucide-react'
 export const SheetBox = ({
   user,
   server,
+  memberId,
   memberRole,
 }: {
   user: User
   server: Server
+  memberId: string
   memberRole: MemberRole
 }) => {
   return (
@@ -27,7 +29,12 @@ export const SheetBox = ({
             <ServerBox />
           </div>
           <div className="flex w-full flex-col gap-2 p-1">
-            <ChannelBox user={user} server={server} memberRole={memberRole} />
+            <ChannelBox
+              user={user}
+              server={server}
+              memberId={memberId}
+              memberRole={memberRole}
+            />
           </div>
         </SheetContent>
       </Sheet>

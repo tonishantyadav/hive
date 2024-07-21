@@ -75,14 +75,14 @@ export const ChannelList = ({
                   </div>
                   <div className="hidden items-center gap-1 group-hover:flex">
                     <PencilIcon
-                      className="h-4 w-4 group-hover:text-indigo-500"
+                      className="h-4 w-4"
                       onClick={() => {
                         setChannel(textChannel)
-                        onOpen('UPDATE_CHANNEL')
+                        onOpen('EDIT_CHANNEL')
                       }}
                     />
                     <Trash2Icon
-                      className="h-4 w-4 group-hover:text-rose-500"
+                      className="h-4 w-4"
                       onClick={() => {
                         setChannel(textChannel)
                         onOpen('DELETE_CHANNEL')
@@ -133,14 +133,14 @@ export const ChannelList = ({
                   </div>
                   <div className="hidden items-center gap-1 group-hover:inline-flex">
                     <PencilIcon
-                      className="h-4 w-4 group-hover:text-indigo-500"
+                      className="h-4 w-4"
                       onClick={() => {
                         setChannel(voiceChannel)
-                        onOpen('UPDATE_CHANNEL')
+                        onOpen('EDIT_CHANNEL')
                       }}
                     />
                     <Trash2Icon
-                      className="h-4 w-4 group-hover:text-rose-500"
+                      className="h-4 w-4"
                       onClick={() => {
                         setChannel(voiceChannel)
                         onOpen('DELETE_CHANNEL')
@@ -191,14 +191,14 @@ export const ChannelList = ({
                   </div>
                   <div className="hidden items-center gap-1 group-hover:inline-flex">
                     <PencilIcon
-                      className="h-4 w-4 group-hover:text-indigo-500"
+                      className="h-4 w-4"
                       onClick={() => {
                         setChannel(videoChannel)
-                        onOpen('UPDATE_CHANNEL')
+                        onOpen('EDIT_CHANNEL')
                       }}
                     />
                     <Trash2Icon
-                      className="h-4 w-4 group-hover:text-rose-500"
+                      className="h-4 w-4"
                       onClick={() => {
                         setChannel(videoChannel)
                         onOpen('DELETE_CHANNEL')

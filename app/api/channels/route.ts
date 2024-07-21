@@ -1,6 +1,7 @@
 import { auth } from '@/auth'
 import prisma from '@/prisma/client'
 import { ChannelCreateSchema } from '@/schemas/channel'
+import { error } from 'console'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
@@ -57,6 +58,15 @@ export async function POST(request: NextResponse) {
   if (channelName === 'general')
     return NextResponse.json(
       { error: "Channel name cannot be 'general'." },
+      { status: 422 }
+    )
+
+  const channel = await prisma.channel.findFirst({
+    where: { name: channelName },
+  })
+  if (channel)
+    return NextResponse.json(
+      { error: 'Channel name is already taken.' },
       { status: 422 }
     )
 

@@ -15,7 +15,7 @@ export const VisitedChannelList = ({
 }) => {
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-1 rounded-md border bg-zinc-800 p-2">
+      <div className="flex items-center gap-1 rounded-md border bg-secondary p-2">
         <HistoryIcon className="h-4 w-4" />
         <span>Recent</span>
       </div>

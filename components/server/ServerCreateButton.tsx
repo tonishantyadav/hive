@@ -9,8 +9,9 @@ export const ServerCreateButton = () => {
 
   return (
     <Button
-      className="rounded-full bg-indigo-500 hover:rounded-xl hover:bg-indigo-600"
+      className="rounded-full"
       size="icon"
+      variant="secondary"
       onClick={() => onOpen('CREATE_SERVER')}
     >
       <Plus className="text-white" />

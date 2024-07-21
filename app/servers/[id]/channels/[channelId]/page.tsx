@@ -65,6 +65,7 @@ const ChannelPage = async ({
         user={user}
         server={server}
         channel={channel}
+        memberId={member.id}
         memberRole={member.memberRole}
       />
     </div>

@@ -19,9 +19,9 @@ import { useModalStore } from '@/stores/modal'
 import { handleError } from '@/utils/error'
 import { ChannelCategory } from '@prisma/client'
 import _ from 'lodash'
+import { Loader2Icon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { UseFormReturn } from 'react-hook-form'
-import { BeatLoader } from 'react-spinners'
 import { z } from 'zod'
 
 export const ChannelVoiceCreateForm = ({
@@ -42,6 +42,7 @@ export const ChannelVoiceCreateForm = ({
         channelName: data.channelName,
         channelCategory: ChannelCategory.VOICE,
       })
+      form.reset()
       router.refresh()
       onClose('CREATE_VOICE_CHANNEL')
     } catch (error) {
@@ -86,7 +87,7 @@ export const ChannelVoiceCreateForm = ({
               disabled={channelCreate.isPending}
             >
               {channelCreate.isPending ? (
-                <BeatLoader className="white" size={10} />
+                <Loader2Icon className="h-4 w-4 animate-spin" />
               ) : (
                 'Create'
               )}

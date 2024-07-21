@@ -23,9 +23,9 @@ import { useChannelCreate } from '@/hooks/channel'
 import { ChannelCreateFormData } from '@/schemas/channel'
 import { handleError } from '@/utils/error'
 import { ChannelCategory } from '@prisma/client'
-import { UseFormReturn } from 'react-hook-form'
-import { BeatLoader } from 'react-spinners'
 import _ from 'lodash'
+import { Loader2Icon } from 'lucide-react'
+import { UseFormReturn } from 'react-hook-form'
 
 export const ChannelCreateForm = ({
   serverId,
@@ -104,7 +104,7 @@ export const ChannelCreateForm = ({
               disabled={channelCreate.isPending}
             >
               {channelCreate.isPending ? (
-                <BeatLoader className="white" size={10} />
+                <Loader2Icon className="h-4 w-4 animate-spin" />
               ) : (
                 'Create'
               )}

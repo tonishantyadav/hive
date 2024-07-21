@@ -13,8 +13,8 @@ import { toast } from '@/components/ui/use-toast'
 import { useChannelDelete } from '@/hooks/channel'
 import { useModalStore } from '@/stores/modal'
 import { handleError } from '@/utils/error'
+import { Loader2Icon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { BeatLoader } from 'react-spinners'
 
 export const ChannelDeleteModal = () => {
   const router = useRouter()
@@ -73,7 +73,7 @@ export const ChannelDeleteModal = () => {
                 onClick={onDelete}
               >
                 {channelDelete.isPending ? (
-                  <BeatLoader size={10} color="white" />
+                  <Loader2Icon className="h-4 w-4 animate-spin" />
                 ) : (
                   'Continue'
                 )}

@@ -6,11 +6,13 @@ export const ChatBox = ({
   user,
   server,
   channel,
+  memberId,
   memberRole,
 }: {
   user: User
   server: Server
   channel: Channel
+  memberId: string
   memberRole: MemberRole
 }) => {
   return (
@@ -20,7 +22,12 @@ export const ChatBox = ({
           channelName={channel.name}
           channelCategory={channel.channelCategory}
         />
-        <SheetBox user={user} server={server} memberRole={memberRole} />
+        <SheetBox
+          user={user}
+          server={server}
+          memberId={memberId}
+          memberRole={memberRole}
+        />
       </div>
       <ChatBody userId={user.id} serverId={server.id} channelId={channel.id} />
     </div>

@@ -1,4 +1,5 @@
 import prisma from '@/prisma/client'
+import { error } from 'console'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
@@ -31,12 +32,26 @@ export async function PATCH(
   if (!channel)
     return NextResponse.json({ error: 'Channel not found.' }, { status: 404 })
 
+  // Check if the channel exists with the same name or not
+  const existingChannel = await prisma.channel.findFirst({
+    where: {
+      serverId,
+      name: channelName,
+    },
+  })
+
+  if (existingChannel)
+    return NextResponse.json(
+      { error: 'Channel name is already taken' },
+      { status: 422 }
+    )
+
   try {
     await prisma.channel.update({
       where: { id: channel.id },
       data: { name: channelName },
     })
-    return NextResponse.json({}, { status: 200 })
+    return NextResponse.json({ status: 200 })
   } catch (error) {
     return NextResponse.json(
       { error: 'An unexpected error occurred.' },
@@ -63,9 +78,15 @@ export async function DELETE(
   if (!channel)
     return NextResponse.json({ error: 'Channel not found.' }, { status: 404 })
 
+  const visitedChannel = await prisma.visitedChannel.findFirst({
+    where: { channelId: channel.id },
+  })
+
   try {
+    if (visitedChannel)
+      await prisma.visitedChannel.delete({ where: { id: visitedChannel.id } })
     await prisma.channel.delete({ where: { id: channel.id } })
-    return NextResponse.json({}, { status: 200 })
+    return NextResponse.json({ status: 200 })
   } catch (error) {
     return NextResponse.json(
       {
