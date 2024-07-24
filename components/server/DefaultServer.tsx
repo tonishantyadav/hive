@@ -26,20 +26,22 @@ export const DefaultServer = ({
       href={`/servers/${serverId}/channels/${channelId}`}
       className="group relative flex h-10 w-10 gap-4 rounded-full"
     >
-      <div
-        className={cn(
-          'relative right-3 w-1 rounded-full bg-white group-hover:inline-block',
-          !isDefault ? 'hidden' : ''
-        )}
-      />{' '}
       {serverImage ? (
-        <Image
-          className="rounded-full hover:rounded-xl"
-          fill
-          src={serverImage}
-          alt="Default server image"
-          sizes="33vw"
-        />
+        <>
+          <div
+            className={cn(
+              'relative right-3 w-1 rounded-full bg-white group-hover:inline-block',
+              !isDefault ? 'hidden' : ''
+            )}
+          />{' '}
+          <Image
+            className="rounded-full hover:rounded-xl"
+            fill
+            src={serverImage}
+            alt="Default server image"
+            sizes="33vw"
+          />
+        </>
       ) : (
         <Avatar className="h-10 w-10">
           <AvatarFallback>{serverName[0]}</AvatarFallback>

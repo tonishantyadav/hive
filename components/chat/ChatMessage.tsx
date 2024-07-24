@@ -19,7 +19,11 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useMessageDelete, useMessageEdit } from '@/hooks/chat'
+import {
+  useSocketMessageUpdateDelete,
+  useMessageDelete,
+  useMessageEdit,
+} from '@/hooks/chat'
 import { cn } from '@/lib/utils'
 import { MessageEditSchema } from '@/schemas/message'
 import { formatTimeStamp } from '@/utils/format-timestamp'
@@ -37,9 +41,13 @@ import { z } from 'zod'
 
 export const ChatMessage = ({
   userId,
+  serverId,
+  channelId,
   message,
 }: {
   userId: string
+  serverId: string
+  channelId: string
   message: MessageWithMember
 }) => {
   const form = useForm<z.infer<typeof MessageEditSchema>>({
@@ -56,13 +64,28 @@ export const ChatMessage = ({
   const messageEdit = useMessageEdit()
   const messageDelete = useMessageDelete()
 
-  const onSubmit = async (data: z.infer<typeof MessageEditSchema>) => {
+  const onEdit = async (data: z.infer<typeof MessageEditSchema>) => {
     if (data.message)
       await messageEdit.mutateAsync({
+        userId,
+        serverId,
+        channelId,
         messageId: message.id,
         messageContent: data.message,
       })
   }
+
+  const onDelete = async () => {
+    await messageDelete.mutateAsync({
+      userId,
+      serverId,
+      channelId,
+      messageId: message.id,
+    })
+  }
+
+  // Handle real-time message update/delete
+  useSocketMessageUpdateDelete(channelId, message.id)
 
   return (
     <div className="group mx-2.5 my-2 flex h-fit w-fit max-w-xs flex-col gap-2 rounded-lg bg-zinc-900 p-2 md:max-w-sm lg:max-w-lg">
@@ -104,7 +127,7 @@ export const ChatMessage = ({
                     </DialogTitle>
                   </DialogHeader>
                   <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <form onSubmit={form.handleSubmit(onEdit)}>
                       <FormField
                         control={form.control}
                         name="message"
@@ -137,9 +160,7 @@ export const ChatMessage = ({
               ) : (
                 <TrashIcon
                   className="h-4 w-4 text-zinc-400 hover:text-zinc-500"
-                  onClick={async () =>
-                    await messageDelete.mutateAsync(message.id)
-                  }
+                  onClick={onDelete}
                 />
               ))}
           </div>

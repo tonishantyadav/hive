@@ -12,10 +12,10 @@ import {
 import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/use-toast'
 import { useMessageCreate } from '@/hooks/chat'
+import { useSocketMessageCreate } from '@/hooks/chat/useSocketMessageCreate'
 import { useModalStore } from '@/stores/modal'
 import { handleError } from '@/utils/error'
 import { Loader2Icon, PaperclipIcon, SendHorizonalIcon } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -83,6 +83,9 @@ export const ChatInput = ({
         ? setDisabled(false)
         : setDisabled(true)
   }, [form, attachement])
+
+  // Handle real-time message create
+  useSocketMessageCreate(channelId)
 
   return (
     <div className="flex flex-col">

@@ -16,9 +16,12 @@ export const MessageSchema = z.object({
   fileUrl: z.string().optional(),
 })
 
-export type MessageEditData = {
+export type MessageUpdateOrDeleteData = {
+  userId: string
+  serverId: string
+  channelId: string
   messageId: string
-  messageContent: string
+  messageContent?: string
 }
 
 export const MessageEditSchema = z.object({

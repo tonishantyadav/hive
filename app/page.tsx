@@ -1,5 +1,6 @@
 import { auth } from '@/auth'
 import Container from '@/components/Container'
+import { SignoutButton } from '@/components/SignoutButton'
 import { Button } from '@/components/ui/button'
 import highVoltageIcon from '@/public/high-voltage-icon.svg'
 import { getDefaultServer } from '@/server/default-server'

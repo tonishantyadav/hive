@@ -18,7 +18,6 @@ export const SigninButton = () => {
   useEffect(() => {
     if (session && session.user && status === 'authenticated') setPending(true)
     if (searchParams && searchParams.get('error')) {
-      console.log('this is executing...')
       toast({
         variant: 'destructive',
         title: 'Uh-Oh! Something went wrong.',

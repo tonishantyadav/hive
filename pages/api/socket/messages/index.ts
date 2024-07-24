@@ -1,6 +1,7 @@
 import prisma from '@/prisma/client'
 import { MessageSchema } from '@/schemas/message'
 import { NextApiResponse } from '@/types/socket'
+import { socketMessageAddKey } from '@/utils/query-key'
 import { NextApiRequest } from 'next'
 
 export default async function handler(
@@ -83,13 +84,20 @@ export default async function handler(
         message,
         fileUrl,
       },
+      include: {
+        member: {
+          include: {
+            user: true,
+          },
+        },
+      },
     })
 
-    const channelKey = `chat:${channelId}:messages`
+    const key = socketMessageAddKey(channelId)
 
     // Ensure the io server is available before emitting the message
     if (res?.socket?.server?.io) {
-      res.socket.server.io.emit(channelKey, newMessage)
+      res.socket.server.io.emit(key, newMessage)
     } else {
       console.error('Socket.io server not initialized')
       return res
@@ -97,11 +105,9 @@ export default async function handler(
         .json({ error: 'Server communication error. Please try again later.' })
     }
 
-    return res.status(200).json({})
+    return res.status(200).json(newMessage)
   } catch (error) {
     console.error('Error processing request:', error)
-    return res
-      .status(500)
-      .json({ error: 'An unexpected error occurred. Please try again later.' })
+    return res.status(500).json({ error: 'An unexpected error occurred.' })
   }
 }

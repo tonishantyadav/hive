@@ -14,9 +14,11 @@ export interface MessageWithMember extends Message {
 
 export const ChatContent = ({
   userId,
+  serverId,
   channelId,
 }: {
   userId: string
+  serverId: string
   channelId: string
 }) => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
@@ -52,7 +54,13 @@ export const ChatContent = ({
       {messages && messages[0] && (
         <>
           {messages.reverse().map((message) => (
-            <ChatMessage userId={userId} message={message} key={message.id} />
+            <ChatMessage
+              userId={userId}
+              serverId={serverId}
+              channelId={channelId}
+              message={message}
+              key={message.id}
+            />
           ))}
         </>
       )}

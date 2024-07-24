@@ -106,6 +106,8 @@ CREATE TABLE `Message` (
     `id` VARCHAR(191) NOT NULL,
     `message` VARCHAR(191) NULL,
     `fileUrl` VARCHAR(191) NULL,
+    `isEdited` BOOLEAN NOT NULL DEFAULT false,
+    `isDeleted` BOOLEAN NOT NULL DEFAULT false,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `chatId` VARCHAR(191) NOT NULL,
