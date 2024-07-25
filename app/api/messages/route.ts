@@ -2,7 +2,7 @@ import { MessageWithMember } from '@/components/chat/ChatContent'
 import prisma from '@/prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
-const take = 20
+const take = 15
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams

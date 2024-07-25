@@ -2,11 +2,13 @@
 
 import { MemberWithUser } from '@/components/channel/ChannelBody'
 import { ChatMessage } from '@/components/chat'
+import { Badge } from '@/components/ui/badge'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { useMessages } from '@/hooks/chat'
 import { Message } from '@prisma/client'
 import { GhostIcon, Loader2Icon } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { ScrollArea } from '../ui/scroll-area'
+import { MdArrowOutward } from 'react-icons/md'
 
 export interface MessageWithMember extends Message {
   member: MemberWithUser
@@ -28,7 +30,7 @@ export const ChatContent = ({
   useEffect(() => {
     if (data && data.pages) {
       const allMessages = data.pages.flatMap((page) => page.messages)
-      setMessages(allMessages.reverse())
+      setMessages(allMessages)
     }
   }, [data])
 
@@ -50,20 +52,38 @@ export const ChatContent = ({
 
   return (
     <ScrollArea className="h-0 flex-grow">
-      {isPending && <Loader2Icon className="h-4 w-4 animate-spin" />}
-      {messages && messages[0] && (
-        <>
-          {messages.reverse().map((message) => (
-            <ChatMessage
-              userId={userId}
-              serverId={serverId}
-              channelId={channelId}
-              message={message}
-              key={message.id}
-            />
-          ))}
-        </>
+      {hasNextPage && (
+        <div className="my-2 flex cursor-pointer justify-center">
+          {isFetchingNextPage ? (
+            <Loader2Icon className="h-4 w-4 animate-spin" />
+          ) : (
+            <Badge
+              className="flex items-center gap-1 text-xs"
+              variant="secondary"
+              onClick={() => fetchNextPage()}
+            >
+              <span>Old Messages</span>
+              <MdArrowOutward className="h-4 w-4" />
+            </Badge>
+          )}
+        </div>
       )}
+      <div className="flex flex-col-reverse">
+        {isPending && <Loader2Icon className="h-4 w-4 animate-spin" />}
+        {messages && messages[0] && (
+          <>
+            {messages.reverse().map((message) => (
+              <ChatMessage
+                userId={userId}
+                serverId={serverId}
+                channelId={channelId}
+                message={message}
+                key={message.id}
+              />
+            ))}
+          </>
+        )}
+      </div>
     </ScrollArea>
   )
 }
