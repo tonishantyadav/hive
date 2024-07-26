@@ -14,6 +14,7 @@ import { toast } from '@/components/ui/use-toast'
 import { useMessageCreate } from '@/hooks/chat'
 import { useSocketMessageCreate } from '@/hooks/chat/useSocketMessageCreate'
 import { useModalStore } from '@/stores/modal'
+import { useScrollStore } from '@/stores/scroll'
 import { handleError } from '@/utils/error'
 import { Loader2Icon, PaperclipIcon, SendHorizonalIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -39,8 +40,10 @@ export const ChatInput = ({
     },
   })
   const messageCreate = useMessageCreate()
+  const { count, containerRef, isScrolling, setIsScrolling } = useScrollStore()
   const { onOpen, attachement, setAttachement } = useModalStore()
   const [disabled, setDisabled] = useState<boolean>(true)
+  const [scrollToBottom, setScrollToBottom] = useState<boolean>(false)
 
   const onSubmit = async (data: ChatInputData) => {
     try {
@@ -52,6 +55,8 @@ export const ChatInput = ({
         fileUrl: attachement?.url,
       })
       form.reset()
+      setIsScrolling(false)
+      setScrollToBottom(true)
       setAttachement(null)
     } catch (error) {
       const errorMessage = handleError(error)
@@ -62,6 +67,8 @@ export const ChatInput = ({
       })
     }
   }
+
+  useSocketMessageCreate(channelId)
 
   useEffect(() => {
     // Watch both the message input and the attachment URL
@@ -84,8 +91,16 @@ export const ChatInput = ({
         : setDisabled(true)
   }, [form, attachement])
 
-  // Handle real-time message create
-  useSocketMessageCreate(channelId)
+  useEffect(() => {
+    if (
+      scrollToBottom &&
+      containerRef &&
+      containerRef.current &&
+      !isScrolling
+    ) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight
+    }
+  }, [scrollToBottom, containerRef, count, isScrolling, setIsScrolling])
 
   return (
     <div className="flex flex-col">
