@@ -34,7 +34,6 @@ export async function POST(req: NextRequest) {
         receiverId: receiver.id,
       },
     })
-    console.log(coversation)
     return NextResponse.json(
       { conversationId: coversation.id },
       { status: 200 }
