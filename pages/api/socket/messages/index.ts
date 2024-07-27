@@ -72,11 +72,9 @@ export default async function handler(
   }
 
   try {
-    // Find or create the chat for the channel
     let chat = await prisma.chat.findUnique({ where: { channelId } })
     if (!chat) chat = await prisma.chat.create({ data: { channelId } })
 
-    // Create a new message
     const newMessage = await prisma.message.create({
       data: {
         chatId: chat.id,
@@ -95,7 +93,6 @@ export default async function handler(
 
     const key = socketMessageAddKey(channelId)
 
-    // Ensure the io server is available before emitting the message
     if (res?.socket?.server?.io) {
       res.socket.server.io.emit(key, newMessage)
     } else {

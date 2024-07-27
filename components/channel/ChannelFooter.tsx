@@ -20,7 +20,7 @@ export const ChannelFooter = async ({
         </Avatar>
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-1">
-            {memberRoleIconMap[memberRole]}
+            {memberRoleIconRecord[memberRole]}
             <span className="text-sm font-semibold">{user.name}</span>
           </div>
           <span className="ml-1 text-xs text-zinc-300/80">{user.email}</span>
@@ -31,7 +31,7 @@ export const ChannelFooter = async ({
   )
 }
 
-export const memberRoleIconMap: Record<MemberRole, ReactNode> = {
+export const memberRoleIconRecord: Record<MemberRole, ReactNode> = {
   [MemberRole.ADMIN]: <ShieldPlusIcon className="h-4 w-4 text-emerald-600" />,
   [MemberRole.MODERATOR]: (
     <ShieldCheckIcon className="h-4 w-4 text-indigo-500" />

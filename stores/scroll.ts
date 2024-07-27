@@ -1,4 +1,3 @@
-import { InfiniteData } from '@tanstack/react-query'
 import { create } from 'zustand'
 
 interface ScrollStore {

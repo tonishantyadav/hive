@@ -1,6 +1,6 @@
 'use client'
 
-import { memberRoleIconMap } from '@/components/channel/ChannelFooter'
+import { memberRoleIconRecord } from '@/components/channel/ChannelFooter'
 import { MessageWithMember } from '@/components/chat/ChatContent'
 import { Button } from '@/components/ui/button'
 import {
@@ -91,7 +91,7 @@ export const ChatMessage = ({
     <div className="group mx-2.5 my-2 flex h-fit w-fit max-w-xs flex-col gap-2 rounded-lg bg-zinc-900 p-2 md:max-w-sm lg:max-w-lg">
       <div className="flex items-center justify-between">
         <div className="flex h-fit w-fit items-center gap-1 rounded-full bg-black/30 px-3 py-1">
-          {memberRoleIconMap[message.member.memberRole]}
+          {memberRoleIconRecord[message.member.memberRole]}
           <span className="text-sm font-medium text-zinc-300">
             {isYou ? 'You ' : message.member.user.name}
           </span>

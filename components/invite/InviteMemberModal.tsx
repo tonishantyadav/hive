@@ -108,4 +108,4 @@ export const InviteMemberModal = () => {
   )
 }
 
-export const inviteUrl = `${process.env.NEXT_PUBLIC_APP_URL}/invite/`
+export const inviteUrl = `${process.env.NEXT_PUBLIC_APP_SITE_URL}/invite/`

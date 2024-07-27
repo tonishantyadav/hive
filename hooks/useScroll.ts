@@ -1,6 +1,6 @@
 import { useScrollStore } from '@/stores/scroll'
 import { ChatScroll } from '@/types/chat-scroll'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 export const useScroll = ({
   hasNextPage,

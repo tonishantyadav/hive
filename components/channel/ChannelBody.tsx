@@ -95,6 +95,7 @@ export const ChannelBody = async ({
         <VisitedChannelList visitedChannels={visitedChannels} />
       ) : (
         <ChannelList
+          memberId={memberId}
           serverId={serverId}
           members={filteredMembers}
           textChannels={textChannels}

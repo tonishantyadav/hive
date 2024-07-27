@@ -6,7 +6,7 @@ import {
   VideoChannel,
   VoiceChannel,
 } from '@/components/channel/ChannelBody'
-import { memberRoleIconMap } from '@/components/channel/ChannelFooter'
+import { memberRoleIconRecord } from '@/components/channel/ChannelFooter'
 import { Button } from '@/components/ui/button'
 import {
   CommandDialog,
@@ -133,7 +133,7 @@ export const ChannelSearchBar = ({
                 <CommandItem className="gap-1 text-zinc-300/70" key={member.id}>
                   {member.memberRole === 'ADMIN' ||
                   member.memberRole === 'MODERATOR' ? (
-                    memberRoleIconMap[member.memberRole]
+                    memberRoleIconRecord[member.memberRole]
                   ) : (
                     <UserIcon className="h-4 w-4" />
                   )}

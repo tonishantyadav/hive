@@ -1,7 +1,7 @@
 'use client'
 
 import { MemberWithUser } from '@/components/channel/ChannelBody'
-import { memberRoleIconMap } from '@/components/channel/ChannelFooter'
+import { memberRoleIconRecord } from '@/components/channel/ChannelFooter'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -80,7 +80,7 @@ export const ServerMember = ({
         </Avatar>
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-1">
-            {memberRoleIconMap[member.memberRole]}
+            {memberRoleIconRecord[member.memberRole]}
             <span>{member.user.name}</span>
           </div>
           <span className="ml-1 text-xs text-zinc-400">

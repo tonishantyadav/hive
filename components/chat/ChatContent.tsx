@@ -36,7 +36,7 @@ export const ChatContent = ({
   useEffect(() => {
     const count =
       data?.pages.reduce(
-        (total, page) => total + page.messages.length + 1,
+        (total, page) => total + page.messages?.length + 1,
         0
       ) || 0
     setCount(count)
@@ -71,7 +71,7 @@ export const ChatContent = ({
       <div className="flex flex-col-reverse">
         {data?.pages.map((page, index) => (
           <React.Fragment key={index}>
-            {page.messages.map((message: MessageWithMember) => (
+            {page.messages?.map((message: MessageWithMember) => (
               <ChatMessage
                 userId={userId}
                 serverId={serverId}

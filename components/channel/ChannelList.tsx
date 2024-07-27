@@ -6,14 +6,16 @@ import {
   VideoChannel,
   VoiceChannel,
 } from '@/components/channel/ChannelBody'
-import { memberRoleIconMap } from '@/components/channel/ChannelFooter'
+import { memberRoleIconRecord } from '@/components/channel/ChannelFooter'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
+import { useConversationCreate } from '@/hooks/coversation/useConversationCreate'
 import { useModalStore } from '@/stores/modal'
 import {
   Hash,
   HashIcon,
+  Loader2Icon,
   MicIcon,
   PencilIcon,
   PlusIcon,
@@ -25,6 +27,7 @@ import {
 import Link from 'next/link'
 
 interface ChannelListProps {
+  memberId: string
   serverId: string
   members: MemberWithUser[]
   textChannels: TextChannel[]
@@ -33,12 +36,14 @@ interface ChannelListProps {
 }
 
 export const ChannelList = ({
+  memberId,
   serverId,
   members,
   textChannels,
   voiceChannels,
   videoChannels,
 }: ChannelListProps) => {
+  const conversationCreate = useConversationCreate()
   const { setChannel, onOpen } = useModalStore()
 
   return (
@@ -234,14 +239,25 @@ export const ChannelList = ({
             <>
               {members.map((member) => (
                 <Button
-                  key={member.id}
-                  variant="ghost"
                   className="group flex w-full items-center justify-between gap-1 py-2 text-zinc-300"
+                  variant="ghost"
+                  key={member.id}
+                  disabled={conversationCreate.isPending}
+                  onClick={async () =>
+                    await conversationCreate.mutateAsync({
+                      serverId,
+                      senderId: memberId,
+                      receiverId: member.id,
+                    })
+                  }
                 >
                   <div className="flex items-center gap-1">
-                    {memberRoleIconMap[member.memberRole]}
-                    <span className="text-sm">{member.user.username}</span>
+                    {memberRoleIconRecord[member.memberRole]}
+                    <span className="text-sm">{member.user.name}</span>
                   </div>
+                  {conversationCreate.isPending && (
+                    <Loader2Icon className="h-4 w-4 animate-spin" />
+                  )}
                 </Button>
               ))}
             </>

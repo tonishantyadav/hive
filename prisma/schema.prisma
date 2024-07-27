@@ -64,21 +64,21 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id])
   createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  updatedAt    DateTime @default(now())
 
   @@index([userId])
 }
 
 model Member {
-  id                     String          @id @default(cuid())
-  memberRole             MemberRole      @default(MEMBER)
-  userId                 String
-  serverId               String
-  user                   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  server                 Server          @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  messages               Message[]
-  directMessagesSent     DirectMessage[] @relation("Sender")
-  directMessagesReceived DirectMessage[] @relation("Receiver")
+  id         String        @id @default(cuid())
+  memberRole MemberRole    @default(MEMBER)
+  userId     String
+  serverId   String
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  server     Server        @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  messages   Message[]
+  sender     Conversation? @relation("Sender")
+  receiver   Conversation? @relation("Receiver")
 
   @@unique([userId, serverId])
 }
@@ -102,11 +102,24 @@ model Channel {
   channelCategory ChannelCategory  @default(TEXT)
   isDefault       Boolean          @default(false)
   createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+  updatedAt       DateTime         @default(now())
   serverId        String
   server          Server           @relation(fields: [serverId], references: [id], onDelete: Cascade)
   chat            Chat?
   VisitedChannels VisitedChannel[]
+}
+
+model VisitedChannel {
+  id        String   @id @default(cuid())
+  visitedAt DateTime @default(now())
+  serverId  String
+  channelId String
+  userId    String
+  server    Server   @relation(fields: [serverId], references: [id], onDelete: NoAction)
+  channel   Channel  @relation(fields: [channelId], references: [id], onDelete: NoAction)
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction)
+
+  @@index([serverId, channelId])
 }
 
 model Chat {
@@ -114,6 +127,15 @@ model Chat {
   channelId String    @unique
   channel   Channel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
   messages  Message[]
+}
+
+model Conversation {
+  id            String          @id @default(cuid())
+  senderId      String          @unique
+  receiverId    String          @unique
+  sender        Member          @relation("Sender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver      Member          @relation("Receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  DirectMessage DirectMessage[]
 }
 
 model Message {
@@ -131,26 +153,15 @@ model Message {
 }
 
 model DirectMessage {
-  id         String   @id @default(cuid())
-  message    String
-  fileUrl    String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  senderId   String
-  receiverId String
-  sender     Member   @relation("Sender", fields: [senderId], references: [id], onDelete: Cascade)
-  receiver   Member   @relation("Receiver", fields: [receiverId], references: [id], onDelete: Cascade)
-}
+  id             String       @id @default(cuid())
+  message        String
+  fileUrl        String?
+  senderId       String
+  receiverId     String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
-model VisitedChannel {
-  id        String   @id @default(cuid())
-  visitedAt DateTime @default(now())
-  serverId  String
-  channelId String
-  userId    String
-  server    Server   @relation(fields: [serverId], references: [id], onDelete: NoAction)
-  channel   Channel  @relation(fields: [channelId], references: [id], onDelete: NoAction)
-  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction)
-
-  @@index([serverId, channelId])
+  @@index([senderId, receiverId])
 }
