@@ -20,10 +20,12 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import {
-  useSocketMessageUpdateDelete,
   useMessageDelete,
   useMessageEdit,
+  useSocketMessageUpdateDelete,
 } from '@/hooks/chat'
+import { useConversationCreate } from '@/hooks/conversation'
+import { useConversations } from '@/hooks/conversation/useConversations'
 import { cn } from '@/lib/utils'
 import { MessageEditSchema } from '@/schemas/message'
 import { formatTimeStamp } from '@/utils/format-timestamp'
@@ -36,16 +38,20 @@ import {
   TrashIcon,
 } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 export const ChatMessage = ({
   userId,
+  memberId,
   serverId,
   channelId,
   message,
 }: {
   userId: string
+  memberId: string
   serverId: string
   channelId: string
   message: MessageWithMember
@@ -57,12 +63,18 @@ export const ChatMessage = ({
     },
   })
   const isPdf = message.fileUrl && message.fileUrl.includes('pdf')
-  const isYou = message.member.userId === userId
-  const isAdminOrModerator =
+  const owner = message.member.userId === userId
+  const adminOrModerator =
     message.member.memberRole === 'ADMIN' ||
     message.member.memberRole === 'MODERATOR'
+  const router = useRouter()
   const messageEdit = useMessageEdit()
   const messageDelete = useMessageDelete()
+  const conversationCreate = useConversationCreate()
+
+  const { data: conversations, isPending, isError } = useConversations(userId)
+
+  const [isRedirecting, setIsRedirecting] = useState(false)
 
   const onEdit = async (data: z.infer<typeof MessageEditSchema>) => {
     if (data.message)
@@ -84,16 +96,49 @@ export const ChatMessage = ({
     })
   }
 
-  // Handle real-time message update/delete
+  const onMemberClick = async () => {
+    if (conversations && conversations.length && !isPending && !isError) {
+      setIsRedirecting(true)
+      const conversation = conversations.find(
+        (c) => c.senderId === memberId && c.receiverId === message.memberId
+      )
+      if (conversation) {
+        router.push(`/servers/${serverId}/conversations/${conversation.id}`)
+        setIsRedirecting(false)
+      }
+    } else {
+      await conversationCreate.mutateAsync({
+        serverId,
+        senderId: memberId,
+        receiverId: message.memberId,
+      })
+    }
+  }
+
   useSocketMessageUpdateDelete(channelId, message.id)
 
   return (
     <div className="group mx-2.5 my-2 flex h-fit w-fit max-w-xs flex-col gap-2 rounded-lg bg-zinc-900 p-2 md:max-w-sm lg:max-w-lg">
       <div className="flex items-center justify-between">
-        <div className="flex h-fit w-fit items-center gap-1 rounded-full bg-black/30 px-3 py-1">
-          {memberRoleIconRecord[message.member.memberRole]}
-          <span className="text-sm font-medium text-zinc-300">
-            {isYou ? 'You ' : message.member.user.name}
+        <div
+          className={cn(
+            'flex h-fit w-fit items-center gap-1 rounded-full bg-black/30 px-3 py-1',
+            !owner ? 'cursor-pointer ' : ''
+          )}
+          onClick={!owner ? onMemberClick : undefined}
+        >
+          {isRedirecting || conversationCreate.isPending ? (
+            <Loader2Icon className="h-4 w-4 animate-spin" />
+          ) : (
+            memberRoleIconRecord[message.member.memberRole]
+          )}
+          <span
+            className={cn(
+              'text-sm font-medium text-zinc-300',
+              !owner ? 'hover:text-zinc-100' : ''
+            )}
+          >
+            {owner ? 'You ' : message.member.user.name}
           </span>
         </div>
         <div className="flex items-center gap-1 pl-5">
@@ -115,7 +160,7 @@ export const ChatMessage = ({
         </div>
         {!message.isDeleted && (
           <div className="hidden gap-1 pl-5 group-hover:flex">
-            {isYou && (
+            {owner && (
               <Dialog>
                 <DialogTrigger asChild>
                   <PencilIcon className="h-4 w-4 text-zinc-400 hover:text-zinc-500" />
@@ -154,7 +199,7 @@ export const ChatMessage = ({
                 </DialogContent>
               </Dialog>
             )}
-            {(isYou || isAdminOrModerator) &&
+            {(owner || adminOrModerator) &&
               (messageDelete.isPending ? (
                 <Loader2Icon className="h-4 w-4 animate-spin" />
               ) : (

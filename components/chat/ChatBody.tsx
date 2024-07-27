@@ -6,11 +6,17 @@ import { useRef } from 'react'
 
 export interface ChatBodyProps {
   userId: string
+  memberId: string
   serverId: string
   channelId: string
 }
 
-export const ChatBody = ({ userId, serverId, channelId }: ChatBodyProps) => {
+export const ChatBody = ({
+  userId,
+  memberId,
+  serverId,
+  channelId,
+}: ChatBodyProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const { containerRef: cf, setContainerRef } = useScrollStore()
 
@@ -18,7 +24,12 @@ export const ChatBody = ({ userId, serverId, channelId }: ChatBodyProps) => {
 
   return (
     <div className="flex flex-grow flex-col">
-      <ChatContent userId={userId} serverId={serverId} channelId={channelId} />
+      <ChatContent
+        userId={userId}
+        memberId={memberId}
+        serverId={serverId}
+        channelId={channelId}
+      />
       <ChatInput userId={userId} serverId={serverId} channelId={channelId} />
     </div>
   )

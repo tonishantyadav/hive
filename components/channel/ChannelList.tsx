@@ -10,7 +10,7 @@ import { memberRoleIconRecord } from '@/components/channel/ChannelFooter'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
-import { useConversationCreate } from '@/hooks/coversation/useConversationCreate'
+import { useConversationCreate } from '@/hooks/conversation/useConversationCreate'
 import { useModalStore } from '@/stores/modal'
 import {
   Hash,

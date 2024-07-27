@@ -29,7 +29,12 @@ export const ChatBox = ({
           memberRole={memberRole}
         />
       </div>
-      <ChatBody userId={user.id} serverId={server.id} channelId={channel.id} />
+      <ChatBody
+        userId={user.id}
+        memberId={memberId}
+        serverId={server.id}
+        channelId={channel.id}
+      />
     </div>
   )
 }

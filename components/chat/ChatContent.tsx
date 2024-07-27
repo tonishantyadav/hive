@@ -15,10 +15,12 @@ export interface MessageWithMember extends Message {
 
 export const ChatContent = ({
   userId,
+  memberId,
   serverId,
   channelId,
 }: {
   userId: string
+  memberId: string
   serverId: string
   channelId: string
 }) => {
@@ -74,6 +76,7 @@ export const ChatContent = ({
             {page.messages?.map((message: MessageWithMember) => (
               <ChatMessage
                 userId={userId}
+                memberId={memberId}
                 serverId={serverId}
                 channelId={channelId}
                 message={message}
